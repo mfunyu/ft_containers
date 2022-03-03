@@ -24,7 +24,7 @@ class UnitTester
 	void launcher(int argc, char** argv);
 
   private:
-	void _load_test(std::list<t_unit_tests> fun_test_table);
+	void _load_test(t_unit_tests *func_test_table);
 	UnitTester(UnitTester const& other);
 	UnitTester& operator=(UnitTester const& other);
 };

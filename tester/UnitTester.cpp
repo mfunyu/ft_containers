@@ -5,13 +5,11 @@ UnitTester::UnitTester() {}
 
 UnitTester::~UnitTester() {}
 
-void UnitTester::_load_test(std::list<t_unit_tests> fun_test_table)
+void UnitTester::_load_test(t_unit_tests *func_test_table)
 {
-	std::list<t_unit_tests>::iterator current = fun_test_table.begin();
-	std::list<t_unit_tests>::iterator it_end = fun_test_table.end();
-	for (; current != it_end; ++current)
+	for (size_t i = 0; func_test_table[i].func_name; ++i)
 	{
-		current->func_test_ptr();
+		func_test_table[i].func_test_ptr();
 	}
 }
 
