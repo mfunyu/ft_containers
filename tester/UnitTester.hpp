@@ -20,6 +20,7 @@ class UnitTester
 	UnitTester();
 	~UnitTester();
 	void load_tests();
+	void run_tests();
 	static void load_subtest(void (*func)(void), char *funcname);
 	void launcher(int argc, char** argv);
 
