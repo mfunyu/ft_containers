@@ -14,7 +14,7 @@ typedef struct s_unit_tests {
 typedef enum e_test_status
 {
 	TEST_SUCCESS,
-	TEST_FAILED,
+	TEST_FAILED
 } t_test_status;
 
 class UnitTester

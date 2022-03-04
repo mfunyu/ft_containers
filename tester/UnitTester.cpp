@@ -19,8 +19,6 @@ void UnitTester::_load_test(t_unit_tests *func_test_table)
 
 void UnitTester::load_subtest(void (*func)(void), char *funcname)
 {
-	static int	index = 0;
-
 	t_unit_tests func_subtest;
 
 	func_subtest.func_name = funcname;

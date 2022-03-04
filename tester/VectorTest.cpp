@@ -4,8 +4,8 @@
 #include <iostream>
 
 t_unit_tests VectorTest::func_test_table[] = {
-	(t_unit_tests){"vector_begin", vector_begin},
-	(t_unit_tests){"\0", NULL}
+	{"vector_begin", vector_begin},
+	{"\0", NULL}
 };
 
 void VectorTest::_vector_begin_basic()
