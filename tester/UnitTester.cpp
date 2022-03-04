@@ -5,6 +5,7 @@
 
 std::list<t_unit_tests> UnitTester::_func_subtest_table;
 const char*             UnitTester::_current_func_name;
+t_stl_types             UnitTester::_current_func_type;
 
 UnitTester::UnitTester() : _cnt_success(0), _cnt_total(0) {}
 
@@ -14,6 +15,7 @@ void UnitTester::_load_test(t_unit_tests* func_test_table)
 {
 	for (size_t i = 0; func_test_table[i].func_name[0]; ++i) {
 		_current_func_name = func_test_table[i].func_name;
+		_current_func_type = func_test_table[i].type;
 		func_test_table[i].func_test_ptr();
 	}
 }
@@ -24,6 +26,7 @@ void UnitTester::load_subtest(void (*func)(void))
 
 	func_subtest.func_name     = _current_func_name;
 	func_subtest.func_test_ptr = func;
+	func_subtest.type = _current_func_type;
 	_func_subtest_table.push_back(func_subtest);
 }
 
@@ -52,10 +55,35 @@ void UnitTester::_sandbox(t_unit_tests& current_test)
 	}
 }
 
+std::string _stl_type_to_string(t_stl_types type)
+{
+	switch(type)
+	{
+		case VECTOR:
+			return "vector";
+		case MAP:
+			return "map";
+		default:
+			break;
+	}
+	return "";
+}
+
 void UnitTester::_display_result(t_unit_tests& current_test)
 {
 	static const char* prev_func_name;
+	static t_stl_types type;
 
+	if (type != current_test.type)
+	{
+		std::string str_type = _stl_type_to_string(current_test.type);
+		int width = 42 / 2;
+		std::cout <<
+		"/* ------------------------------------------ */\n\
+/* " << std::setw(width) << str_type << std::setw(width) << "" << " */\n" << \
+"/* ------------------------------------------ */" << std::endl;
+		type = current_test.type;
+	}
 	if (!prev_func_name || strcmp(prev_func_name, current_test.func_name)) {
 		if (prev_func_name)
 			std::cout << std::endl;
