@@ -4,11 +4,11 @@
 #include <list>
 
 t_unit_tests VectorTest::func_test_table[] = {
-	{"vector_begin", vector_begin},
-    {"vector_begin", vector_begin},
-	{"vector_begin", vector_begin},
-    {"vector_begin", vector_begin},
-	{          "\0",         NULL}
+	{"vector_begin", vector_begin, TEST_FAILED},
+	{"vector_begin", vector_begin, TEST_FAILED},
+	{"vector_begin", vector_begin, TEST_FAILED},
+	{"vector_begin", vector_begin, TEST_FAILED},
+    {          "\0",         NULL, TEST_FAILED}
 };
 
 void VectorTest::_vector_begin_basic()
