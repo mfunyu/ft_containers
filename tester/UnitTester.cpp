@@ -63,9 +63,9 @@ void UnitTester::run_tests(void)
 	std::list<t_unit_tests>::iterator it_end  = _func_subtest_table.end();
 
 	for (; current != it_end; ++current) {
-		std::cout << "name: " << current->func_name << std::endl; // log
 		_sandbox(*current);
 		_display_result(*current);
+		_log.write_to_logfile(*current);
 	}
 }
 

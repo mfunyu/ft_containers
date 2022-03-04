@@ -1,6 +1,7 @@
 #ifndef UNITTESTER_HPP
 #define UNITTESTER_HPP
 
+#include "Log.hpp"
 #include <list>
 #include <string>
 
@@ -23,6 +24,7 @@ class UnitTester
 {
   private:
 	static std::list<t_unit_tests> _func_subtest_table;
+	Log                            _log;
 
   public:
 	UnitTester();
