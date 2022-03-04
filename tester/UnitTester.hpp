@@ -5,7 +5,11 @@
 #include <list>
 #include <string>
 
-#define load_subtest_(x) UnitTester::load_subtest(x, (char*)#x)
+#define COLOR_SUCCESS "\033[32m"
+#define COLOR_FAILED  "\033[31m"
+#define COLOR_CLEAR   "\033[0m"
+
+#define load_subtest_(x) UnitTester::load_subtest(x)
 
 typedef enum e_test_status
 {
@@ -24,7 +28,10 @@ class UnitTester
 {
   private:
 	static std::list<t_unit_tests> _func_subtest_table;
+	static const char*             _current_func_name;
 	Log                            _log;
+	int                            _cnt_success;
+	int                            _cnt_total;
 
   public:
 	UnitTester();
@@ -33,13 +40,14 @@ class UnitTester
 	void run_tests();
 	void launcher(int argc, char** argv);
 
-	static void load_subtest(void (*func)(void), char* funcname);
+	static void load_subtest(void (*func)(void));
 	static void assert_(bool evaluate);
 
   private:
 	void _load_test(t_unit_tests* func_test_table);
 	void _sandbox(t_unit_tests& current_test);
 	void _display_result(t_unit_tests& current_test);
+	void _display_total();
 	UnitTester(UnitTester const& other);
 	UnitTester& operator=(UnitTester const& other);
 };
