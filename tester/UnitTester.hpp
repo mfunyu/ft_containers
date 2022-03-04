@@ -29,10 +29,12 @@ class UnitTester
   public:
 	UnitTester();
 	~UnitTester();
-	void        load_tests();
-	void        run_tests();
+	void load_tests();
+	void run_tests();
+	void launcher(int argc, char** argv);
+
 	static void load_subtest(void (*func)(void), char* funcname);
-	void        launcher(int argc, char** argv);
+	static void assert_(bool evaluate);
 
   private:
 	void _load_test(t_unit_tests* func_test_table);
