@@ -1,9 +1,9 @@
-#ifndef TESTVECTOR_HPP
-#define TESTVECTOR_HPP
+#ifndef VectorTest_HPP
+#define VectorTest_HPP
 
 #include <list>
 
-class TestVector
+class VectorTest
 {
 
 public:
@@ -16,4 +16,4 @@ static void	_vector_begin_basic();
 
 };
 
-#endif /* TESTVECTOR_HPP */
+#endif /* VectorTest_HPP */

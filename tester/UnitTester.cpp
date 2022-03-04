@@ -1,5 +1,5 @@
 #include "UnitTester.hpp"
-#include "TestVector.hpp"
+#include "VectorTest.hpp"
 #include <iostream>
 
 std::list<t_unit_tests> UnitTester::_func_subtest_table;
@@ -40,7 +40,7 @@ void UnitTester::run_tests(void)
 
 void UnitTester::load_tests(void)
 {
-	_load_test(TestVector::func_test_table);
+	_load_test(VectorTest::func_test_table);
 }
 
 void UnitTester::launcher(int ac, char** av)
