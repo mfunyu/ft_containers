@@ -3,6 +3,8 @@
 
 #include <list>
 
+typedef struct s_unit_tests t_unit_tests;
+
 class VectorTest
 {
   public:
