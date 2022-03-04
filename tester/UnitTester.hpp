@@ -11,6 +11,12 @@ typedef struct s_unit_tests {
 	void (*func_test_ptr)();
 } t_unit_tests;
 
+typedef enum e_test_status
+{
+	TEST_SUCCESS,
+	TEST_FAILED,
+} t_test_status;
+
 class UnitTester
 {
   private:
@@ -26,6 +32,7 @@ class UnitTester
 
   private:
 	void _load_test(t_unit_tests *func_test_table);
+	void _sandbox(void (*func_test)(void));
 	UnitTester(UnitTester const& other);
 	UnitTester& operator=(UnitTester const& other);
 };

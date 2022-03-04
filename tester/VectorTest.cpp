@@ -11,6 +11,8 @@ t_unit_tests VectorTest::func_test_table[] = {
 void VectorTest::_vector_begin_basic()
 {
 	std::cout << "_vector_begin_basic executed" << std::endl;
+	exit(TEST_SUCCESS);
+	exit(TEST_FAILED);
 }
 
 void VectorTest::vector_begin()
