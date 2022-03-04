@@ -1,11 +1,14 @@
-#include "UnitTester.hpp"
 #include "VectorTest.hpp"
-#include <list>
+#include "UnitTester.hpp"
 #include <iostream>
+#include <list>
 
 t_unit_tests VectorTest::func_test_table[] = {
 	{"vector_begin", vector_begin},
-	{"\0", NULL}
+    {"vector_begin", vector_begin},
+	{"vector_begin", vector_begin},
+    {"vector_begin", vector_begin},
+	{          "\0",         NULL}
 };
 
 void VectorTest::_vector_begin_basic()

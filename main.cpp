@@ -14,10 +14,11 @@ namespace ft = std;
 
 #include <stdlib.h>
 
-#define MAX_RAM		4294967296
+#define MAX_RAM     4294967296
 #define BUFFER_SIZE 4096
-struct Buffer {
-	int	 idx;
+struct Buffer
+{
+	int  idx;
 	char buff[BUFFER_SIZE];
 };
 
@@ -53,19 +54,19 @@ int main(int argc, char** argv)
 	const int seed = atoi(argv[1]);
 	srand(seed);
 
-	ft::vector<std::string>				   vector_str;
-	ft::vector<int>						   vector_int;
-	ft::stack<int>						   stack_int;
-	ft::vector<Buffer>					   vector_buffer;
+	ft::vector<std::string>                vector_str;
+	ft::vector<int>                        vector_int;
+	ft::stack<int>                         stack_int;
+	ft::vector<Buffer>                     vector_buffer;
 	ft::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;
-	ft::map<int, int>					   map_int;
+	ft::map<int, int>                      map_int;
 
 	for (int i = 0; i < COUNT; i++) {
 		vector_buffer.push_back(Buffer());
 	}
 
 	for (int i = 0; i < COUNT; i++) {
-		const int idx		   = rand() % COUNT;
+		const int idx          = rand() % COUNT;
 		vector_buffer[idx].idx = 5;
 	}
 	ft::vector<Buffer>().swap(vector_buffer);
@@ -98,7 +99,7 @@ int main(int argc, char** argv)
 	for (char letter = 'a'; letter <= 'z'; letter++)
 		iterable_stack.push(letter);
 	for (MutantStack<char>::iterator it = iterable_stack.begin();
-		 it != iterable_stack.end(); it++) {
+	     it != iterable_stack.end(); it++) {
 		std::cout << *it;
 	}
 	std::cout << std::endl;

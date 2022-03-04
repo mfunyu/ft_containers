@@ -5,6 +5,7 @@ AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveDeclarations: Consecutive
 AlignConsecutiveMacros: Consecutive
 AlignEscapedNewlines: Left
+AlignArrayOfStructures: Right
 AlignOperands: Align
 AlignTrailingComments: false
 AllowShortBlocksOnASingleLine: Empty
@@ -28,11 +29,13 @@ PointerAlignment: Left
 SpaceAfterTemplateKeyword: true
 SpaceBeforeParens: ControlStatements
 TabWidth: 4
-UseTab: Always
+UseTab: ForIndentation
 BreakBeforeBraces: Custom
 BraceWrapping:
   AfterClass: true
   AfterFunction: true
+  AfterStruct: true
+  AfterEnum: true
   BeforeElse: false
   BeforeWhile: false
   SplitEmptyFunction: false
