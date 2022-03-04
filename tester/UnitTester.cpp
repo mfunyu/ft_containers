@@ -25,6 +25,12 @@ void UnitTester::load_subtest(void (*func)(void), char* funcname)
 	_func_subtest_table.push_back(func_subtest);
 }
 
+void UnitTester::assert_(bool evaluate)
+{
+	if (evaluate == false)
+		exit(TEST_FAILED);
+}
+
 void UnitTester::_sandbox(t_unit_tests& current_test)
 {
 	int   wstatus;
