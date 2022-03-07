@@ -6,12 +6,13 @@
 
 typedef struct s_unit_tests t_unit_tests;
 
-namespace VectorTest
-{
-	void vector_begin();
-	void vector_at();
+namespace VectorTest {
 
-	extern t_unit_tests func_test_table[TABLE_SIZE];
-}
+void vector_begin();
+void vector_at();
+
+extern t_unit_tests func_test_table[TABLE_SIZE];
+
+} // namespace VectorTest
 
 #endif /* VectorTest_HPP */

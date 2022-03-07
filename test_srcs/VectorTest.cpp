@@ -12,7 +12,7 @@ namespace VectorTest {
 t_unit_tests func_test_table[] = {
 	{"vector_begin", vector_begin, TEST_FAILED, VECTOR},
 	{   "vector_at",    vector_at, TEST_FAILED, VECTOR},
-    {          "\0",         NULL, TEST_FAILED, VECTOR}
+	{          "\0",         NULL, TEST_FAILED, VECTOR}
 };
 
 /* -------------------------------------------------------------------------- */
@@ -57,4 +57,4 @@ void vector_at()
 	load_subtest_(_vector_at_compare);
 }
 
-}
+} // namespace VectorTest
