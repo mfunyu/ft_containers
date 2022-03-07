@@ -15,7 +15,8 @@
 typedef enum e_test_status
 {
 	TEST_SUCCESS,
-	TEST_FAILED
+	TEST_FAILED,
+	TEST_UNEXPECTED
 } t_test_status;
 
 typedef enum e_stl_types

@@ -65,6 +65,9 @@ void UnitTester::_sandbox(t_unit_tests& current_test)
 		if (WIFEXITED(wstatus)) {
 			current_test.result
 			    = static_cast<t_test_status>(WEXITSTATUS(wstatus));
+		} else if (WIFSIGNALED(wstatus)) {
+			current_test.result = TEST_UNEXPECTED;
+			std::cerr << "signal: " << WTERMSIG(wstatus) << std::endl;
 		}
 		set_explanation(fds);
 	}
@@ -120,6 +123,9 @@ void UnitTester::_display_result(t_unit_tests& current_test)
 		break;
 	case TEST_FAILED:
 		std::cout << COLOR_FAILED "[KO] " COLOR_CLEAR;
+		break;
+	case TEST_UNEXPECTED:
+		std::cout << COLOR_FAILED "[???] " COLOR_CLEAR;
 		break;
 	}
 	std::cout << std::flush;
