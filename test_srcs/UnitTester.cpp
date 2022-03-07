@@ -36,14 +36,28 @@ void UnitTester::assert_(bool evaluate)
 		exit(TEST_FAILED);
 }
 
+void set_explanation(int* fds)
+{
+	close(fds[1]);
+	dup2(fds[0], STDIN_FILENO);
+	std::getline(std::cin, Log::_current_explanation);
+	close(fds[0]);
+}
+
 void UnitTester::_sandbox(t_unit_tests& current_test)
 {
+	int   fds[2];
+	pid_t pid;
 	int   wstatus;
-	pid_t pid = fork();
 
+	if (pipe(fds))
+		throw std::runtime_error("pipe");
+	pid = fork();
 	if (pid < 0)
 		throw std::runtime_error("fork");
 	if (pid == 0) {
+		close(fds[0]);
+		dup2(fds[1], STDOUT_FILENO);
 		current_test.func_test_ptr();
 		exit(EXIT_SUCCESS);
 	} else {
@@ -52,6 +66,7 @@ void UnitTester::_sandbox(t_unit_tests& current_test)
 			current_test.result
 			    = static_cast<t_test_status>(WEXITSTATUS(wstatus));
 		}
+		set_explanation(fds);
 	}
 }
 
