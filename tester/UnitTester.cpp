@@ -69,19 +69,26 @@ std::string _stl_type_to_string(t_stl_types type)
 	return "";
 }
 
+void UnitTester::_print_subheader(const std::string& header)
+{
+	int fill_width = 42 - header.length();
+	int leftside   = fill_width / 2;
+
+	std::cout << std::setfill('=');
+	std::cout << std::setw(leftside) << " ";
+	std::cout << header;
+	std::cout << std::setw(fill_width - leftside) << std::left << " "
+	          << std::endl;
+	std::cout << std::setfill(' ');
+}
+
 void UnitTester::_display_result(t_unit_tests& current_test)
 {
 	static const char* prev_func_name;
 	static t_stl_types type;
 
-	if (type != current_test.type)
-	{
-		std::string str_type = _stl_type_to_string(current_test.type);
-		int width = 42 / 2;
-		std::cout <<
-		"/* ------------------------------------------ */\n\
-/* " << std::setw(width) << str_type << std::setw(width) << "" << " */\n" << \
-"/* ------------------------------------------ */" << std::endl;
+	if (type != current_test.type) {
+		_print_subheader(_stl_type_to_string(current_test.type));
 		type = current_test.type;
 	}
 	if (!prev_func_name || strcmp(prev_func_name, current_test.func_name)) {
@@ -106,13 +113,16 @@ void UnitTester::_display_result(t_unit_tests& current_test)
 
 void UnitTester::_display_total()
 {
-	std::cout << "\n\n"
-	          << std::left << std::setw(15) << "total tests passed = ";
+	std::cout << COLOR_BORD << "\n\n[RESULT] ";
 	if (_cnt_success == _cnt_total)
 		std::cout << COLOR_SUCCESS;
 	else
 		std::cout << COLOR_FAILED;
-	std::cout << _cnt_success << "/" << _cnt_total << std::endl;
+	std::cout << _cnt_success << "/" << _cnt_total << COLOR_CLEAR;
+
+	int score_persentage = 100 * _cnt_success / _cnt_total;
+	std::cout << " tests passed (" << COLOR_BORD << score_persentage << "%"
+	          << COLOR_CLEAR << ")" << std::endl;
 }
 
 void UnitTester::run_tests(void)

@@ -7,6 +7,7 @@
 
 #define COLOR_SUCCESS "\033[32m"
 #define COLOR_FAILED  "\033[31m"
+#define COLOR_BORD    "\033[1m"
 #define COLOR_CLEAR   "\033[0m"
 
 #define load_subtest_(x) UnitTester::load_subtest(x)
@@ -57,6 +58,8 @@ class UnitTester
 	void _sandbox(t_unit_tests& current_test);
 	void _display_result(t_unit_tests& current_test);
 	void _display_total();
+	void _print_subheader(const std::string& header);
+
 	UnitTester(UnitTester const& other);
 	UnitTester& operator=(UnitTester const& other);
 };
