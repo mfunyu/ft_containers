@@ -7,7 +7,9 @@
 
 namespace ft = std;
 
-t_unit_tests VectorTest::func_test_table[] = {
+namespace VectorTest {
+
+t_unit_tests func_test_table[] = {
 	{"vector_begin", vector_begin, TEST_FAILED, VECTOR},
 	{   "vector_at",    vector_at, TEST_FAILED, VECTOR},
     {          "\0",         NULL, TEST_FAILED, VECTOR}
@@ -17,14 +19,14 @@ t_unit_tests VectorTest::func_test_table[] = {
 /*                                    begin                                   */
 /* -------------------------------------------------------------------------- */
 
-void VectorTest::_vector_begin_basic()
+void _vector_begin_basic()
 {
 	Log::set_explanation("_vector_begin_basic executed");
 	exit(TEST_FAILED);
 	exit(TEST_SUCCESS);
 }
 
-void VectorTest::vector_begin()
+void vector_begin()
 {
 	load_subtest_(_vector_begin_basic);
 }
@@ -33,7 +35,7 @@ void VectorTest::vector_begin()
 /*                                     at                                     */
 /* -------------------------------------------------------------------------- */
 
-void VectorTest::_vector_at_basic()
+void _vector_at_basic()
 {
 	ft::vector<int> data;
 	for (int i = 0; i <= 5; ++i)
@@ -42,10 +44,12 @@ void VectorTest::_vector_at_basic()
 		UnitTester::assert_(data.at(i) == i);
 }
 
-void VectorTest::_vector_at_compare() {}
+void _vector_at_compare() {}
 
-void VectorTest::vector_at()
+void vector_at()
 {
 	load_subtest_(_vector_at_basic);
 	load_subtest_(_vector_at_compare);
+}
+
 }

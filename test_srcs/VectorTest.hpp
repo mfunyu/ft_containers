@@ -2,22 +2,16 @@
 #define VectorTest_HPP
 
 #include <list>
+#define TABLE_SIZE 0xF00
 
 typedef struct s_unit_tests t_unit_tests;
 
-class VectorTest
+namespace VectorTest
 {
-  public:
-	static void vector_begin();
-	static void vector_at();
+	void vector_begin();
+	void vector_at();
 
-	static t_unit_tests func_test_table[];
-
-  private:
-	static void _vector_begin_basic();
-
-	static void _vector_at_basic();
-	static void _vector_at_compare();
-};
+	extern t_unit_tests func_test_table[TABLE_SIZE];
+}
 
 #endif /* VectorTest_HPP */
