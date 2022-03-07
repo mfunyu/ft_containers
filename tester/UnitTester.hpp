@@ -30,7 +30,7 @@ typedef struct s_unit_tests
 	const char* func_name;
 	void (*func_test_ptr)();
 	t_test_status result;
-	t_stl_types type;
+	t_stl_types   type;
 } t_unit_tests;
 
 class UnitTester
@@ -38,7 +38,7 @@ class UnitTester
   private:
 	static std::list<t_unit_tests> _func_subtest_table;
 	static const char*             _current_func_name;
-	static t_stl_types _current_func_type;
+	static t_stl_types             _current_func_type;
 	Log                            _log;
 	int                            _cnt_success;
 	int                            _cnt_total;

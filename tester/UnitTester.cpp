@@ -26,7 +26,7 @@ void UnitTester::load_subtest(void (*func)(void))
 
 	func_subtest.func_name     = _current_func_name;
 	func_subtest.func_test_ptr = func;
-	func_subtest.type = _current_func_type;
+	func_subtest.type          = _current_func_type;
 	_func_subtest_table.push_back(func_subtest);
 }
 
@@ -57,14 +57,13 @@ void UnitTester::_sandbox(t_unit_tests& current_test)
 
 std::string _stl_type_to_string(t_stl_types type)
 {
-	switch(type)
-	{
-		case VECTOR:
-			return "vector";
-		case MAP:
-			return "map";
-		default:
-			break;
+	switch (type) {
+	case VECTOR:
+		return "vector";
+	case MAP:
+		return "map";
+	default:
+		break;
 	}
 	return "";
 }
