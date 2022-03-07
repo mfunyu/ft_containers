@@ -8,9 +8,9 @@
 namespace ft = std;
 
 t_unit_tests VectorTest::func_test_table[] = {
-	{"vector_begin", vector_begin, TEST_FAILED},
-	{   "vector_at",    vector_at, TEST_FAILED},
-    {          "\0",         NULL, TEST_FAILED}
+	{"vector_begin", vector_begin, TEST_FAILED, VECTOR},
+	{   "vector_at",    vector_at, TEST_FAILED, VECTOR},
+    {          "\0",         NULL, TEST_FAILED, VECTOR}
 };
 
 /* -------------------------------------------------------------------------- */
