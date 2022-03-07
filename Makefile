@@ -1,8 +1,8 @@
-NAME	:= a.out
+NAME	:= run_test
 CXX		:= clang++
 CXXFLAGS:= -Wall -Wextra -Werror -std=c++98 -pedantic-errors -MMD -MP
 
-SRCS_DIR:= tester/
+SRCS_DIR:= test_srcs/
 SRCS	:= $(shell find $(SRCS_DIR) -name "*.cpp" | xargs basename)
 OBJS_DIR:= objs/
 OBJS	:= $(addprefix $(OBJS_DIR), $(SRCS:.cpp=.o))
