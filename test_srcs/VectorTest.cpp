@@ -21,9 +21,9 @@ t_unit_tests func_test_table[] = {
 
 void _vector_begin_basic()
 {
-	Log::set_explanation("_vector_begin_basic executed");
+	set_explanation_("basic test failed");
+
 	exit(TEST_FAILED);
-	exit(TEST_SUCCESS);
 }
 
 void vector_begin()
@@ -37,6 +37,8 @@ void vector_begin()
 
 void _vector_at_basic()
 {
+	set_explanation_("_vector_at_basic executed");
+
 	ft::vector<int> data;
 	for (int i = 0; i <= 5; ++i)
 		data.push_back(i);
@@ -44,7 +46,10 @@ void _vector_at_basic()
 		UnitTester::assert_(data.at(i) == i);
 }
 
-void _vector_at_compare() {}
+void _vector_at_compare()
+{
+	set_explanation_("_vector_at_basic executed");
+}
 
 void vector_at()
 {

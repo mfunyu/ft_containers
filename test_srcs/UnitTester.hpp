@@ -10,7 +10,8 @@
 #define COLOR_BORD    "\033[1m"
 #define COLOR_CLEAR   "\033[0m"
 
-#define load_subtest_(x) UnitTester::load_subtest(x)
+#define load_subtest_(x)    UnitTester::load_subtest(x)
+#define set_explanation_(x) std::cout << x << std::endl;
 
 typedef enum e_test_status
 {
