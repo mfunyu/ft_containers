@@ -35,14 +35,43 @@ ft::vector<int> _set_vector(int size = 6, bool accend = false)
 
 void _vector_begin_basic()
 {
-	set_explanation_("basic test failed");
+	set_explanation_("does not return the right value");
+	int             size = 12;
+	ft::vector<int> data = _set_vector(size, true);
 
-	exit(TEST_FAILED);
+	UnitTester::assert_(*data.begin() == 0);
+}
+
+void _vector_begin_increment()
+{
+	set_explanation_("post increment returns wrong value");
+	int             size = 12;
+	ft::vector<int> data = _set_vector(size, true);
+
+	UnitTester::assert_(*data.begin() == 0);
+	UnitTester::assert_(*++data.begin() == 1);
+	UnitTester::assert_(*++(++data.begin()) == 2);
+}
+
+void _vector_begin_decrement()
+{
+	set_explanation_("post decrement returns wrong value");
+	int             size = 12;
+	ft::vector<int> data = _set_vector(size, true);
+
+	ft::vector<int>::iterator it = data.begin() + 3;
+
+	UnitTester::assert_(*it == 3);
+	UnitTester::assert_(*--it == 2);
+	UnitTester::assert_(*--it == 1);
+	UnitTester::assert_(*--it == 0);
 }
 
 void vector_begin()
 {
 	load_subtest_(_vector_begin_basic);
+	load_subtest_(_vector_begin_increment);
+	load_subtest_(_vector_begin_decrement);
 }
 
 /* -------------------------------------------------------------------------- */
