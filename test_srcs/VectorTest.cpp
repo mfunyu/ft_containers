@@ -37,24 +37,50 @@ void vector_begin()
 
 void _vector_at_basic()
 {
-	set_explanation_("_vector_at_basic executed");
+	set_explanation_("does not return the right value");
 
-	ft::vector<int> data;
-	for (int i = 0; i <= 5; ++i)
-		data.push_back(i);
-	for (int i = 0; i <= 5; ++i)
+	int             size = 10;
+	ft::vector<int> data = _set_vector(size, true);
+
+	for (int i = 0; i < size; ++i)
 		UnitTester::assert_(data.at(i) == i);
 }
 
 void _vector_at_compare()
 {
-	set_explanation_("_vector_at_basic executed");
+	set_explanation_("ft behaviour differs from std");
+
+	int              size     = 20;
+	ft::vector<int>  ft_data  = _set_vector(size, true);
+	std::vector<int> std_data = _set_vector(size, true);
+
+	for (int i = 0; i < size; ++i)
+		UnitTester::assert_(ft_data.at(i) == std_data.at(i));
+}
+
+void _vector_at_out_of_range()
+{
+	set_explanation_("out of range does not throw appropriate exception");
+
+	int             size    = 4;
+	ft::vector<int> ft_data = _set_vector(size, true);
+
+	for (int i = 0; i < size + 3; ++i) {
+		try {
+			ft_data.at(i);
+		} catch (std::out_of_range& e) {
+			UnitTester::assert_(strlen(e.what()) != 0);
+		} catch (std::exception& e) {
+			UnitTester::assert_(false);
+		}
+	}
 }
 
 void vector_at()
 {
 	load_subtest_(_vector_at_basic);
 	load_subtest_(_vector_at_compare);
+	load_subtest_(_vector_at_out_of_range);
 }
 
 } // namespace VectorTest
