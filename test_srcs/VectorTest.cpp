@@ -15,6 +15,20 @@ t_unit_tests func_test_table[] = {
 	{          "\0",         NULL, TEST_FAILED, VECTOR}
 };
 
+ft::vector<int> _set_vector(int size = 6, bool accend = false)
+{
+	ft::vector<int> data;
+
+	for (int i = 0; i < size; ++i) {
+		if (accend) {
+			data.push_back(i);
+		} else {
+			data.push_back(std::rand());
+		}
+	}
+	return data;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                    begin                                   */
 /* -------------------------------------------------------------------------- */
