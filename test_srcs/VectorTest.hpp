@@ -10,6 +10,8 @@ namespace VectorTest {
 
 void vector_begin();
 void vector_at();
+void vector_size();
+void vector_empty();
 
 extern t_unit_tests func_test_table[TABLE_SIZE];
 

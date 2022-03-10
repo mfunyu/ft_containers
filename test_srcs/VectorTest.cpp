@@ -12,6 +12,8 @@ namespace VectorTest {
 t_unit_tests func_test_table[] = {
 	{"vector_begin", vector_begin, TEST_FAILED, VECTOR},
 	{   "vector_at",    vector_at, TEST_FAILED, VECTOR},
+	{ "vector_size",  vector_size, TEST_FAILED, VECTOR},
+	{"vector_empty", vector_empty, TEST_FAILED, VECTOR},
 	{          "\0",         NULL, TEST_FAILED, VECTOR}
 };
 
@@ -124,6 +126,64 @@ void vector_at()
 	load_subtest_(_vector_at_basic);
 	load_subtest_(_vector_at_compare);
 	load_subtest_(_vector_at_out_of_range);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    size                                    */
+/* -------------------------------------------------------------------------- */
+
+void _vector_size_zero()
+{
+	set_explanation_("wrong size returned on size 0");
+	ft::vector<int> ft_data = _set_vector(0, true);
+	UnitTester::assert_(ft_data.size() == 0);
+}
+
+void _vector_size_one()
+{
+	set_explanation_("wrong size returned on size 1");
+	ft::vector<int> ft_data = _set_vector(1, true);
+	UnitTester::assert_(ft_data.size() == 1);
+}
+
+void _vector_size_more()
+{
+	set_explanation_("wrong size returned on size more than 1");
+	size_t          size    = 42;
+	ft::vector<int> ft_data = _set_vector(size, true);
+	UnitTester::assert_(ft_data.size() == size);
+}
+
+void vector_size()
+{
+	load_subtest_(_vector_size_zero);
+	load_subtest_(_vector_size_one);
+	load_subtest_(_vector_size_more);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    empty                                   */
+/* -------------------------------------------------------------------------- */
+
+void _vector_empty_true()
+{
+	set_explanation_("empty check not working. Really!?");
+	ft::vector<int> ft_data = _set_vector(0, true);
+	UnitTester::assert_(ft_data.empty() == true);
+}
+
+void _vector_empty_false()
+{
+	set_explanation_("empty check not working. Really!?");
+	size_t          size    = 42;
+	ft::vector<int> ft_data = _set_vector(size, true);
+	UnitTester::assert_(ft_data.empty() == false);
+}
+
+void vector_empty()
+{
+	load_subtest_(_vector_empty_true);
+	load_subtest_(_vector_empty_false);
 }
 
 } // namespace VectorTest
