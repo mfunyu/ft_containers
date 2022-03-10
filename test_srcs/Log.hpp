@@ -4,7 +4,9 @@
 #include <fstream>
 #include <string>
 
-typedef struct s_unit_tests t_unit_tests;
+#define get_func_name(x) (char *)#x
+
+typedef struct s_unit_subtests t_unit_subtests;
 
 class Log
 {
@@ -20,7 +22,7 @@ class Log
 	Log();
 	~Log();
 
-	void write_to_logfile(t_unit_tests& current_test);
+	void write_to_logfile(t_unit_subtests& current_test);
 
   private:
 	void _open_logfile();

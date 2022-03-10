@@ -3,7 +3,7 @@
 #include <iostream>
 #include <unistd.h>
 
-std::list<t_unit_tests> UnitTester::_func_subtest_table;
+std::list<t_unit_subtests> UnitTester::_func_subtest_table;
 const char*             UnitTester::_current_func_name;
 t_stl_types             UnitTester::_current_func_type;
 
@@ -20,11 +20,12 @@ void UnitTester::_load_test(t_unit_tests* func_test_table)
 	}
 }
 
-void UnitTester::load_subtest(void (*func)(void))
+void UnitTester::load_subtest(void (*func)(void), char *func_name)
 {
-	t_unit_tests func_subtest;
+	t_unit_subtests func_subtest;
 
 	func_subtest.func_name     = _current_func_name;
+	func_subtest.subtest_name     = func_name;
 	func_subtest.func_test_ptr = func;
 	func_subtest.type          = _current_func_type;
 	_func_subtest_table.push_back(func_subtest);
@@ -44,7 +45,7 @@ void set_explanation(int* fds)
 	close(fds[0]);
 }
 
-void UnitTester::_sandbox(t_unit_tests& current_test)
+void UnitTester::_sandbox(t_unit_subtests& current_test)
 {
 	int   fds[2];
 	pid_t pid;
@@ -99,7 +100,7 @@ void UnitTester::_print_subheader(const std::string& header)
 	std::cout << std::setfill(' ');
 }
 
-void UnitTester::_display_result(t_unit_tests& current_test)
+void UnitTester::_display_result(t_unit_subtests& current_test)
 {
 	static const char* prev_func_name;
 	static t_stl_types type;
@@ -147,8 +148,8 @@ void UnitTester::_display_total()
 
 void UnitTester::run_tests(void)
 {
-	std::list<t_unit_tests>::iterator current = _func_subtest_table.begin();
-	std::list<t_unit_tests>::iterator it_end  = _func_subtest_table.end();
+	std::list<t_unit_subtests>::iterator current = _func_subtest_table.begin();
+	std::list<t_unit_subtests>::iterator it_end  = _func_subtest_table.end();
 
 	for (; current != it_end; ++current) {
 		_sandbox(*current);
