@@ -13,6 +13,7 @@ namespace VectorTest {
 
 t_unit_tests func_test_table[] = {
 	{                "vector_at",                 vector_at, FAIL, VECTOR},
+	{"vector_subscript_operator", vector_subscript_operator, FAIL, VECTOR},
 	{             "vector_begin",              vector_begin, FAIL, VECTOR},
 	{              "vector_size",               vector_size, FAIL, VECTOR},
 	{             "vector_empty",              vector_empty, FAIL, VECTOR},
@@ -128,6 +129,36 @@ void vector_at()
 	load_subtest_(_vector_at_basic);
 	load_subtest_(_vector_at_compare);
 	load_subtest_(_vector_at_out_of_range);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 operator[]                                 */
+/* -------------------------------------------------------------------------- */
+
+void _vector_subscript_operator_basic()
+{
+	set_explanation_("does not return right value. Really!?") int size = 12;
+	ft::vector<int> ft_data = _set_vector(size, true);
+
+	for (int i = 0; i < size; ++i)
+		UnitTester::assert_(ft_data[i] == i);
+}
+
+void _vector_subscript_operator_compare()
+{
+	set_explanation_("does not return right value. Really!?") int size = 12;
+	ft::vector<int>                                               ft_data;
+	std::vector<int>                                              std_data;
+	_set_compare_vectors(ft_data, std_data, 12);
+
+	for (int i = 0; i < size; ++i)
+		UnitTester::assert_(ft_data[i] == std_data[i]);
+}
+
+void vector_subscript_operator()
+{
+	load_subtest_(_vector_subscript_operator_basic);
+	load_subtest_(_vector_subscript_operator_compare);
 }
 
 /* -------------------------------------------------------------------------- */
