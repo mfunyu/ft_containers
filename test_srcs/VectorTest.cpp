@@ -34,49 +34,19 @@ ft::vector<int> _set_vector(int size = 6, bool accend = false)
 	return data;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                    begin                                   */
-/* -------------------------------------------------------------------------- */
-
-void _vector_begin_basic()
+void _set_compare_vectors(ft::vector<int>& ft_data, std::vector<int>& std_data,
+    int size = 6, bool accend = false)
 {
-	set_explanation_("does not return the right value");
-	int             size = 12;
-	ft::vector<int> data = _set_vector(size, true);
-
-	UnitTester::assert_(*data.begin() == 0);
-}
-
-void _vector_begin_increment()
-{
-	set_explanation_("post increment returns wrong value");
-	int             size = 12;
-	ft::vector<int> data = _set_vector(size, true);
-
-	UnitTester::assert_(*data.begin() == 0);
-	UnitTester::assert_(*++data.begin() == 1);
-	UnitTester::assert_(*++(++data.begin()) == 2);
-}
-
-void _vector_begin_decrement()
-{
-	set_explanation_("post decrement returns wrong value");
-	int             size = 12;
-	ft::vector<int> data = _set_vector(size, true);
-
-	ft::vector<int>::iterator it = data.begin() + 3;
-
-	UnitTester::assert_(*it == 3);
-	UnitTester::assert_(*--it == 2);
-	UnitTester::assert_(*--it == 1);
-	UnitTester::assert_(*--it == 0);
-}
-
-void vector_begin()
-{
-	load_subtest_(_vector_begin_basic);
-	load_subtest_(_vector_begin_increment);
-	load_subtest_(_vector_begin_decrement);
+	for (int i = 0; i < size; ++i) {
+		if (accend) {
+			ft_data.push_back(i);
+			std_data.push_back(i);
+		} else {
+			int value = std::rand();
+			ft_data.push_back(value);
+			std_data.push_back(value);
+		}
+	}
 }
 
 /* -------------------------------------------------------------------------- */
@@ -159,6 +129,51 @@ void vector_subscript_operator()
 {
 	load_subtest_(_vector_subscript_operator_basic);
 	load_subtest_(_vector_subscript_operator_compare);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    begin                                   */
+/* -------------------------------------------------------------------------- */
+
+void _vector_begin_basic()
+{
+	set_explanation_("does not return the right value");
+	int             size = 12;
+	ft::vector<int> data = _set_vector(size, true);
+
+	UnitTester::assert_(*data.begin() == 0);
+}
+
+void _vector_begin_increment()
+{
+	set_explanation_("post increment returns wrong value");
+	int             size = 12;
+	ft::vector<int> data = _set_vector(size, true);
+
+	UnitTester::assert_(*data.begin() == 0);
+	UnitTester::assert_(*++data.begin() == 1);
+	UnitTester::assert_(*++(++data.begin()) == 2);
+}
+
+void _vector_begin_decrement()
+{
+	set_explanation_("post decrement returns wrong value");
+	int             size = 12;
+	ft::vector<int> data = _set_vector(size, true);
+
+	ft::vector<int>::iterator it = data.begin() + 3;
+
+	UnitTester::assert_(*it == 3);
+	UnitTester::assert_(*--it == 2);
+	UnitTester::assert_(*--it == 1);
+	UnitTester::assert_(*--it == 0);
+}
+
+void vector_begin()
+{
+	load_subtest_(_vector_begin_basic);
+	load_subtest_(_vector_begin_increment);
+	load_subtest_(_vector_begin_decrement);
 }
 
 /* -------------------------------------------------------------------------- */
