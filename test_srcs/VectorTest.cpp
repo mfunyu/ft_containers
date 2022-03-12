@@ -13,6 +13,7 @@ namespace VectorTest {
 
 t_unit_tests func_test_table[] = {
 	{       "vector_constructor",        vector_constructor, FAIL, VECTOR},
+	{       "vector_destructor",        vector_destructor, FAIL, VECTOR},
 	{                "vector_at",                 vector_at, FAIL, VECTOR},
 	{"vector_subscript_operator", vector_subscript_operator, FAIL, VECTOR},
 	{             "vector_begin",              vector_begin, FAIL, VECTOR},
@@ -162,6 +163,24 @@ void vector_constructor()
 	load_subtest_(_vector_constructor_iterator_vector);
 	load_subtest_(_vector_constructor_copy);
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                 destructor                                 */
+/* -------------------------------------------------------------------------- */
+
+void _vector_destructor()
+{
+	set_explanation_("destructor cruses");
+	{
+		ft::vector<int> ft;
+	}
+}
+
+void vector_destructor()
+{
+	load_subtest_(_vector_destructor);
+}
+
 
 /* -------------------------------------------------------------------------- */
 /*                                     at                                     */
