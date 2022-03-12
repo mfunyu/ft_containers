@@ -60,7 +60,8 @@ void _set_compare_vectors(ft::vector<int>& ft_data, std::vector<int>& std_data,
 	}
 }
 
-void _compare_vectors(ft::vector<int>& ft_vec, std::vector<int>& std_vec)
+template <class T>
+void _compare_vectors(ft::vector<T>& ft_vec, std::vector<T>& std_vec)
 {
 	UnitTester::assert_(ft_vec.size() == std_vec.size());
 
@@ -76,6 +77,7 @@ void _compare_vectors(ft::vector<int>& ft_vec, std::vector<int>& std_vec)
 
 void _vector_constructor_default()
 {
+	set_explanation_("result differs from std behavior");
 	ft::vector<int>  ft;
 	std::vector<int> std;
 	_compare_vectors(ft, std);
@@ -83,6 +85,7 @@ void _vector_constructor_default()
 
 void _vector_constructor_int()
 {
+	set_explanation_("result differs from std behavior");
 	size_t           size  = 21;
 	int              value = 42;
 	ft::vector<int>  ft(size, value);
@@ -90,8 +93,29 @@ void _vector_constructor_int()
 	_compare_vectors(ft, std);
 }
 
+void _vector_constructor_float()
+{
+	set_explanation_("result differs from std behavior");
+	size_t           size  = 21;
+	float              value = 42.4242;
+	ft::vector<float>  ft(size, value);
+	std::vector<float> std(size, value);
+	_compare_vectors(ft, std);
+}
+
+void _vector_constructor_string()
+{
+	set_explanation_("result differs from std behavior");
+	size_t           size  = 21;
+	std::string              value = "42Tokyo";
+	ft::vector<std::string>  ft(size, value);
+	std::vector<std::string> std(size, value);
+	_compare_vectors(ft, std);
+}
+
 void _vector_constructor_iterator_int()
 {
+	set_explanation_("result differs from std behavior");
 	int  array[100];
 	int* array_end = array + 100;
 	_set_int_array(array, 100);
@@ -103,6 +127,7 @@ void _vector_constructor_iterator_int()
 
 void _vector_constructor_iterator_vector()
 {
+	set_explanation_("result differs from std behavior");
 	int  array[100];
 	int* array_end = array + 100;
 	_set_int_array(array, 100);
@@ -115,12 +140,27 @@ void _vector_constructor_iterator_vector()
 	_compare_vectors(ft, std);
 }
 
+void _vector_constructor_copy()
+{
+	set_explanation_("copy result differs from std behavior");
+	ft::vector<int> ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std);
+
+	ft::vector<int> ft_cpy(ft);
+	std::vector<int> std_cpy(std);
+	_compare_vectors(ft_cpy, std_cpy);
+}
+
 void vector_constructor()
 {
 	load_subtest_(_vector_constructor_default);
 	load_subtest_(_vector_constructor_int);
+	load_subtest_(_vector_constructor_float);
+	load_subtest_(_vector_constructor_string);
 	load_subtest_(_vector_constructor_iterator_int);
 	load_subtest_(_vector_constructor_iterator_vector);
+	load_subtest_(_vector_constructor_copy);
 }
 
 /* -------------------------------------------------------------------------- */
