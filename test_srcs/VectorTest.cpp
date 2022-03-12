@@ -12,14 +12,15 @@ namespace VectorTest {
 #define FAIL TEST_FAILED
 
 t_unit_tests func_test_table[] = {
-	{       "vector_constructor",        vector_constructor, FAIL, VECTOR},
-	{       "vector_destructor",        vector_destructor, FAIL, VECTOR},
-	{                "vector_at",                 vector_at, FAIL, VECTOR},
-	{"vector_subscript_operator", vector_subscript_operator, FAIL, VECTOR},
-	{             "vector_begin",              vector_begin, FAIL, VECTOR},
-	{              "vector_size",               vector_size, FAIL, VECTOR},
-	{             "vector_empty",              vector_empty, FAIL, VECTOR},
-    {                       "\0",                      NULL, FAIL, VECTOR}
+	{        "vector_constructor",         vector_constructor, FAIL, VECTOR},
+	{         "vector_destructor",          vector_destructor, FAIL, VECTOR},
+	{"vector_assignment_operator", vector_assignment_operator, FAIL, VECTOR},
+	{                 "vector_at",                  vector_at, FAIL, VECTOR},
+	{ "vector_subscript_operator",  vector_subscript_operator, FAIL, VECTOR},
+	{              "vector_begin",               vector_begin, FAIL, VECTOR},
+	{               "vector_size",                vector_size, FAIL, VECTOR},
+	{              "vector_empty",               vector_empty, FAIL, VECTOR},
+    {                        "\0",                       NULL, FAIL, VECTOR}
 };
 
 void _set_int_array(int* array, int size = 12, bool accend = false)
@@ -97,7 +98,7 @@ void _vector_constructor_int()
 void _vector_constructor_float()
 {
 	set_explanation_("result differs from std behavior");
-	size_t           size  = 21;
+	size_t             size  = 21;
 	float              value = 42.4242;
 	ft::vector<float>  ft(size, value);
 	std::vector<float> std(size, value);
@@ -107,7 +108,7 @@ void _vector_constructor_float()
 void _vector_constructor_string()
 {
 	set_explanation_("result differs from std behavior");
-	size_t           size  = 21;
+	size_t                   size  = 21;
 	std::string              value = "42Tokyo";
 	ft::vector<std::string>  ft(size, value);
 	std::vector<std::string> std(size, value);
@@ -144,11 +145,11 @@ void _vector_constructor_iterator_vector()
 void _vector_constructor_copy()
 {
 	set_explanation_("copy result differs from std behavior");
-	ft::vector<int> ft;
+	ft::vector<int>  ft;
 	std::vector<int> std;
 	_set_compare_vectors(ft, std);
 
-	ft::vector<int> ft_cpy(ft);
+	ft::vector<int>  ft_cpy(ft);
 	std::vector<int> std_cpy(std);
 	_compare_vectors(ft_cpy, std_cpy);
 }
@@ -181,6 +182,29 @@ void vector_destructor()
 	load_subtest_(_vector_destructor);
 }
 
+/* -------------------------------------------------------------------------- */
+/*                                  operator=                                 */
+/* -------------------------------------------------------------------------- */
+
+void _vector_assignemnt_operator_basic()
+{
+	set_explanation_("copy behavior changes original or new vector");
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std);
+
+	ft::vector<int>  ft_copy;
+	std::vector<int> std_copy;
+	ft_copy  = ft;
+	std_copy = std;
+	_compare_vectors(ft, std);
+	_compare_vectors(ft_copy, std_copy);
+}
+
+void vector_assignment_operator()
+{
+	load_subtest_(_vector_assignemnt_operator_basic);
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                     at                                     */
