@@ -9,12 +9,14 @@ namespace ft = std;
 
 namespace VectorTest {
 
+#define FAIL  TEST_FAILED
+
 t_unit_tests func_test_table[] = {
-	{"vector_begin", vector_begin, TEST_FAILED, VECTOR},
-	{   "vector_at",    vector_at, TEST_FAILED, VECTOR},
-	{ "vector_size",  vector_size, TEST_FAILED, VECTOR},
-	{"vector_empty", vector_empty, TEST_FAILED, VECTOR},
-	{          "\0",         NULL, TEST_FAILED, VECTOR}
+	{                "vector_at",                 vector_at, FAIL, VECTOR},
+	{             "vector_begin",              vector_begin, FAIL, VECTOR},
+	{              "vector_size",               vector_size, FAIL, VECTOR},
+	{             "vector_empty",              vector_empty, FAIL, VECTOR},
+    {                       "\0",                      NULL, FAIL, VECTOR}
 };
 
 ft::vector<int> _set_vector(int size = 6, bool accend = false)
