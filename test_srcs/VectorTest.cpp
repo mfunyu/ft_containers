@@ -15,6 +15,7 @@ t_unit_tests func_test_table[] = {
 	{        "vector_constructor",         vector_constructor, FAIL, VECTOR},
 	{         "vector_destructor",          vector_destructor, FAIL, VECTOR},
 	{"vector_assignment_operator", vector_assignment_operator, FAIL, VECTOR},
+	{             "vector_assign",              vector_assign, FAIL, VECTOR},
 	{                 "vector_at",                  vector_at, FAIL, VECTOR},
 	{ "vector_subscript_operator",  vector_subscript_operator, FAIL, VECTOR},
 	{              "vector_begin",               vector_begin, FAIL, VECTOR},
@@ -204,6 +205,54 @@ void _vector_assignemnt_operator_basic()
 void vector_assignment_operator()
 {
 	load_subtest_(_vector_assignemnt_operator_basic);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   assign                                   */
+/* -------------------------------------------------------------------------- */
+
+void _vector_assign_basic()
+{
+	set_explanation_("value not assigned");
+	ft::vector<char> ft;
+	size_t           size  = 12;
+	char             value = 'a';
+	ft.assign(size, value);
+	for (size_t i = 0; i < size; ++i)
+		UnitTester::assert_(ft[i] == value);
+}
+
+void _vector_assign_overwrite()
+{
+	set_explanation_("value not overwritten");
+	size_t          size = 7;
+	ft::vector<int> ft   = _set_vector(size);
+
+	int value = 1024;
+	ft.assign(size, value);
+	for (size_t i = 0; i < size; ++i)
+		UnitTester::assert_(ft[i] == value);
+}
+
+void _vector_assign_compare()
+{
+	set_explanation_("value differs from assigned std vector");
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std);
+
+	size_t size  = 12;
+	int    value = 42;
+	ft.assign(size, value);
+	std.assign(size, value);
+	_compare_vectors(ft, std);
+}
+
+void vector_assign()
+{
+	load_subtest_(_vector_assign_basic);
+	load_subtest_(_vector_assign_overwrite);
+	load_subtest_(_vector_assign_compare);
 }
 
 /* -------------------------------------------------------------------------- */
