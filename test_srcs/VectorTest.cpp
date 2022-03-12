@@ -9,9 +9,10 @@ namespace ft = std;
 
 namespace VectorTest {
 
-#define FAIL  TEST_FAILED
+#define FAIL TEST_FAILED
 
 t_unit_tests func_test_table[] = {
+	{       "vector_constructor",        vector_constructor, FAIL, VECTOR},
 	{                "vector_at",                 vector_at, FAIL, VECTOR},
 	{"vector_subscript_operator", vector_subscript_operator, FAIL, VECTOR},
 	{             "vector_begin",              vector_begin, FAIL, VECTOR},
@@ -19,6 +20,16 @@ t_unit_tests func_test_table[] = {
 	{             "vector_empty",              vector_empty, FAIL, VECTOR},
     {                       "\0",                      NULL, FAIL, VECTOR}
 };
+
+void _set_int_array(int* array, int size = 12, bool accend = false)
+{
+	for (int i = 0; i < size; ++i) {
+		if (accend)
+			array[i] = i;
+		else
+			array[i] = std::rand();
+	}
+}
 
 ft::vector<int> _set_vector(int size = 6, bool accend = false)
 {
@@ -47,6 +58,69 @@ void _set_compare_vectors(ft::vector<int>& ft_data, std::vector<int>& std_data,
 			std_data.push_back(value);
 		}
 	}
+}
+
+void _compare_vectors(ft::vector<int>& ft_vec, std::vector<int>& std_vec)
+{
+	UnitTester::assert_(ft_vec.size() == std_vec.size());
+
+	size_t size = std_vec.size();
+	for (size_t i = 0; i < size; ++i) {
+		UnitTester::assert_(ft_vec[i] == std_vec[i]);
+	}
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 constructor                                */
+/* -------------------------------------------------------------------------- */
+
+void _vector_constructor_default()
+{
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_compare_vectors(ft, std);
+}
+
+void _vector_constructor_int()
+{
+	size_t           size  = 21;
+	int              value = 42;
+	ft::vector<int>  ft(size, value);
+	std::vector<int> std(size, value);
+	_compare_vectors(ft, std);
+}
+
+void _vector_constructor_iterator_int()
+{
+	int  array[100];
+	int* array_end = array + 100;
+	_set_int_array(array, 100);
+
+	ft::vector<int>  ft(array, array_end);
+	std::vector<int> std(array, array_end);
+	_compare_vectors(ft, std);
+}
+
+void _vector_constructor_iterator_vector()
+{
+	int  array[100];
+	int* array_end = array + 100;
+	_set_int_array(array, 100);
+	std::vector<int> vec_array(array, array_end);
+
+	std::vector<int>::iterator it     = vec_array.begin();
+	std::vector<int>::iterator it_end = vec_array.end();
+	ft::vector<int>            ft(it, it_end);
+	std::vector<int>           std(it, it_end);
+	_compare_vectors(ft, std);
+}
+
+void vector_constructor()
+{
+	load_subtest_(_vector_constructor_default);
+	load_subtest_(_vector_constructor_int);
+	load_subtest_(_vector_constructor_iterator_int);
+	load_subtest_(_vector_constructor_iterator_vector);
 }
 
 /* -------------------------------------------------------------------------- */

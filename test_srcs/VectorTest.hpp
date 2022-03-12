@@ -8,6 +8,7 @@ typedef struct s_unit_tests t_unit_tests;
 
 namespace VectorTest {
 
+void vector_constructor();
 void vector_at();
 void vector_subscript_operator();
 void vector_begin();
