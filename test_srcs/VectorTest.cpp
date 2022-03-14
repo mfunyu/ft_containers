@@ -43,7 +43,15 @@ t_unit_tests func_test_table[] = {
 	{           "vector_pop_back",            vector_pop_back, FAIL, VECTOR},
 	{             "vector_resize",              vector_resize, FAIL, VECTOR},
 	{               "vector_swap",                vector_swap, FAIL, VECTOR},
-    {                        "\0",                       NULL, FAIL, VECTOR}
+ /* ------------------------ Non-member functions ------------------------ */
+	{         "vector_operator_e",          vector_operator_e, FAIL, VECTOR},
+	{        "vector_operator_ne",         vector_operator_ne, FAIL, VECTOR},
+	{         "vector_operator_l",          vector_operator_l, FAIL, VECTOR},
+	{        "vector_operator_le",         vector_operator_le, FAIL, VECTOR},
+	{         "vector_operator_g",          vector_operator_g, FAIL, VECTOR},
+	{        "vector_operator_ge",         vector_operator_ge, FAIL, VECTOR},
+	{           "vector_std_swap",            vector_std_swap, FAIL, VECTOR},
+	{                        "\0",                       NULL, FAIL, VECTOR}
 };
 
 void _set_int_array(int* array, int size = 12, bool accend = false)
@@ -86,7 +94,7 @@ ft::vector<char> _set_vector_char(size_t size = 6, bool accend = false)
 	return data;
 }
 
-ft::vector<std::string> _set_vector_string(size_t size = 6)
+ft::vector<std::string> _set_vector_string(size_t size = 6, bool random = false)
 {
 	ft::vector<std::string> data;
 	std::string             strs[]   = { "42", "Tokyo", "Hello", "World", "!" };
@@ -95,8 +103,11 @@ ft::vector<std::string> _set_vector_string(size_t size = 6)
 	int                     index;
 
 	for (size_t i = 0; i < size; ++i) {
-		index = i % patterns;
-		val   = strs[index] + strs[std::max(index - 1, 0)];
+		if (random)
+			index = std::rand() % patterns;
+		else
+			index = i % patterns;
+		val = strs[index] + strs[std::max(index - 1, 0)];
 		data.push_back(val);
 	}
 	return data;
@@ -1285,5 +1296,120 @@ void vector_swap()
 	load_subtest_(_vector_swap_compare);
 	load_subtest_(_vector_swap_iterator);
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                 operator==                                 */
+/* -------------------------------------------------------------------------- */
+
+void _vector_operator_e_true()
+{
+	set_explanation_("wrong result on value int");
+	int             size_1 = 10;
+	int             size_2 = size_1;
+	ft::vector<int> ft_1   = _set_vector(size_1, true);
+	ft::vector<int> ft_2   = _set_vector(size_2, true);
+
+	UnitTester::assert_((ft_1 == ft_2) == true);
+}
+
+void _vector_operator_e_false()
+{
+	set_explanation_("wrong result on size difference");
+	int             size_1 = 10;
+	int             size_2 = 12;
+	ft::vector<int> ft_1   = _set_vector(size_1, true);
+	ft::vector<int> ft_2   = _set_vector(size_2, true);
+
+	UnitTester::assert_((ft_1 == ft_2) == false);
+}
+void _vector_operator_e_false2()
+{
+	set_explanation_("wrong result on value and size difference");
+	int             size_1 = 10;
+	int             size_2 = 7;
+	ft::vector<int> ft_1   = _set_vector(size_1);
+	ft::vector<int> ft_2   = _set_vector(size_2);
+
+	UnitTester::assert_((ft_1 == ft_2) == false);
+}
+
+void vector_operator_e()
+{
+	load_subtest_(_vector_operator_e_true);
+	load_subtest_(_vector_operator_e_false);
+	load_subtest_(_vector_operator_e_false2);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 operator!=                                 */
+/* -------------------------------------------------------------------------- */
+
+void _vector_operator_ne_true()
+{
+	set_explanation_("wrong result on value std::string");
+	int                     size_1 = 2;
+	int                     size_2 = 13;
+	ft::vector<std::string> ft_1   = _set_vector_string(size_1);
+	ft::vector<std::string> ft_2   = _set_vector_string(size_2);
+
+	UnitTester::assert_((ft_1 != ft_2) == true);
+}
+
+void _vector_operator_ne_true2()
+{
+	set_explanation_("wrong result on different content");
+	int                     size_1 = 24;
+	int                     size_2 = size_1;
+	ft::vector<std::string> ft_1   = _set_vector_string(size_1, true);
+	ft::vector<std::string> ft_2   = _set_vector_string(size_2, true);
+
+	UnitTester::assert_((ft_1 != ft_2) == true);
+}
+
+void _vector_operator_ne_false()
+{
+	set_explanation_("vector not same to itself!?");
+	int                     size_1 = 10;
+	ft::vector<std::string> ft_1   = _set_vector_string(size_1);
+
+	UnitTester::assert_((ft_1 != ft_1) == false);
+}
+
+void vector_operator_ne()
+{
+	load_subtest_(_vector_operator_ne_true);
+	load_subtest_(_vector_operator_ne_true2);
+	load_subtest_(_vector_operator_ne_false);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 operator<                                 */
+/* -------------------------------------------------------------------------- */
+
+void vector_operator_l() {}
+
+/* -------------------------------------------------------------------------- */
+/*                                 operator<=                                 */
+/* -------------------------------------------------------------------------- */
+
+void vector_operator_le() {}
+
+/* -------------------------------------------------------------------------- */
+/*                                 operator>                                 */
+/* -------------------------------------------------------------------------- */
+
+void vector_operator_g() {}
+
+/* -------------------------------------------------------------------------- */
+/*                                 operator>=                                 */
+/* -------------------------------------------------------------------------- */
+
+void vector_operator_ge() {}
+
+/* -------------------------------------------------------------------------- */
+/*                                  std::swap                                 */
+/* -------------------------------------------------------------------------- */
+
+void vector_std_swap() {}
 
 } // namespace VectorTest
