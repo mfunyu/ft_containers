@@ -41,6 +41,7 @@ void set_explanation(int* fds)
 {
 	close(fds[1]);
 	dup2(fds[0], STDIN_FILENO);
+	Log::_current_explanation = "";
 	std::string line;
 	while (std::getline(std::cin, line, '\n')) {
 		if (!line.empty())
