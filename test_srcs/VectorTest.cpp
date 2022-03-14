@@ -23,6 +23,9 @@ t_unit_tests func_test_table[] = {
 	{               "vector_back",                vector_back, FAIL, VECTOR},
 	{               "vector_data",                vector_data, FAIL, VECTOR},
 	{              "vector_begin",               vector_begin, FAIL, VECTOR},
+	{                "vector_end",                 vector_end, FAIL, VECTOR},
+	{             "vector_rbegin",              vector_rbegin, FAIL, VECTOR},
+	{               "vector_rend",                vector_rend, FAIL, VECTOR},
 	{               "vector_size",                vector_size, FAIL, VECTOR},
 	{              "vector_empty",               vector_empty, FAIL, VECTOR},
     {                        "\0",                       NULL, FAIL, VECTOR}
@@ -519,7 +522,96 @@ void vector_begin()
 {
 	load_subtest_(_vector_begin_basic);
 	load_subtest_(_vector_begin_increment);
-	load_subtest_(_vector_begin_decrement);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    end                                   */
+/* -------------------------------------------------------------------------- */
+
+void _vector_end_basic()
+{
+	set_explanation_("does not return the right value");
+	int             size = 7;
+	ft::vector<int> data = _set_vector(size, true);
+
+	UnitTester::assert_(*--data.end() == size - 1);
+}
+
+void _vector_end_increment()
+{
+	set_explanation_("post increment returns wrong value");
+	int             size = 9;
+	ft::vector<int> data = _set_vector(size, true);
+
+	UnitTester::assert_(*--data.end() == size - 1);
+	UnitTester::assert_(*--(--data.end()) == size - 2);
+	UnitTester::assert_(*--(--(--data.end())) == size - 3);
+}
+
+void vector_end()
+{
+	load_subtest_(_vector_end_basic);
+	load_subtest_(_vector_end_increment);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    rbegin                                  */
+/* -------------------------------------------------------------------------- */
+
+void _vector_rbegin_basic()
+{
+	set_explanation_("does not return the right value");
+	int             size = 12;
+	ft::vector<int> data = _set_vector(size, true);
+
+	UnitTester::assert_(*data.rbegin() == size - 1);
+}
+
+void _vector_rbegin_increment()
+{
+	set_explanation_("post increment returns wrong value");
+	int             size = 12;
+	ft::vector<int> data = _set_vector(size, true);
+
+	UnitTester::assert_(*data.rbegin() == size - 1);
+	UnitTester::assert_(*++data.rbegin() == size - 2);
+	UnitTester::assert_(*++(++data.rbegin()) == size - 3);
+}
+
+void vector_rbegin()
+{
+	load_subtest_(_vector_rbegin_basic);
+	load_subtest_(_vector_rbegin_increment);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    rend                                    */
+/* -------------------------------------------------------------------------- */
+
+void _vector_rend_basic()
+{
+	set_explanation_("does not return the right value");
+	int             size = 7;
+	ft::vector<int> data = _set_vector(size, true);
+
+	UnitTester::assert_(*--data.rend() == 0);
+}
+
+void _vector_rend_increment()
+{
+	set_explanation_("post increment returns wrong value");
+	int             size = 9;
+	ft::vector<int> data = _set_vector(size, true);
+
+	UnitTester::assert_(*--data.rend() == 0);
+	UnitTester::assert_(*--(--data.rend()) == 1);
+	UnitTester::assert_(*--(--(--data.rend())) == 2);
+}
+
+void vector_rend()
+{
+	load_subtest_(_vector_rend_basic);
+	load_subtest_(_vector_rend_increment);
 }
 
 /* -------------------------------------------------------------------------- */
