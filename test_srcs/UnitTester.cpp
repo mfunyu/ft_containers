@@ -111,16 +111,19 @@ void UnitTester::_display_result(t_unit_subtests& current_test)
 {
 	static const char* prev_func_name;
 	static t_stl_types type;
+	std::string        type_stirng = _stl_type_to_string(current_test.type);
 
 	if (type != current_test.type) {
-		_print_subheader(_stl_type_to_string(current_test.type));
+		_print_subheader(type_stirng);
 		type = current_test.type;
 	}
 	if (!prev_func_name || strcmp(prev_func_name, current_test.func_name)) {
 		if (prev_func_name)
 			std::cout << std::endl;
-		std::cout << std::left << std::setw(15) << current_test.func_name
-		          << ": ";
+
+		std::string func_name(current_test.func_name);
+		std::cout << std::left << std::setw(15)
+		          << func_name.substr((type_stirng + '_').length()) << ": ";
 		prev_func_name = current_test.func_name;
 	}
 
