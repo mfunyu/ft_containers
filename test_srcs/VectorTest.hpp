@@ -12,6 +12,8 @@ void vector_constructor();
 void vector_destructor();
 void vector_assignment_operator();
 void vector_assign();
+void vector_get_allocator();
+
 void vector_at();
 void vector_subscript_operator();
 void vector_begin();

@@ -16,6 +16,7 @@ t_unit_tests func_test_table[] = {
 	{         "vector_destructor",          vector_destructor, FAIL, VECTOR},
 	{"vector_assignment_operator", vector_assignment_operator, FAIL, VECTOR},
 	{             "vector_assign",              vector_assign, FAIL, VECTOR},
+	{	  "vector_get_allocator",       vector_get_allocator, FAIL, VECTOR},
 	{                 "vector_at",                  vector_at, FAIL, VECTOR},
 	{ "vector_subscript_operator",  vector_subscript_operator, FAIL, VECTOR},
 	{              "vector_begin",               vector_begin, FAIL, VECTOR},
@@ -253,6 +254,24 @@ void vector_assign()
 	load_subtest_(_vector_assign_basic);
 	load_subtest_(_vector_assign_overwrite);
 	load_subtest_(_vector_assign_compare);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                get_allocator                               */
+/* -------------------------------------------------------------------------- */
+
+void _vector_get_allocator_basic()
+{
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std);
+
+	UnitTester::assert_(ft.get_allocator() == std.get_allocator());
+}
+
+void vector_get_allocator()
+{
+	load_subtest_(_vector_get_allocator_basic);
 }
 
 /* -------------------------------------------------------------------------- */
