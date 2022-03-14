@@ -964,20 +964,22 @@ void _vector_insert_iterator()
 
 void _vector_insert_compare()
 {
+	set_explanation_("result differs from std");
+	size_t           src_size = 22;
 	ft::vector<int>  ft_src;
 	std::vector<int> std_src;
-	_set_compare_vectors(ft_src, std_src);
-	size_t           size         = 57;
-	int              insert_point = 13;
+	_set_compare_vectors(ft_src, std_src, src_size);
+
+	size_t           size = 57;
 	ft::vector<int>  ft;
 	std::vector<int> std;
-	_set_compare_vectors(ft, std);
+	_set_compare_vectors(ft, std, size);
 
+	// insert_point < size
+	int insert_point = 13;
 	ft.insert(ft.begin() + insert_point, ft_src.begin(), ft_src.end());
 	std.insert(std.begin() + insert_point, std_src.begin(), std_src.end());
-	for (size_t i = 0; i < size; ++i) {
-		UnitTester::assert_(ft[i] == std[i]);
-	}
+	_compare_vectors(ft, std);
 }
 
 void vector_insert()
