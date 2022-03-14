@@ -994,12 +994,115 @@ void vector_insert()
 /*                                    erase                                   */
 /* -------------------------------------------------------------------------- */
 
-void vector_erase() {}
+void _vector_erase_one()
+{
+	set_explanation_("an element not erased");
+	size_t          size = 10;
+	ft::vector<int> ft   = _set_vector(size, true);
+
+	ft.erase(ft.begin() + 3);
+	UnitTester::assert_(ft.size() == size - 1);
+}
+
+void _vector_erase_head()
+{
+	set_explanation_("the first element not erased");
+	int             size = 10;
+	ft::vector<int> ft   = _set_vector(size, true);
+
+	ft.erase(ft.begin());
+	UnitTester::assert_(ft[0] == 1);
+}
+
+void _vector_erase_tail()
+{
+	set_explanation_("the last element not erased");
+	int             size = 10;
+	ft::vector<int> ft   = _set_vector(size, true);
+
+	ft.erase(--ft.end());
+	size = ft.size();
+	UnitTester::assert_(ft[size - 1] == size - 1);
+}
+
+void _vector_erase_range()
+{
+	set_explanation_("elements in range not erased");
+	int             size = 21;
+	ft::vector<int> ft   = _set_vector(size, true);
+
+	// erase_len < size
+	int erase_len = 5;
+	ft.erase(ft.begin(), ft.begin() + erase_len);
+	UnitTester::assert_(ft[0] == erase_len);
+}
+
+void _vector_erase_compare()
+{
+	set_explanation_("result differs from std");
+	int              size = 42;
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std, size);
+
+	size_t                     start_position = 2;
+	ft::vector<int>::iterator  ft_start       = ft.begin() + start_position;
+	std::vector<int>::iterator std_start      = std.begin() + start_position;
+
+	size_t len = 15;
+	ft.erase(ft_start, ft_start + len);
+	std.erase(std_start, std_start + len);
+	_compare_vectors(ft, std);
+}
+
+void vector_erase()
+{
+	load_subtest_(_vector_erase_one);
+	load_subtest_(_vector_erase_head);
+	load_subtest_(_vector_erase_tail);
+	load_subtest_(_vector_erase_range);
+	load_subtest_(_vector_erase_compare);
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                  push_back                                 */
 /* -------------------------------------------------------------------------- */
 
-void vector_push_back() {}
+void _vector_push_back_empty()
+{
+	set_explanation_("added value not correct");
+	ft::vector<int> ft;
+
+	int value = 42;
+	ft.push_back(value);
+	UnitTester::assert_(ft[0] == value);
+}
+
+void _vector_push_back_one()
+{
+	set_explanation_("added value not correct");
+	int             size = 10;
+	ft::vector<int> ft   = _set_vector(size, true);
+
+	int value = 42;
+	ft.push_back(value);
+	UnitTester::assert_(ft[size] == value);
+}
+
+void _vector_push_back_compare()
+{
+	set_explanation_("result differs from std");
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std);
+	_compare_vectors(ft, std);
+}
+
+void vector_push_back()
+{
+	load_subtest_(_vector_push_back_empty);
+	load_subtest_(_vector_push_back_one);
+	load_subtest_(_vector_push_back_compare);
+}
 
 } // namespace VectorTest
