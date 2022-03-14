@@ -20,6 +20,8 @@ t_unit_tests func_test_table[] = {
 	{                 "vector_at",                  vector_at, FAIL, VECTOR},
 	{ "vector_subscript_operator",  vector_subscript_operator, FAIL, VECTOR},
 	{              "vector_front",               vector_front, FAIL, VECTOR},
+	{               "vector_back",                vector_back, FAIL, VECTOR},
+	{               "vector_data",                vector_data, FAIL, VECTOR},
 	{              "vector_begin",               vector_begin, FAIL, VECTOR},
 	{               "vector_size",                vector_size, FAIL, VECTOR},
 	{              "vector_empty",               vector_empty, FAIL, VECTOR},
@@ -401,6 +403,78 @@ void vector_front()
 	load_subtest_(_vector_front_basic_int);
 	load_subtest_(_vector_front_basic_char);
 	load_subtest_(_vector_front_compare);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    back                                    */
+/* -------------------------------------------------------------------------- */
+
+void _vector_back_basic_int()
+{
+	set_explanation_("does not return the right value");
+	int             size = 10;
+	ft::vector<int> ft   = _set_vector(size, true);
+	UnitTester::assert_(ft.back() == size - 1);
+}
+
+void _vector_back_basic_char()
+{
+	int              size  = 10;
+	char             value = '*';
+	ft::vector<char> ft(size, value);
+	set_explanation_("does not return the right value");
+	UnitTester::assert_(ft.back() == value);
+
+	char new_value = '+';
+	ft[size - 1]   = new_value;
+	set_explanation_("does not return the updated value");
+	UnitTester::assert_(ft.back() == new_value);
+}
+
+void _vector_back_compare()
+{
+	set_explanation_("result differs from std");
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std);
+
+	UnitTester::assert_(ft.back() == std.back());
+}
+
+void vector_back()
+{
+	load_subtest_(_vector_back_basic_int);
+	load_subtest_(_vector_back_basic_char);
+	load_subtest_(_vector_back_compare);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    data                                    */
+/* -------------------------------------------------------------------------- */
+
+void _vector_data_basic()
+{
+	set_explanation_("does not return the right value");
+	int             size = 10;
+	ft::vector<int> ft   = _set_vector(size, true);
+
+	UnitTester::assert_(*ft.data() == 0);
+}
+
+void _vector_data_compare()
+{
+	set_explanation_("result differs from std");
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std);
+
+	UnitTester::assert_(*ft.data() == *std.data());
+}
+
+void vector_data()
+{
+	load_subtest_(_vector_data_basic);
+	load_subtest_(_vector_data_compare);
 }
 
 /* -------------------------------------------------------------------------- */
