@@ -40,7 +40,10 @@ t_unit_tests func_test_table[] = {
 	{             "vector_insert",              vector_insert, FAIL, VECTOR},
 	{              "vector_erase",               vector_erase, FAIL, VECTOR},
 	{          "vector_push_back",           vector_push_back, FAIL, VECTOR},
-	{                        "\0",                       NULL, FAIL, VECTOR}
+	{           "vector_pop_back",            vector_pop_back, FAIL, VECTOR},
+	{             "vector_resize",              vector_resize, FAIL, VECTOR},
+	{               "vector_swap",                vector_swap, FAIL, VECTOR},
+    {                        "\0",                       NULL, FAIL, VECTOR}
 };
 
 void _set_int_array(int* array, int size = 12, bool accend = false)
@@ -1103,6 +1106,184 @@ void vector_push_back()
 	load_subtest_(_vector_push_back_empty);
 	load_subtest_(_vector_push_back_one);
 	load_subtest_(_vector_push_back_compare);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  pop_back                                  */
+/* -------------------------------------------------------------------------- */
+
+void _vector_pop_back_empty()
+{
+	set_explanation_("size not reduced as expected");
+	ft::vector<int> ft;
+	ft.pop_back();
+
+	UnitTester::assert_(ft.size() == static_cast<size_t>(-1));
+}
+
+void _vector_pop_back_one()
+{
+	set_explanation_("size not reduced");
+	size_t          size = 10;
+	ft::vector<int> ft   = _set_vector(size, true);
+
+	ft.pop_back();
+	UnitTester::assert_(ft.size() == size - 1);
+}
+
+void _vector_pop_back_compare_zero()
+{
+	set_explanation_("result differs from std");
+	ft::vector<int>  ft;
+	std::vector<int> std;
+
+	ft.pop_back();
+	std.pop_back();
+	UnitTester::assert_(ft.size() == std.size());
+}
+
+void _vector_pop_back_compare()
+{
+	set_explanation_("result differs from std");
+	size_t           size = 16;
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std, size);
+
+	for (size_t i = 0; i < size; ++i) {
+		ft.pop_back();
+		std.pop_back();
+		_compare_vectors(ft, std);
+	}
+}
+
+void vector_pop_back()
+{
+	load_subtest_(_vector_pop_back_empty);
+	load_subtest_(_vector_pop_back_one);
+	load_subtest_(_vector_pop_back_compare_zero);
+	load_subtest_(_vector_pop_back_compare);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   resize                                   */
+/* -------------------------------------------------------------------------- */
+
+void _vector_resize_expand()
+{
+	set_explanation_("size not expanded or initialized");
+	int             size = 10;
+	ft::vector<int> ft   = _set_vector(size, true);
+
+	size_t new_size = 19;
+	ft.resize(new_size);
+	UnitTester::assert_(ft.size() == new_size);
+	UnitTester::assert_(ft[new_size - 1] == 0);
+}
+
+void _vector_resize_reduce()
+{
+	set_explanation_("size not reduced");
+	int             size = 7;
+	ft::vector<int> ft   = _set_vector(size, true);
+
+	size_t new_size = 2;
+	ft.resize(new_size);
+	UnitTester::assert_(ft.size() == new_size);
+}
+
+void _vector_resize_same()
+{
+	set_explanation_("size changed");
+	int             size = 5;
+	ft::vector<int> ft   = _set_vector(size, true);
+
+	size_t new_size = size;
+	ft.resize(new_size);
+	UnitTester::assert_(ft.size() == new_size);
+}
+
+void _vector_resize_initializer()
+{
+	set_explanation_("initializer not applied");
+	int             size = 8;
+	ft::vector<int> ft   = _set_vector(size, true);
+
+	size_t new_size    = 24;
+	int    initializer = 4242;
+	ft.resize(new_size, initializer);
+	for (size_t i = size; i < new_size; ++i) {
+		UnitTester::assert_(ft[i] == initializer);
+	}
+}
+
+void vector_resize()
+{
+	load_subtest_(_vector_resize_expand);
+	load_subtest_(_vector_resize_reduce);
+	load_subtest_(_vector_resize_same);
+	load_subtest_(_vector_resize_initializer);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    swap                                    */
+/* -------------------------------------------------------------------------- */
+
+void _vector_swap_basic()
+{
+	set_explanation_("swapped value not correct");
+	size_t          size_a = 10;
+	size_t          size_b = 20;
+	ft::vector<int> ft_a   = _set_vector(size_a, false);
+	ft::vector<int> ft_b   = _set_vector(size_b, true);
+
+	ft_a.swap(ft_b);
+	for (size_t i = 0; i < size_b; ++i) {
+		ft_a[i] = i;
+	}
+}
+
+void _vector_swap_compare()
+{
+	set_explanation_("result differs from std");
+	ft::vector<int>  ft_a;
+	std::vector<int> std_a;
+	_set_compare_vectors(ft_a, std_a);
+
+	ft::vector<int>  ft_b;
+	std::vector<int> std_b;
+	_set_compare_vectors(ft_b, std_b);
+
+	ft_a.swap(ft_b);
+	std_a.swap(std_b);
+	_compare_vectors(ft_a, std_a);
+	_compare_vectors(ft_b, std_b);
+}
+
+void _vector_swap_iterator()
+{
+	set_explanation_("iterator is invalidated");
+	ft::vector<int>           ft_a    = _set_vector();
+	ft::vector<int>           ft_b    = _set_vector();
+	ft::vector<int>::iterator it_a    = ft_a.begin();
+	ft::vector<int>::iterator it_b    = ft_b.begin();
+	int                       value_a = ft_a[0];
+	int                       value_b = ft_b[0];
+
+	UnitTester::assert_(*it_a == value_a);
+	UnitTester::assert_(*it_b == value_b);
+	ft_a.swap(ft_b);
+	UnitTester::assert_(*it_a == value_a);
+	UnitTester::assert_(*it_b == value_b);
+	UnitTester::assert_(*ft_a.begin() == value_b);
+	UnitTester::assert_(*ft_b.begin() == value_a);
+}
+
+void vector_swap()
+{
+	load_subtest_(_vector_swap_basic);
+	load_subtest_(_vector_swap_compare);
+	load_subtest_(_vector_swap_iterator);
 }
 
 } // namespace VectorTest
