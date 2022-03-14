@@ -334,7 +334,8 @@ void vector_at()
 
 void _vector_subscript_operator_basic()
 {
-	set_explanation_("does not return right value. Really!?") int size = 12;
+	set_explanation_("does not return right value. Really!?");
+	int             size    = 12;
 	ft::vector<int> ft_data = _set_vector(size, true);
 
 	for (int i = 0; i < size; ++i)
@@ -343,9 +344,10 @@ void _vector_subscript_operator_basic()
 
 void _vector_subscript_operator_compare()
 {
-	set_explanation_("does not return right value. Really!?") int size = 12;
-	ft::vector<int>                                               ft_data;
-	std::vector<int>                                              std_data;
+	set_explanation_("does not return right value. Really!?");
+	int              size = 12;
+	ft::vector<int>  ft_data;
+	std::vector<int> std_data;
 	_set_compare_vectors(ft_data, std_data, 12);
 
 	for (int i = 0; i < size; ++i)
