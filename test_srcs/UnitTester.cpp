@@ -41,8 +41,14 @@ void set_explanation(int* fds)
 {
 	close(fds[1]);
 	dup2(fds[0], STDIN_FILENO);
-	std::getline(std::cin, Log::_current_explanation);
+	std::string line;
+	while (std::getline(std::cin, line, '\n')) {
+		if (!line.empty())
+			Log::_current_explanation = line;
+	}
 	close(fds[0]);
+	std::cin.clear();
+	std::clearerr(stdin);
 }
 
 void UnitTester::_sandbox(t_unit_subtests& current_test)
