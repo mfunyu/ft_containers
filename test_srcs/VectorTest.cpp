@@ -369,19 +369,20 @@ void _vector_front_basic_int()
 	set_explanation_("does not return the right value");
 	int             size = 12;
 	ft::vector<int> ft   = _set_vector(size, true);
-	UnitTester::assert_(ft.front() == 1);
+	UnitTester::assert_(ft.front() == 0);
 }
 
 void _vector_front_basic_char()
 {
-	set_explanation_("does not return the right value");
 	int              size  = 12;
 	char             value = '*';
 	ft::vector<char> ft(size, value);
+	set_explanation_("does not return the right value");
 	UnitTester::assert_(ft.front() == value);
 
 	char new_value = '+';
 	ft[0]          = new_value;
+	set_explanation_("does not return the updated value");
 	UnitTester::assert_(ft.front() == new_value);
 }
 
