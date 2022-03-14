@@ -1,6 +1,7 @@
 #include "VectorTest.hpp"
 #include "Log.hpp"
 #include "UnitTester.hpp"
+#include <algorithm>
 #include <iostream>
 #include <list>
 #include <vector>
@@ -31,6 +32,10 @@ t_unit_tests func_test_table[] = {
 	{           "vector_max_size",            vector_max_size, FAIL, VECTOR},
 	{            "vector_reserve",             vector_reserve, FAIL, VECTOR},
 	{           "vector_capacity",            vector_capacity, FAIL, VECTOR},
+	{              "vector_clear",               vector_clear, FAIL, VECTOR},
+	{             "vector_insert",              vector_insert, FAIL, VECTOR},
+	{              "vector_erase",               vector_erase, FAIL, VECTOR},
+	{          "vector_push_back",           vector_push_back, FAIL, VECTOR},
 	{                        "\0",                       NULL, FAIL, VECTOR}
 };
 
@@ -844,5 +849,151 @@ void vector_capacity()
 	load_subtest_(_vector_capacity_ratio);
 	load_subtest_(_vector_capacity_compare);
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                    clear                                   */
+/* -------------------------------------------------------------------------- */
+
+void _vector_clear_size_check()
+{
+	set_explanation_("size not 0");
+	int             size = 10;
+	ft::vector<int> ft   = _set_vector(size);
+
+	UnitTester::assert_(ft.size() != 0);
+	ft.clear();
+	UnitTester::assert_(ft.size() == 0);
+}
+
+void _vector_clear_capacity_check()
+{
+	set_explanation_("capacity modified to 0");
+	int             size = 10;
+	ft::vector<int> ft   = _set_vector(size);
+
+	UnitTester::assert_(ft.capacity() != 0);
+	ft.clear();
+	UnitTester::assert_(ft.capacity() != 0);
+}
+
+void _vector_clear_empty_check()
+{
+	set_explanation_("is empty not true");
+	int             size = 10;
+	ft::vector<int> ft   = _set_vector(size, true);
+
+	UnitTester::assert_(!ft.empty());
+	ft.clear();
+	UnitTester::assert_(ft.empty());
+}
+
+void vector_clear()
+{
+	load_subtest_(_vector_clear_size_check);
+	load_subtest_(_vector_clear_capacity_check);
+	load_subtest_(_vector_clear_empty_check);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   insert                                   */
+/* -------------------------------------------------------------------------- */
+
+void _vector_insert_single()
+{
+	set_explanation_("value not inserted at expected point");
+	int             size = 10;
+	ft::vector<int> ft   = _set_vector(size);
+
+	ft::vector<int>::iterator it    = ft.begin();
+	int                       value = 42;
+	ft.insert(it, value);
+	UnitTester::assert_(ft[0] == value);
+}
+
+void _vector_insert_double()
+{
+	set_explanation_("value not inserted at expected point");
+	int             size = 10;
+	ft::vector<int> ft   = _set_vector(size);
+
+	ft::vector<int>::iterator it    = ft.begin();
+	int                       value = 42;
+	ft.insert(it, 2, value);
+	UnitTester::assert_(ft[0] == value);
+	UnitTester::assert_(ft[1] == value);
+}
+
+void _vector_insert_multiple()
+{
+	set_explanation_("value not inserted at expected point");
+	int                     size = 10;
+	ft::vector<std::string> ft   = _set_vector_string(size);
+
+	ft::vector<std::string>::iterator it    = ft.begin();
+	std::string                       value = "Vector Test";
+	size_t                            count = 5;
+
+	ft.insert(it, 5, value);
+	for (size_t i = 0; i < count; ++i) {
+		UnitTester::assert_(ft[i] == value);
+	}
+}
+
+void _vector_insert_iterator()
+{
+	set_explanation_("value not inserted at expected point");
+	size_t           size  = 12;
+	char             value = 'x';
+	ft::vector<char> ft_src(size, value);
+
+	ft::vector<char> ft = _set_vector_char(size, true);
+
+	ft::vector<char>::iterator it = ft.begin() + 2;
+	ft.insert(it, ft_src.begin(), ft_src.end());
+
+	// `it` no longer valid, get a new one:
+	it = ft.begin() + 2;
+	for (size_t i = 0; it != ft.end() && i < size; ++it, ++i) {
+		UnitTester::assert_(*it == value);
+	}
+}
+
+void _vector_insert_compare()
+{
+	ft::vector<int>  ft_src;
+	std::vector<int> std_src;
+	_set_compare_vectors(ft_src, std_src);
+	size_t           size         = 57;
+	int              insert_point = 13;
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std);
+
+	ft.insert(ft.begin() + insert_point, ft_src.begin(), ft_src.end());
+	std.insert(std.begin() + insert_point, std_src.begin(), std_src.end());
+	for (size_t i = 0; i < size; ++i) {
+		UnitTester::assert_(ft[i] == std[i]);
+	}
+}
+
+void vector_insert()
+{
+	load_subtest_(_vector_insert_single);
+	load_subtest_(_vector_insert_double);
+	load_subtest_(_vector_insert_multiple);
+	load_subtest_(_vector_insert_iterator);
+	load_subtest_(_vector_insert_compare);
+}
+/* -------------------------------------------------------------------------- */
+/*                                    erase                                   */
+/* -------------------------------------------------------------------------- */
+
+void vector_erase() {}
+
+/* -------------------------------------------------------------------------- */
+/*                                  push_back                                 */
+/* -------------------------------------------------------------------------- */
+
+void vector_push_back() {}
 
 } // namespace VectorTest
