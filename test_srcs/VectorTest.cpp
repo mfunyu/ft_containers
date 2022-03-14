@@ -18,20 +18,24 @@ t_unit_tests func_test_table[] = {
 	{"vector_assignment_operator", vector_assignment_operator, FAIL, VECTOR},
 	{             "vector_assign",              vector_assign, FAIL, VECTOR},
 	{	  "vector_get_allocator",       vector_get_allocator, FAIL, VECTOR},
+ /* --------------------------- Element access --------------------------- */
 	{                 "vector_at",                  vector_at, FAIL, VECTOR},
 	{ "vector_subscript_operator",  vector_subscript_operator, FAIL, VECTOR},
 	{              "vector_front",               vector_front, FAIL, VECTOR},
 	{               "vector_back",                vector_back, FAIL, VECTOR},
 	{               "vector_data",                vector_data, FAIL, VECTOR},
+ /* ------------------------------ Iterators ----------------------------- */
 	{              "vector_begin",               vector_begin, FAIL, VECTOR},
 	{                "vector_end",                 vector_end, FAIL, VECTOR},
 	{             "vector_rbegin",              vector_rbegin, FAIL, VECTOR},
 	{               "vector_rend",                vector_rend, FAIL, VECTOR},
+ /* ------------------------------ Capacity ----------------------------- */
 	{              "vector_empty",               vector_empty, FAIL, VECTOR},
 	{               "vector_size",                vector_size, FAIL, VECTOR},
 	{           "vector_max_size",            vector_max_size, FAIL, VECTOR},
 	{            "vector_reserve",             vector_reserve, FAIL, VECTOR},
 	{           "vector_capacity",            vector_capacity, FAIL, VECTOR},
+ /* ------------------------------ Modifiers ----------------------------- */
 	{              "vector_clear",               vector_clear, FAIL, VECTOR},
 	{             "vector_insert",              vector_insert, FAIL, VECTOR},
 	{              "vector_erase",               vector_erase, FAIL, VECTOR},
