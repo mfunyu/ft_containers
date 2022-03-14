@@ -263,6 +263,7 @@ void vector_assign()
 
 void _vector_get_allocator_basic()
 {
+	set_explanation_("allocator differs from std. Really?");
 	ft::vector<int>  ft;
 	std::vector<int> std;
 	_set_compare_vectors(ft, std);
