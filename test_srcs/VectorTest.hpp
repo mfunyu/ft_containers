@@ -30,8 +30,8 @@ void vector_rend();
 /* Capacity */
 void vector_empty();
 void vector_size();
-void vector_maxsize();
-void vector_reverse();
+void vector_max_size();
+void vector_reserve();
 void vector_capacity();
 
 /* Modifiers */
