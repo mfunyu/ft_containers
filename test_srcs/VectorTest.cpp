@@ -26,8 +26,8 @@ t_unit_tests func_test_table[] = {
 	{                "vector_end",                 vector_end, FAIL, VECTOR},
 	{             "vector_rbegin",              vector_rbegin, FAIL, VECTOR},
 	{               "vector_rend",                vector_rend, FAIL, VECTOR},
-	{               "vector_size",                vector_size, FAIL, VECTOR},
 	{              "vector_empty",               vector_empty, FAIL, VECTOR},
+	{               "vector_size",                vector_size, FAIL, VECTOR},
     {                        "\0",                       NULL, FAIL, VECTOR}
 };
 
@@ -615,6 +615,31 @@ void vector_rend()
 }
 
 /* -------------------------------------------------------------------------- */
+/*                                    empty                                   */
+/* -------------------------------------------------------------------------- */
+
+void _vector_empty_true()
+{
+	set_explanation_("empty check not working. Really!?");
+	ft::vector<int> ft_data = _set_vector(0, true);
+	UnitTester::assert_(ft_data.empty() == true);
+}
+
+void _vector_empty_false()
+{
+	set_explanation_("empty check not working. Really!?");
+	size_t          size    = 42;
+	ft::vector<int> ft_data = _set_vector(size, true);
+	UnitTester::assert_(ft_data.empty() == false);
+}
+
+void vector_empty()
+{
+	load_subtest_(_vector_empty_true);
+	load_subtest_(_vector_empty_false);
+}
+
+/* -------------------------------------------------------------------------- */
 /*                                    size                                    */
 /* -------------------------------------------------------------------------- */
 
@@ -645,31 +670,6 @@ void vector_size()
 	load_subtest_(_vector_size_zero);
 	load_subtest_(_vector_size_one);
 	load_subtest_(_vector_size_more);
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                    empty                                   */
-/* -------------------------------------------------------------------------- */
-
-void _vector_empty_true()
-{
-	set_explanation_("empty check not working. Really!?");
-	ft::vector<int> ft_data = _set_vector(0, true);
-	UnitTester::assert_(ft_data.empty() == true);
-}
-
-void _vector_empty_false()
-{
-	set_explanation_("empty check not working. Really!?");
-	size_t          size    = 42;
-	ft::vector<int> ft_data = _set_vector(size, true);
-	UnitTester::assert_(ft_data.empty() == false);
-}
-
-void vector_empty()
-{
-	load_subtest_(_vector_empty_true);
-	load_subtest_(_vector_empty_false);
 }
 
 } // namespace VectorTest
