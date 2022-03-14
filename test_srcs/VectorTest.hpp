@@ -14,8 +14,11 @@ void vector_assignment_operator();
 void vector_assign();
 void vector_get_allocator();
 
+/* Element access */
 void vector_at();
 void vector_subscript_operator();
+void vector_front();
+
 void vector_begin();
 void vector_size();
 void vector_empty();

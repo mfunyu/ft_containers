@@ -19,6 +19,7 @@ t_unit_tests func_test_table[] = {
 	{	  "vector_get_allocator",       vector_get_allocator, FAIL, VECTOR},
 	{                 "vector_at",                  vector_at, FAIL, VECTOR},
 	{ "vector_subscript_operator",  vector_subscript_operator, FAIL, VECTOR},
+	{              "vector_front",               vector_front, FAIL, VECTOR},
 	{              "vector_begin",               vector_begin, FAIL, VECTOR},
 	{               "vector_size",                vector_size, FAIL, VECTOR},
 	{              "vector_empty",               vector_empty, FAIL, VECTOR},
@@ -354,6 +355,48 @@ void vector_subscript_operator()
 {
 	load_subtest_(_vector_subscript_operator_basic);
 	load_subtest_(_vector_subscript_operator_compare);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    front                                   */
+/* -------------------------------------------------------------------------- */
+
+void _vector_front_basic_int()
+{
+	set_explanation_("does not return the right value");
+	int             size = 12;
+	ft::vector<int> ft   = _set_vector(size, true);
+	UnitTester::assert_(ft.front() == 1);
+}
+
+void _vector_front_basic_char()
+{
+	set_explanation_("does not return the right value");
+	int              size  = 12;
+	char             value = '*';
+	ft::vector<char> ft(size, value);
+	UnitTester::assert_(ft.front() == value);
+
+	char new_value = '+';
+	ft[0]          = new_value;
+	UnitTester::assert_(ft.front() == new_value);
+}
+
+void _vector_front_compare()
+{
+	set_explanation_("result differs from std");
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std);
+
+	UnitTester::assert_(ft.front() == std.front());
+}
+
+void vector_front()
+{
+	load_subtest_(_vector_front_basic_int);
+	load_subtest_(_vector_front_basic_char);
+	load_subtest_(_vector_front_compare);
 }
 
 /* -------------------------------------------------------------------------- */
