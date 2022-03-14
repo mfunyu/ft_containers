@@ -58,6 +58,38 @@ ft::vector<int> _set_vector(int size = 6, bool accend = false)
 	return data;
 }
 
+ft::vector<char> _set_vector_char(size_t size = 6, bool accend = false)
+{
+	ft::vector<char> data;
+	char             val;
+
+	for (size_t i = 0; i < size; ++i) {
+
+		if (accend) {
+			val = 'a' + i;
+		} else
+			val = 'a' + std::rand() % 26;
+		data.push_back(val);
+	}
+	return data;
+}
+
+ft::vector<std::string> _set_vector_string(size_t size = 6)
+{
+	ft::vector<std::string> data;
+	std::string             strs[]   = { "42", "Tokyo", "Hello", "World", "!" };
+	size_t                  patterns = 5;
+	std::string             val;
+	int                     index;
+
+	for (size_t i = 0; i < size; ++i) {
+		index = i % patterns;
+		val   = strs[index] + strs[std::max(index - 1, 0)];
+		data.push_back(val);
+	}
+	return data;
+}
+
 void _set_compare_vectors(ft::vector<int>& ft_data, std::vector<int>& std_data,
     int size = 6, bool accend = false)
 {
