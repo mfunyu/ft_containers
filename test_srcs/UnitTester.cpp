@@ -4,8 +4,8 @@
 #include <unistd.h>
 
 std::list<t_unit_subtests> UnitTester::_func_subtest_table;
-const char*             UnitTester::_current_func_name;
-t_stl_types             UnitTester::_current_func_type;
+const char*                UnitTester::_current_func_name;
+t_stl_types                UnitTester::_current_func_type;
 
 UnitTester::UnitTester() : _cnt_success(0), _cnt_total(0) {}
 
@@ -20,12 +20,12 @@ void UnitTester::_load_test(t_unit_tests* func_test_table)
 	}
 }
 
-void UnitTester::load_subtest(void (*func)(void), char *func_name)
+void UnitTester::load_subtest(void (*func)(void), char* func_name)
 {
 	t_unit_subtests func_subtest;
 
 	func_subtest.func_name     = _current_func_name;
-	func_subtest.subtest_name     = func_name;
+	func_subtest.subtest_name  = func_name;
 	func_subtest.func_test_ptr = func;
 	func_subtest.type          = _current_func_type;
 	_func_subtest_table.push_back(func_subtest);
