@@ -50,6 +50,7 @@ class UnitTester
 	static std::list<t_unit_subtests> _func_subtest_table;
 	static const char*                _current_func_name;
 	static t_stl_types                _current_func_type;
+	static const int                  k_subtest_block_width = 20;
 	Log                               _log;
 	int                               _cnt_success;
 	int                               _cnt_total;
