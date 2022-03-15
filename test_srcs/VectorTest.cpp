@@ -139,6 +139,18 @@ void _compare_vectors(ft::vector<T>& ft_vec, std::vector<T>& std_vec)
 	}
 }
 
+template <class T>
+void _debug(ft::vector<T>& ft_vec, std::string name = "")
+{
+	std::cerr << std::endl;
+	std::cerr << "[" << name << "] ";
+	size_t size = ft_vec.size();
+	for (size_t i = 0; i < size; ++i) {
+		std::cerr << i << ": " << ft_vec[i] << " ";
+	}
+	std::cerr << std::endl;
+}
+
 // -------------------------------------------------------------------------- //
 //                                 constructor                                //
 // -------------------------------------------------------------------------- //
