@@ -1,6 +1,7 @@
 NAME	:= run_test
 CXX		:= clang++
-CXXFLAGS:= -Wall -Wextra -Werror -std=c++98 -pedantic-errors -MMD -MP
+INCLUDES:= includes/
+CXXFLAGS:= -Wall -Wextra -Werror -std=c++98 -pedantic-errors -I$(INCLUDES) -MMD -MP
 
 SRCS_DIR:= test_srcs/
 SRCS	:= $(shell find $(SRCS_DIR) -name "*.cpp" | xargs basename)
