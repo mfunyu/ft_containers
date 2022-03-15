@@ -3,9 +3,9 @@
 #include <iostream>
 #include <unistd.h>
 
-std::list<t_unit_tests> UnitTester::_func_subtest_table;
-const char*             UnitTester::_current_func_name;
-t_stl_types             UnitTester::_current_func_type;
+std::list<t_unit_subtests> UnitTester::_func_subtest_table;
+const char*                UnitTester::_current_func_name;
+t_stl_types                UnitTester::_current_func_type;
 
 UnitTester::UnitTester() : _cnt_success(0), _cnt_total(0) {}
 
@@ -20,11 +20,12 @@ void UnitTester::_load_test(t_unit_tests* func_test_table)
 	}
 }
 
-void UnitTester::load_subtest(void (*func)(void))
+void UnitTester::load_subtest(void (*func)(void), char* func_name)
 {
-	t_unit_tests func_subtest;
+	t_unit_subtests func_subtest;
 
 	func_subtest.func_name     = _current_func_name;
+	func_subtest.subtest_name  = func_name;
 	func_subtest.func_test_ptr = func;
 	func_subtest.type          = _current_func_type;
 	_func_subtest_table.push_back(func_subtest);
@@ -36,14 +37,35 @@ void UnitTester::assert_(bool evaluate)
 		exit(TEST_FAILED);
 }
 
-void UnitTester::_sandbox(t_unit_tests& current_test)
+void set_explanation(int* fds)
 {
-	int   wstatus;
-	pid_t pid = fork();
+	close(fds[1]);
+	dup2(fds[0], STDIN_FILENO);
+	Log::_current_explanation = "";
+	std::string line;
+	while (std::getline(std::cin, line, '\n')) {
+		if (!line.empty())
+			Log::_current_explanation = line;
+	}
+	close(fds[0]);
+	std::cin.clear();
+	std::clearerr(stdin);
+}
 
+void UnitTester::_sandbox(t_unit_subtests& current_test)
+{
+	int   fds[2];
+	pid_t pid;
+	int   wstatus;
+
+	if (pipe(fds))
+		throw std::runtime_error("pipe");
+	pid = fork();
 	if (pid < 0)
 		throw std::runtime_error("fork");
 	if (pid == 0) {
+		close(fds[0]);
+		dup2(fds[1], STDOUT_FILENO);
 		current_test.func_test_ptr();
 		exit(EXIT_SUCCESS);
 	} else {
@@ -51,7 +73,11 @@ void UnitTester::_sandbox(t_unit_tests& current_test)
 		if (WIFEXITED(wstatus)) {
 			current_test.result
 			    = static_cast<t_test_status>(WEXITSTATUS(wstatus));
+		} else if (WIFSIGNALED(wstatus)) {
+			current_test.result = TEST_UNEXPECTED;
+			std::cerr << "signal: " << WTERMSIG(wstatus) << std::endl;
 		}
+		set_explanation(fds);
 	}
 }
 
@@ -81,20 +107,23 @@ void UnitTester::_print_subheader(const std::string& header)
 	std::cout << std::setfill(' ');
 }
 
-void UnitTester::_display_result(t_unit_tests& current_test)
+void UnitTester::_display_result(t_unit_subtests& current_test)
 {
 	static const char* prev_func_name;
 	static t_stl_types type;
+	std::string        type_stirng = _stl_type_to_string(current_test.type);
 
 	if (type != current_test.type) {
-		_print_subheader(_stl_type_to_string(current_test.type));
+		_print_subheader(type_stirng);
 		type = current_test.type;
 	}
 	if (!prev_func_name || strcmp(prev_func_name, current_test.func_name)) {
 		if (prev_func_name)
 			std::cout << std::endl;
-		std::cout << std::left << std::setw(15) << current_test.func_name
-		          << ": ";
+
+		std::string func_name(current_test.func_name);
+		std::cout << std::left << std::setw(k_subtest_block_width)
+		          << func_name.substr((type_stirng + '_').length()) << ": ";
 		prev_func_name = current_test.func_name;
 	}
 
@@ -105,6 +134,9 @@ void UnitTester::_display_result(t_unit_tests& current_test)
 		break;
 	case TEST_FAILED:
 		std::cout << COLOR_FAILED "[KO] " COLOR_CLEAR;
+		break;
+	case TEST_UNEXPECTED:
+		std::cout << COLOR_FAILED "[???] " COLOR_CLEAR;
 		break;
 	}
 	std::cout << std::flush;
@@ -126,8 +158,8 @@ void UnitTester::_display_total()
 
 void UnitTester::run_tests(void)
 {
-	std::list<t_unit_tests>::iterator current = _func_subtest_table.begin();
-	std::list<t_unit_tests>::iterator it_end  = _func_subtest_table.end();
+	std::list<t_unit_subtests>::iterator current = _func_subtest_table.begin();
+	std::list<t_unit_subtests>::iterator it_end  = _func_subtest_table.end();
 
 	for (; current != it_end; ++current) {
 		_sandbox(*current);
