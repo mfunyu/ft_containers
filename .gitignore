@@ -6,3 +6,4 @@
 !Makefile
 !*.gitignore
 !*.clang-format
+ignore/
