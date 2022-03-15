@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 
-#define get_func_name(x) (char *)#x
+#define get_func_name(x) (char*)#x
 
 typedef struct s_unit_subtests t_unit_subtests;
 

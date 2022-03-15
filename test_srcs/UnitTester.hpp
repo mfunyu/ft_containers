@@ -10,7 +10,7 @@
 #define COLOR_BORD    "\033[1m"
 #define COLOR_CLEAR   "\033[0m"
 
-#define load_subtest_(x)    UnitTester::load_subtest(x, (char *)#x)
+#define load_subtest_(x)    UnitTester::load_subtest(x, (char*)#x)
 #define set_explanation_(x) std::cout << x << std::endl;
 
 typedef enum e_test_status
@@ -48,11 +48,11 @@ class UnitTester
 {
   private:
 	static std::list<t_unit_subtests> _func_subtest_table;
-	static const char*             _current_func_name;
-	static t_stl_types             _current_func_type;
-	Log                            _log;
-	int                            _cnt_success;
-	int                            _cnt_total;
+	static const char*                _current_func_name;
+	static t_stl_types                _current_func_type;
+	Log                               _log;
+	int                               _cnt_success;
+	int                               _cnt_total;
 
   public:
 	UnitTester();
@@ -61,7 +61,7 @@ class UnitTester
 	void run_tests();
 	void launcher(int argc, char** argv);
 
-	static void load_subtest(void (*func)(void), char *func_name);
+	static void load_subtest(void (*func)(void), char* func_name);
 	static void assert_(bool evaluate);
 
   private:
