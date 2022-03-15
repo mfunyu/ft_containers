@@ -6,8 +6,6 @@
 #include <list>
 #include <vector>
 
-namespace ft = std;
-
 namespace VectorTest {
 
 // -------------------------------------------------------------------------- //
