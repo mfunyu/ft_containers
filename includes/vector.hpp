@@ -45,10 +45,25 @@ class vector
 	void assign(InputIt first, InputIt last);
 	// get_allocator
 	allocator_type get_allocator() const {};
+	/* --------------------------- Elements access -------------------------- */
+	// at
+	reference       at(size_type pos);
+	const_reference at(size_type pos) const;
+	// operator[]
+	reference       operator[](size_type pos){};
+	const_reference operator[](size_type pos) const {};
+	// front
+	reference       front(){};
+	const_reference front() const {};
+	// back
+	reference       back(){};
+	const_reference back() const {};
+	// data
+	T*       data(){};
+	const T* data() const {};
 
-	size_t    size() { return 0; };
-	void      push_back(T t) { (void)t; };
-	reference operator[](size_type pos){};
+	size_t size() { return 0; };
+	void   push_back(T t) { (void)t; };
 };
 
 /* -------------------------------------------------------------------------- */
@@ -89,6 +104,18 @@ void vector<T, Allocator>::assign(size_type count, const T& value)
 template <class T, class Allocator>
 template <class InputIt>
 void vector<T, Allocator>::assign(InputIt first, InputIt last)
+{}
+
+/* -------------------------------------------------------------------------- */
+/*                                     at                                     */
+/* -------------------------------------------------------------------------- */
+template <class T, class Allocator>
+typename vector<T, Allocator>::reference vector<T, Allocator>::at(size_type pos)
+{}
+
+template <class T, class Allocator>
+typename vector<T, Allocator>::const_reference
+vector<T, Allocator>::at(size_type pos) const
 {}
 
 } // namespace ft
