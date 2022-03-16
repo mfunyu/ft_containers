@@ -17,6 +17,10 @@ typedef enum e_test_status
 {
 	TEST_SUCCESS,
 	TEST_FAILED,
+	TEST_ILL,
+	TEST_ABORT,
+	TEST_BUS,
+	TEST_SEGV,
 	TEST_UNEXPECTED
 } t_test_status;
 
@@ -71,6 +75,7 @@ class UnitTester
 	void _display_result(t_unit_subtests& current_test);
 	void _display_total();
 	void _print_subheader(const std::string& header);
+	void _set_test_result(t_unit_subtests& current_test, int wstatus);
 
 	UnitTester(UnitTester const& other);
 	UnitTester& operator=(UnitTester const& other);
