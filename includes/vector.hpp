@@ -23,7 +23,7 @@ class vector
 	/*
 	typedef iterator;
 	typedef const_iterator;
-	typedef ft::reverse_iterator<iterator> reverse_iterator;
+	typedef ft::reverse_iterator<iterator>       reverse_iterator;
 	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 	*/
 
@@ -45,7 +45,7 @@ class vector
 	void assign(InputIt first, InputIt last);
 	// get_allocator
 	allocator_type get_allocator() const {};
-	/* --------------------------- Elements access -------------------------- */
+	// --------------------------- Elements access -------------------------- //
 	// at
 	reference       at(size_type pos);
 	const_reference at(size_type pos) const;
@@ -61,6 +61,18 @@ class vector
 	// data
 	T*       data(){};
 	const T* data() const {};
+	/*
+	// ------------------------------ Iterators ----------------------------- //
+	iterator               begin(){};
+	const_iterator         begin() const {};
+	iterator               end(){};
+	const_iterator         end() const {};
+	reverse_iterator       rbegin(){};
+	const_reverse_iterator rbegin() const {};
+	reverse_iterator       rend(){};
+	const_reverse_iterator rend() const {};
+	*/
+	// ------------------------------ Capacity ------------------------------ //
 
 	size_t size() { return 0; };
 	void   push_back(T t) { (void)t; };
