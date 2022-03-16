@@ -73,9 +73,13 @@ class vector
 	const_reverse_iterator rend() const {};
 	*/
 	// ------------------------------ Capacity ------------------------------ //
+	bool      empty() const {};
+	size_type size() const {};
+	size_type max_size() const {};
+	void      reserve(size_type new_cap){};
+	size_type capacity() const {};
 
-	size_t size() { return 0; };
-	void   push_back(T t) { (void)t; };
+	void push_back(T t) { (void)t; };
 };
 
 /* -------------------------------------------------------------------------- */

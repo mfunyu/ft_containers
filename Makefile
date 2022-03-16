@@ -6,14 +6,14 @@ CXXFLAGS:= -std=c++98 -pedantic-errors -I$(INCLUDES) -MMD -MP
 
 SRCS_DIR:= test_srcs/
 SRCS	:= main.cpp \
-Log.cpp \
-UnitTester.cpp \
-VectorTest.cpp \
-VectorTest_Basic.cpp \
-VectorTest_ElementAccess.cpp
-# VectorTest_Capacity.cpp
-# VectorTest_Iterators.cpp
-# VectorTest_NonMemberFunctions.cpp
+		Log.cpp \
+		UnitTester.cpp \
+		VectorTest.cpp \
+		VectorTest_Basic.cpp \
+		VectorTest_ElementAccess.cpp \
+		VectorTest_Capacity.cpp
+		# VectorTest_Iterators.cpp
+		# VectorTest_NonMemberFunctions.cpp
 
 OBJS_DIR:= objs/
 OBJS	:= $(addprefix $(OBJS_DIR), $(SRCS:.cpp=.o))
