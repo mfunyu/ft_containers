@@ -95,8 +95,8 @@ class vector
 	void resize(size_type count, T value = T());
 	void swap(vector& other);
 	*/
-
-	void push_back(T t) { (void)t; };
+	void push_back(const T& value){};
+	void pop_back(){};
 };
 
 /* -------------------------------------------------------------------------- */
@@ -169,6 +169,41 @@ void vector<T, Allocator>::insert(
     iterator pos, InputIt first, InputIt last) template <class InputIt>
 {}
 */
+
+/* -------------------------------------------------------------------------- */
+/*                            Non-member functions                            */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Alloc>
+bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+{}
+template <class T, class Alloc>
+bool operator!=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+{}
+
+template <class T, class Alloc>
+bool operator<(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+{}
+
+template <class T, class Alloc>
+bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+{}
+
+template <class T, class Alloc>
+bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+{}
+
+template <class T, class Alloc>
+bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+{}
+
+/* -------------------------------------------------------------------------- */
+/*                                  std::swap                                 */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Alloc>
+void swap(std::vector<T, Alloc>& lhs, std::vector<T, Alloc>& rhs)
+{}
 
 } // namespace ft
 
