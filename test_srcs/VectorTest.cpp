@@ -22,26 +22,32 @@ t_unit_tests func_test_table[] = {
 	{              "vector_front",               vector_front, FAIL, VECTOR},
 	{               "vector_back",                vector_back, FAIL, VECTOR},
 	{               "vector_data",                vector_data, FAIL, VECTOR},
- // ------------------------------ Iterators ----------------------------- //
-	{              "vector_begin",               vector_begin, FAIL, VECTOR},
-	{                "vector_end",                 vector_end, FAIL, VECTOR},
-	{             "vector_rbegin",              vector_rbegin, FAIL, VECTOR},
-	{               "vector_rend",                vector_rend, FAIL, VECTOR},
- // ------------------------------ Capacity ----------------------------- //
+ /*
+  // ------------------------------ Iterators -----------------------------
+  //   {              "vector_begin",               vector_begin, FAIL,
+  VECTOR},   {                "vector_end",                 vector_end, FAIL,
+  VECTOR},   {             "vector_rbegin",              vector_rbegin, FAIL,
+  VECTOR},   {               "vector_rend",                vector_rend, FAIL,
+  VECTOR},
+  */
+  // ------------------------------ Capacity ----------------------------- //
 	{              "vector_empty",               vector_empty, FAIL, VECTOR},
 	{               "vector_size",                vector_size, FAIL, VECTOR},
 	{           "vector_max_size",            vector_max_size, FAIL, VECTOR},
 	{            "vector_reserve",             vector_reserve, FAIL, VECTOR},
 	{           "vector_capacity",            vector_capacity, FAIL, VECTOR},
- // ------------------------------ Modifiers ----------------------------- //
-	{              "vector_clear",               vector_clear, FAIL, VECTOR},
-	{             "vector_insert",              vector_insert, FAIL, VECTOR},
-	{              "vector_erase",               vector_erase, FAIL, VECTOR},
-	{          "vector_push_back",           vector_push_back, FAIL, VECTOR},
-	{           "vector_pop_back",            vector_pop_back, FAIL, VECTOR},
-	{             "vector_resize",              vector_resize, FAIL, VECTOR},
-	{               "vector_swap",                vector_swap, FAIL, VECTOR},
- // ------------------------ Non-member functions ------------------------ //
+ /*
+  // ------------------------------ Modifiers -----------------------------
+  //   {              "vector_clear",               vector_clear, FAIL,
+  VECTOR},   {             "vector_insert",              vector_insert, FAIL,
+  VECTOR},   {              "vector_erase",               vector_erase, FAIL,
+  VECTOR},   {          "vector_push_back",           vector_push_back, FAIL,
+  VECTOR},   {           "vector_pop_back",            vector_pop_back, FAIL,
+  VECTOR},   {             "vector_resize",              vector_resize, FAIL,
+  VECTOR},   {               "vector_swap",                vector_swap, FAIL,
+  VECTOR},
+  */
+  // ------------------------ Non-member functions ------------------------ //
 	{         "vector_operator_e",          vector_operator_e, FAIL, VECTOR},
 	{        "vector_operator_ne",         vector_operator_ne, FAIL, VECTOR},
 	{         "vector_operator_l",          vector_operator_l, FAIL, VECTOR},

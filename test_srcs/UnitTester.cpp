@@ -52,6 +52,33 @@ void set_explanation(int* fds)
 	std::clearerr(stdin);
 }
 
+void UnitTester::_set_test_result(t_unit_subtests& current_test, int wstatus)
+{
+	if (WIFEXITED(wstatus)) {
+		current_test.result = static_cast<t_test_status>(WEXITSTATUS(wstatus));
+		return;
+	}
+	if (WIFSIGNALED(wstatus)) {
+		switch (WTERMSIG(wstatus)) {
+		case SIGILL:
+			current_test.result = TEST_ILL;
+			return;
+		case SIGABRT:
+			current_test.result = TEST_ABORT;
+			return;
+		case SIGBUS:
+			current_test.result = TEST_BUS;
+			return;
+		case SIGSEGV:
+			current_test.result = TEST_SEGV;
+			return;
+		default:
+			current_test.result = TEST_UNEXPECTED;
+			std::cerr << "signal: " << WTERMSIG(wstatus) << std::endl;
+		}
+	}
+}
+
 void UnitTester::_sandbox(t_unit_subtests& current_test)
 {
 	int   fds[2];
@@ -70,13 +97,7 @@ void UnitTester::_sandbox(t_unit_subtests& current_test)
 		exit(EXIT_SUCCESS);
 	} else {
 		wait(&wstatus);
-		if (WIFEXITED(wstatus)) {
-			current_test.result
-			    = static_cast<t_test_status>(WEXITSTATUS(wstatus));
-		} else if (WIFSIGNALED(wstatus)) {
-			current_test.result = TEST_UNEXPECTED;
-			std::cerr << "signal: " << WTERMSIG(wstatus) << std::endl;
-		}
+		_set_test_result(current_test, wstatus);
 		set_explanation(fds);
 	}
 }
@@ -134,6 +155,18 @@ void UnitTester::_display_result(t_unit_subtests& current_test)
 		break;
 	case TEST_FAILED:
 		std::cout << COLOR_FAILED "[KO] " COLOR_CLEAR;
+		break;
+	case TEST_ILL:
+		std::cout << COLOR_FAILED "[ILLIGAL] " COLOR_CLEAR;
+		break;
+	case TEST_ABORT:
+		std::cout << COLOR_FAILED "[ABORT] " COLOR_CLEAR;
+		break;
+	case TEST_BUS:
+		std::cout << COLOR_FAILED "[BUS] " COLOR_CLEAR;
+		break;
+	case TEST_SEGV:
+		std::cout << COLOR_FAILED "[SEGV] " COLOR_CLEAR;
 		break;
 	case TEST_UNEXPECTED:
 		std::cout << COLOR_FAILED "[???] " COLOR_CLEAR;

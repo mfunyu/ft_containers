@@ -6,8 +6,6 @@
 #include <list>
 #include <vector>
 
-namespace ft = std;
-
 namespace VectorTest {
 
 // -------------------------------------------------------------------------- //
@@ -29,12 +27,13 @@ void _vector_at_compare()
 {
 	set_explanation_("ft behaviour differs from std");
 
-	int              size     = 20;
-	ft::vector<int>  ft_data  = _set_vector(size, true);
-	std::vector<int> std_data = _set_vector(size, true);
+	int              size = 20;
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std, size);
 
 	for (int i = 0; i < size; ++i)
-		UnitTester::assert_(ft_data.at(i) == std_data.at(i));
+		UnitTester::assert_(ft.at(i) == std.at(i));
 }
 
 void _vector_at_out_of_range()
