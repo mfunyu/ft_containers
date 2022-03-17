@@ -1,6 +1,7 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
+#include "iterators.hpp"
 #include <iostream>
 #include <memory>
 
@@ -20,9 +21,9 @@ class vector
 	typedef typename Allocator::pointer       pointer;
 	typedef typename Allocator::const_pointer const_pointer;
 
+	typedef random_access_iterator<T> iterator;
+	typedef random_access_iterator<T> const_iterator;
 	/*
-	typedef iterator;
-	typedef const_iterator;
 	typedef ft::reverse_iterator<iterator>       reverse_iterator;
 	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 	*/
