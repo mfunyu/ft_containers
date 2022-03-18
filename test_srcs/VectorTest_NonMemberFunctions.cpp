@@ -195,15 +195,6 @@ void _vector_operator_le_true()
 	UnitTester::assert_((ft_0 <= ft_1) == true);
 }
 
-void _vector_operator_le_same()
-{
-	set_explanation_("equal std::string values not evaluated correctly");
-	int                     size = 10;
-	ft::vector<std::string> ft   = _set_vector_string(size, true);
-
-	UnitTester::assert_((ft <= ft) == true);
-}
-
 void _vector_operator_le_false()
 {
 	set_explanation_("char vector size difference not evaluated correctly");
@@ -213,6 +204,15 @@ void _vector_operator_le_false()
 	ft::vector<char> ft_2   = _set_vector_char(size_2, true);
 
 	UnitTester::assert_((ft_2 <= ft_1) == false);
+}
+
+void _vector_operator_le_same()
+{
+	set_explanation_("equal std::string values not evaluated correctly");
+	int                     size = 10;
+	ft::vector<std::string> ft   = _set_vector_string(size, true);
+
+	UnitTester::assert_((ft <= ft) == true);
 }
 
 void _vector_operator_le_compare()
@@ -234,8 +234,8 @@ void _vector_operator_le_compare()
 void vector_operator_le()
 {
 	load_subtest_(_vector_operator_le_true);
-	load_subtest_(_vector_operator_le_same);
 	load_subtest_(_vector_operator_le_false);
+	load_subtest_(_vector_operator_le_same);
 	load_subtest_(_vector_operator_le_compare);
 }
 
