@@ -4,7 +4,7 @@
 #include "UnitTester.hpp"
 #include <iostream>
 
-#ifdef TEST
+#if TEST
 #include <vector>
 namespace ft = std;
 #else
