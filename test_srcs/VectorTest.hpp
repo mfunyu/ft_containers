@@ -2,14 +2,17 @@
 #define VectorTest_HPP
 
 #include "UnitTester.hpp"
-#include "vector.hpp"
 #include <iostream>
-#include <list>
-#define TABLE_SIZE 0xF00
 
-typedef struct s_unit_tests t_unit_tests;
-
+#ifdef TEST
+#include <vector>
 namespace ft = std;
+#else
+#include "vector.hpp"
+#endif
+
+#define TABLE_SIZE 0xF00
+typedef struct s_unit_tests t_unit_tests;
 
 namespace VectorTest {
 
