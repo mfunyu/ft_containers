@@ -27,11 +27,15 @@ class random_access_iterator
 	{}
 	// (destructor)
 	~random_access_iterator() {}
-
 	random_access_iterator& operator=(random_access_iterator const& other)
 	{
 		__i = other.__i;
+		return *this;
 	}
+
+	reference operator*() { return *__i; }
+	pointer   operator->() { return __i; }
+
 	random_access_iterator& operator++()
 	{
 		++__i;
@@ -54,19 +58,27 @@ class random_access_iterator
 		--__i;
 		return tmp;
 	}
-	random_access_iterator& operator+() {}
-	friend bool             operator==(const random_access_iterator<T>& lhs,
-        const random_access_iterator<T>&                    rhs);
-	friend bool             operator<(const random_access_iterator<T>& lhs,
-        const random_access_iterator<T>&                   rhs);
+	friend random_access_iterator&
+	operator+(int i, const random_access_iterator& rhs)
+	{
+		rhs.__i += i;
+		return rhs;
+	}
+	random_access_iterator& operator+(difference_type rhs)
+	{
+		__i += rhs;
+		return *this;
+	}
+
+	friend bool operator==(
+	    const random_access_iterator& lhs, const random_access_iterator& rhs)
+	{
+		return (lhs.__i == rhs.__i);
+	}
+	friend bool operator<(
+	    const random_access_iterator& lhs, const random_access_iterator& rhs);
 };
 
-template <class T>
-bool operator==(
-    const random_access_iterator<T>& lhs, const random_access_iterator<T>& rhs)
-{
-	return (lhs.__i == rhs.__i);
-}
 template <class T>
 bool operator!=(
     const random_access_iterator<T>& lhs, const random_access_iterator<T>& rhs)

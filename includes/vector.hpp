@@ -62,12 +62,12 @@ class vector
 	// data
 	T*       data(){};
 	const T* data() const {};
-	/*
 	// ------------------------------ Iterators ----------------------------- //
-	iterator               begin(){};
-	const_iterator         begin() const {};
-	iterator               end(){};
-	const_iterator         end() const {};
+	iterator       begin(){};
+	const_iterator begin() const {};
+	iterator       end(){};
+	const_iterator end() const {};
+	/*
 	reverse_iterator       rbegin(){};
 	const_reverse_iterator rbegin() const {};
 	reverse_iterator       rend(){};
@@ -80,24 +80,20 @@ class vector
 	void      reserve(size_type new_cap){};
 	size_type capacity() const {};
 	/* ------------------------------ Modifiers ----------------------------- */
-	/*
 	void clear(){};
 	// insert
-	iterator insert(iterator pos, const T& value){};
-	void     insert(iterator pos, size_type count, const T& value){};
+	iterator insert(iterator pos, const T& value);
+	void     insert(iterator pos, size_type count, const T& value);
 	template <class InputIt>
-	void insert(iterator pos, InputIt first, InputIt last){};
+	void insert(iterator pos, InputIt first, InputIt last);
 	// erase
 	iterator erase(iterator pos){};
 	iterator erase(iterator first, iterator last){};
 	// push_back
 	void push_back(const T& value){};
 	void pop_back(){};
-	void resize(size_type count, T value = T());
-	void swap(vector& other);
-	*/
-	void push_back(const T& value){};
-	void pop_back(){};
+	void resize(size_type count, T value = T()){};
+	void swap(vector& other){};
 };
 
 /* -------------------------------------------------------------------------- */
@@ -155,21 +151,21 @@ vector<T, Allocator>::at(size_type pos) const
 /* -------------------------------------------------------------------------- */
 /*                                   insert                                   */
 /* -------------------------------------------------------------------------- */
-/*
-template <T, Allocator>
+// /*
+template <class T, class Allocator>
 typename vector<T, Allocator>::iterator
 vector<T, Allocator>::insert(iterator pos, const T& value)
 {}
 
-template <T, Allocator>
+template <class T, class Allocator>
 void vector<T, Allocator>::insert(iterator pos, size_type count, const T& value)
 {}
 
-template <T, Allocator>
-void vector<T, Allocator>::insert(
-    iterator pos, InputIt first, InputIt last) template <class InputIt>
+template <class T, class Allocator>
+template <class InputIt>
+void vector<T, Allocator>::insert(iterator pos, InputIt first, InputIt last)
 {}
-*/
+// */
 
 /* -------------------------------------------------------------------------- */
 /*                            Non-member functions                            */

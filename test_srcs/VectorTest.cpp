@@ -36,17 +36,16 @@ t_unit_tests func_test_table[] = {
 	{           "vector_max_size",            vector_max_size, FAIL, VECTOR},
 	{            "vector_reserve",             vector_reserve, FAIL, VECTOR},
 	{           "vector_capacity",            vector_capacity, FAIL, VECTOR},
- /*
-  // ------------------------------ Modifiers -----------------------------
-  //   {              "vector_clear",               vector_clear, FAIL,
-  VECTOR},   {             "vector_insert",              vector_insert, FAIL,
-  VECTOR},   {              "vector_erase",               vector_erase, FAIL,
-  VECTOR},   {          "vector_push_back",           vector_push_back, FAIL,
-  VECTOR},   {           "vector_pop_back",            vector_pop_back, FAIL,
-  VECTOR},   {             "vector_resize",              vector_resize, FAIL,
-  VECTOR},   {               "vector_swap",                vector_swap, FAIL,
-  VECTOR},
-  */
+ //  /*
+  // ------------------------------ Modifiers ----------------------------- //
+	{              "vector_clear",               vector_clear, FAIL, VECTOR},
+	{             "vector_insert",              vector_insert, FAIL, VECTOR},
+	{              "vector_erase",               vector_erase, FAIL, VECTOR},
+	{          "vector_push_back",           vector_push_back, FAIL, VECTOR},
+	{           "vector_pop_back",            vector_pop_back, FAIL, VECTOR},
+	{             "vector_resize",              vector_resize, FAIL, VECTOR},
+	{               "vector_swap",                vector_swap, FAIL, VECTOR},
+ //   */
   // ------------------------ Non-member functions ------------------------ //
 	{         "vector_operator_e",          vector_operator_e, FAIL, VECTOR},
 	{        "vector_operator_ne",         vector_operator_ne, FAIL, VECTOR},
