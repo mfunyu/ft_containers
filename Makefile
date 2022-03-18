@@ -11,10 +11,10 @@ SRCS	:= main.cpp \
 		VectorTest.cpp \
 		VectorTest_Basic.cpp \
 		VectorTest_ElementAccess.cpp \
+		VectorTest_Iterators.cpp \
 		VectorTest_Capacity.cpp \
-		VectorTest_NonMemberFunctions.cpp
-		# VectorTest_Iterators.cpp
-		# VectorTest_Modifiers.cpp
+		VectorTest_NonMemberFunctions.cpp \
+		VectorTest_Modifiers.cpp
 
 OBJS_DIR:= objs/
 OBJS	:= $(addprefix $(OBJS_DIR), $(SRCS:.cpp=.o))
