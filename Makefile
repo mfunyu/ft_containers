@@ -4,6 +4,10 @@ INCLUDES:= includes/
 # CXXFLAGS:= -Wall -Wextra -Werror -std=c++98 -pedantic-errors -I$(INCLUDES) -MMD -MP
 CXXFLAGS:= -std=c++98 -pedantic-errors -I$(INCLUDES) -MMD -MP
 
+ifdef TEST
+CXXFLAGS += -DTEST
+endif
+
 SRCS_DIR:= test_srcs/
 SRCS	:= main.cpp \
 		Log.cpp \
@@ -21,7 +25,7 @@ OBJS	:= $(addprefix $(OBJS_DIR), $(SRCS:.cpp=.o))
 VPATH	:= $(SRCS_DIR)
 DEPS	:= $(OBJS:.o=.d)
 
-.PHONY	: all clean fclean re
+.PHONY	: all clean fclean re test
 
 all	: $(NAME)
 
@@ -46,5 +50,5 @@ fclean	: clean
 
 re	: fclean all
 
-
 test	:
+	make re TEST=1
