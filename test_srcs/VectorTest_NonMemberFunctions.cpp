@@ -53,12 +53,22 @@ void _vector_operator_e_false2()
 	UnitTester::assert_((ft_1 == ft_2) == false);
 }
 
+void _vector_operator_e_same()
+{
+	set_explanation_("vector not same to itself!?");
+	int                     size_1 = 10;
+	ft::vector<std::string> ft_1   = _set_vector_string(size_1);
+
+	UnitTester::assert_((ft_1 == ft_1) == true);
+}
+
 void vector_operator_e()
 {
 	load_subtest_(_vector_operator_e_true);
 	load_subtest_(_vector_operator_e_true_empty);
 	load_subtest_(_vector_operator_e_false);
 	load_subtest_(_vector_operator_e_false2);
+	load_subtest_(_vector_operator_e_same);
 }
 
 // -------------------------------------------------------------------------- //
@@ -87,7 +97,7 @@ void _vector_operator_ne_true2()
 	UnitTester::assert_((ft_1 != ft_2) == true);
 }
 
-void _vector_operator_ne_false()
+void _vector_operator_ne_same()
 {
 	set_explanation_("vector not same to itself!?");
 	int                     size_1 = 10;
@@ -96,11 +106,26 @@ void _vector_operator_ne_false()
 	UnitTester::assert_((ft_1 != ft_1) == false);
 }
 
+void _vector_operator_ne_compare()
+{
+	set_explanation_("int result differs from std");
+	ft::vector<int>  ft_1;
+	std::vector<int> std_1;
+	_set_compare_vectors(ft_1, std_1);
+	ft::vector<int>  ft_2;
+	std::vector<int> std_2;
+	_set_compare_vectors(ft_2, std_2);
+
+	bool val1 = ft_1 != ft_2;
+	UnitTester::assert_(val1 == (std_1 != std_2));
+}
+
 void vector_operator_ne()
 {
 	load_subtest_(_vector_operator_ne_true);
 	load_subtest_(_vector_operator_ne_true2);
-	load_subtest_(_vector_operator_ne_false);
+	load_subtest_(_vector_operator_ne_same);
+	load_subtest_(_vector_operator_ne_compare);
 }
 
 // -------------------------------------------------------------------------- //
@@ -120,7 +145,7 @@ void _vector_operator_l_true()
 	UnitTester::assert_((ft_0 < ft_1) == true);
 }
 
-void _vector_operator_l_false()
+void _vector_operator_l_same()
 {
 	set_explanation_("equal int values not evaluated correctly");
 	int             size = 10;
@@ -129,10 +154,27 @@ void _vector_operator_l_false()
 	UnitTester::assert_((ft < ft) == false);
 }
 
+void _vector_operator_l_compare()
+{
+	set_explanation_("int result differs from std");
+	ft::vector<int>  ft_1;
+	std::vector<int> std_1;
+	_set_compare_vectors(ft_1, std_1);
+	ft::vector<int>  ft_2;
+	std::vector<int> std_2;
+	_set_compare_vectors(ft_2, std_2);
+
+	bool val1 = ft_1 < ft_2;
+	bool val2 = ft_2 < ft_1;
+	UnitTester::assert_(val1 == (std_1 < std_2));
+	UnitTester::assert_(val2 == (std_2 < std_1));
+}
+
 void vector_operator_l()
 {
 	load_subtest_(_vector_operator_l_true);
-	load_subtest_(_vector_operator_l_false);
+	load_subtest_(_vector_operator_l_same);
+	load_subtest_(_vector_operator_l_compare);
 }
 
 // -------------------------------------------------------------------------- //
@@ -153,7 +195,7 @@ void _vector_operator_le_true()
 	UnitTester::assert_((ft_0 <= ft_1) == true);
 }
 
-void _vector_operator_le_true2()
+void _vector_operator_le_same()
 {
 	set_explanation_("equal std::string values not evaluated correctly");
 	int                     size = 10;
@@ -173,11 +215,28 @@ void _vector_operator_le_false()
 	UnitTester::assert_((ft_2 <= ft_1) == false);
 }
 
+void _vector_operator_le_compare()
+{
+	set_explanation_("int result differs from std");
+	ft::vector<int>  ft_1;
+	std::vector<int> std_1;
+	_set_compare_vectors(ft_1, std_1);
+	ft::vector<int>  ft_2;
+	std::vector<int> std_2;
+	_set_compare_vectors(ft_2, std_2);
+
+	bool val1 = ft_1 <= ft_2;
+	bool val2 = ft_2 <= ft_1;
+	UnitTester::assert_(val1 == (std_1 <= std_2));
+	UnitTester::assert_(val2 == (std_2 <= std_1));
+}
+
 void vector_operator_le()
 {
 	load_subtest_(_vector_operator_le_true);
-	load_subtest_(_vector_operator_le_true2);
+	load_subtest_(_vector_operator_le_same);
 	load_subtest_(_vector_operator_le_false);
+	load_subtest_(_vector_operator_le_compare);
 }
 
 // -------------------------------------------------------------------------- //
@@ -195,7 +254,7 @@ void _vector_operator_g_true()
 	UnitTester::assert_((ft_1 > ft_2) == true);
 }
 
-void _vector_operator_g_false()
+void _vector_operator_g_same()
 {
 	set_explanation_("equal std::string values not evaluated correctly");
 	int                     size = 10;
@@ -204,17 +263,34 @@ void _vector_operator_g_false()
 	UnitTester::assert_((ft > ft) == false);
 }
 
+void _vector_operator_g_compare()
+{
+	set_explanation_("int result differs from std");
+	ft::vector<int>  ft_1;
+	std::vector<int> std_1;
+	_set_compare_vectors(ft_1, std_1);
+	ft::vector<int>  ft_2;
+	std::vector<int> std_2;
+	_set_compare_vectors(ft_2, std_2);
+
+	bool val1 = ft_1 > ft_2;
+	bool val2 = ft_2 > ft_1;
+	UnitTester::assert_(val1 == (std_1 > std_2));
+	UnitTester::assert_(val2 == (std_2 > std_1));
+}
+
 void vector_operator_g()
 {
 	load_subtest_(_vector_operator_g_true);
-	load_subtest_(_vector_operator_g_false);
+	load_subtest_(_vector_operator_g_same);
+	load_subtest_(_vector_operator_g_compare);
 }
 
 // -------------------------------------------------------------------------- //
 //                                 operator>=                                 //
 // -------------------------------------------------------------------------- //
 
-void _vector_operator_ge_true()
+void _vector_operator_ge_same()
 {
 	set_explanation_("equal int values not evaluated correctly");
 	int             size = 42;
@@ -225,7 +301,7 @@ void _vector_operator_ge_true()
 
 void _vector_operator_ge_compare()
 {
-	set_explanation_("result differs from std");
+	set_explanation_("int result differs from std");
 	ft::vector<int>  ft_1;
 	std::vector<int> std_1;
 	_set_compare_vectors(ft_1, std_1);
@@ -241,7 +317,7 @@ void _vector_operator_ge_compare()
 
 void vector_operator_ge()
 {
-	load_subtest_(_vector_operator_ge_true);
+	load_subtest_(_vector_operator_ge_same);
 	load_subtest_(_vector_operator_ge_compare);
 }
 
