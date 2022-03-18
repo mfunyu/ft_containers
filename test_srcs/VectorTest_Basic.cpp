@@ -193,19 +193,49 @@ void vector_assign()
 //                                get_allocator                               //
 // -------------------------------------------------------------------------- //
 
+template <class T>
+class AllocatorTest : public std::allocator<T>
+{
+  private:
+	size_t _size;
+
+  public:
+	AllocatorTest() : _size(sizeof(T)){};
+	~AllocatorTest(){};
+	size_t get_type_size() const { return _size; };
+};
+
+void _vector_get_allocator_default()
+{
+	set_explanation_("allocator is not returned");
+	ft::vector<int> ft;
+
+	std::allocator<std::string> alloc;
+	UnitTester::assert_(ft.get_allocator() == alloc); // always return true
+}
+
 void _vector_get_allocator_basic()
 {
-	set_explanation_("allocator differs from std. Really?");
-	ft::vector<int>  ft;
-	std::vector<int> std;
-	_set_compare_vectors(ft, std);
+	set_explanation_("allocator is not returned");
+	ft::vector<int, AllocatorTest<int> > ft;
 
-	UnitTester::assert_(ft.get_allocator() == std.get_allocator());
+	std::allocator<std::string> alloc;
+	UnitTester::assert_(ft.get_allocator() == alloc); // always return true
+}
+
+void _vector_get_allocator_type()
+{
+	set_explanation_("allocator is not returned");
+	ft::vector<int, AllocatorTest<int> > ft;
+
+	UnitTester::assert_(ft.get_allocator().get_type_size() == sizeof(int));
 }
 
 void vector_get_allocator()
 {
+	load_subtest_(_vector_get_allocator_default);
 	load_subtest_(_vector_get_allocator_basic);
+	load_subtest_(_vector_get_allocator_type);
 }
 
 } // namespace VectorTest
