@@ -62,6 +62,20 @@ void _vector_operator_e_same()
 	UnitTester::assert_((ft_1 == ft_1) == true);
 }
 
+void _vector_operator_e_compare()
+{
+	set_explanation_("int result differs from std");
+	ft::vector<int>  ft_1;
+	std::vector<int> std_1;
+	_set_compare_vectors(ft_1, std_1);
+	ft::vector<int>  ft_2;
+	std::vector<int> std_2;
+	_set_compare_vectors(ft_2, std_2);
+
+	bool val1 = ft_1 == ft_2;
+	UnitTester::assert_(val1 == (std_1 == std_2));
+}
+
 void vector_operator_e()
 {
 	load_subtest_(_vector_operator_e_true);
@@ -69,6 +83,7 @@ void vector_operator_e()
 	load_subtest_(_vector_operator_e_false);
 	load_subtest_(_vector_operator_e_false2);
 	load_subtest_(_vector_operator_e_same);
+	load_subtest_(_vector_operator_e_compare);
 }
 
 // -------------------------------------------------------------------------- //
