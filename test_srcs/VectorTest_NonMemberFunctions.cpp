@@ -225,7 +225,7 @@ void _vector_operator_ge_true()
 
 void _vector_operator_ge_compare()
 {
-	set_explanation_("char vector size difference not evaluated correctly");
+	set_explanation_("result differs from std");
 	ft::vector<int>  ft_1;
 	std::vector<int> std_1;
 	_set_compare_vectors(ft_1, std_1);
@@ -233,7 +233,10 @@ void _vector_operator_ge_compare()
 	std::vector<int> std_2;
 	_set_compare_vectors(ft_2, std_2);
 
-	UnitTester::assert_((ft_1 >= ft_2) == (std_1 >= std_2));
+	bool val1 = ft_1 >= ft_2;
+	bool val2 = ft_2 >= ft_1;
+	UnitTester::assert_(val1 == (std_1 >= std_2));
+	UnitTester::assert_(val2 == (std_2 >= std_1));
 }
 
 void vector_operator_ge()
