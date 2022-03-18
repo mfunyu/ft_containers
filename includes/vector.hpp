@@ -21,12 +21,10 @@ class vector
 	typedef typename Allocator::pointer       pointer;
 	typedef typename Allocator::const_pointer const_pointer;
 
-	typedef random_access_iterator<T> iterator;
-	typedef random_access_iterator<T> const_iterator;
-	/*
+	typedef random_access_iterator<T>            iterator;
+	typedef random_access_iterator<T>            const_iterator;
 	typedef ft::reverse_iterator<iterator>       reverse_iterator;
 	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
-	*/
 
 	// (constructor)
 	vector(){};
@@ -63,16 +61,14 @@ class vector
 	T*       data(){};
 	const T* data() const {};
 	// ------------------------------ Iterators ----------------------------- //
-	iterator       begin(){};
-	const_iterator begin() const {};
-	iterator       end(){};
-	const_iterator end() const {};
-	/*
+	iterator               begin(){};
+	const_iterator         begin() const {};
+	iterator               end(){};
+	const_iterator         end() const {};
 	reverse_iterator       rbegin(){};
 	const_reverse_iterator rbegin() const {};
 	reverse_iterator       rend(){};
 	const_reverse_iterator rend() const {};
-	*/
 	// ------------------------------ Capacity ------------------------------ //
 	bool      empty() const {};
 	size_type size() const {};
