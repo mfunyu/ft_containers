@@ -25,13 +25,15 @@ void _vector_clear_size_check()
 
 void _vector_clear_capacity_check()
 {
-	set_explanation_("capacity modified to 0");
+	set_explanation_("capacity modified after clear");
 	int             size = 10;
 	ft::vector<int> ft   = _set_vector(size);
 
-	UnitTester::assert_(ft.capacity() != 0);
+	size_t capacity = ft.capacity();
+	UnitTester::assert_(capacity != 0);
 	ft.clear();
 	UnitTester::assert_(ft.capacity() != 0);
+	UnitTester::assert_(ft.capacity() == capacity);
 }
 
 void _vector_clear_empty_check()
