@@ -10,7 +10,6 @@ namespace ft {
 template <class T, class Allocator = std::allocator<T> >
 class vector
 {
-  private:
   public:
 	typedef T                                 value_type;
 	typedef Allocator                         allocator_type;
@@ -32,7 +31,6 @@ class vector
 	allocator_type _alloc;
 
   public:
-	// (constructor)
 	vector(){};
 	explicit vector(const Allocator& alloc);
 	explicit vector(size_type count, const T& value = T(),
@@ -49,7 +47,7 @@ class vector
 	template <class InputIt>
 	void assign(InputIt first, InputIt last);
 	// get_allocator
-	allocator_type get_allocator() const {};
+	allocator_type get_allocator() const { return _alloc; };
 	// --------------------------- Elements access -------------------------- //
 	// at
 	reference       at(size_type pos);
@@ -102,20 +100,22 @@ class vector
 /*                                 constructor                                */
 /* -------------------------------------------------------------------------- */
 template <class T, class Allocator>
-vector<T, Allocator>::vector(const Allocator& alloc)
+vector<T, Allocator>::vector(const Allocator& alloc) : _alloc(alloc)
 {}
 
 template <class T, class Allocator>
 vector<T, Allocator>::vector(
-    size_type count, const T& value, const Allocator& alloc)
+    size_type count, const T& value, const Allocator& alloc) :
+    _alloc(alloc)
 {}
 template <class T, class Allocator>
 template <class InputIt>
 vector<T, Allocator>::vector(
-    InputIt first, InputIt last, const Allocator& alloc)
+    InputIt first, InputIt last, const Allocator& alloc) :
+    _alloc(alloc)
 {}
 template <class T, class Allocator>
-vector<T, Allocator>::vector(const vector& other)
+vector<T, Allocator>::vector(const vector& other) : _alloc(other._alloc)
 {}
 
 /* -------------------------------------------------------------------------- */
