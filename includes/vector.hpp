@@ -26,6 +26,12 @@ class vector
 	typedef ft::reverse_iterator<iterator>       reverse_iterator;
 	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
+  private:
+	pointer        _begin;
+	pointer        _end;
+	allocator_type _alloc;
+
+  public:
 	// (constructor)
 	vector(){};
 	explicit vector(const Allocator& alloc);
