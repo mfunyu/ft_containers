@@ -78,7 +78,7 @@ class vector
 	bool      empty() const {};
 	size_type size() const {};
 	size_type max_size() const {};
-	void      reserve(size_type new_cap){};
+	void      reserve(size_type new_cap);
 	size_type capacity() const {};
 	/* ------------------------------ Modifiers ----------------------------- */
 	void clear(){};
@@ -156,6 +156,24 @@ template <class T, class Allocator>
 typename vector<T, Allocator>::const_reference
 vector<T, Allocator>::at(size_type pos) const
 {}
+
+/* -------------------------------------------------------------------------- */
+/*                                   reserve                                  */
+/* -------------------------------------------------------------------------- */
+template <class T, class Allocator>
+void vector<T, Allocator>::reserve(size_type new_cap)
+{
+	if (capacity() > new_cap)
+		return;
+	size_type _size     = size();
+	pointer   new_begin = _alloc.allocate(new_cap);
+	std::uninitialized_copy(_begin, _end, new_begin);
+	_alloc.destroy(_begin);
+
+	_begin   = new_begin;
+	_end     = _begin + _size;
+	_end_cap = _begin + new_cap;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                   insert                                   */
