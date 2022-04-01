@@ -28,10 +28,11 @@ class vector
   private:
 	pointer        _begin;
 	pointer        _end;
+	pointer        _end_cap;
 	allocator_type _alloc;
 
   public:
-	vector(){};
+	vector() : _begin(NULL), _end(NULL), _end_cap(NULL), _alloc(Allocator()){};
 	explicit vector(const Allocator& alloc);
 	explicit vector(size_type count, const T& value = T(),
 	    const Allocator& alloc = Allocator());
@@ -100,19 +101,25 @@ class vector
 /*                                 constructor                                */
 /* -------------------------------------------------------------------------- */
 template <class T, class Allocator>
-vector<T, Allocator>::vector(const Allocator& alloc) : _alloc(alloc)
+vector<T, Allocator>::vector(const Allocator& alloc) :
+    _begin(NULL), _end(NULL), _end_cap(NULL), _alloc(alloc)
 {}
 
 template <class T, class Allocator>
 vector<T, Allocator>::vector(
     size_type count, const T& value, const Allocator& alloc) :
-    _alloc(alloc)
-{}
+    _begin(NULL),
+    _end(NULL), _end_cap(NULL), _alloc(alloc)
+{
+	assign(count, value);
+}
+
 template <class T, class Allocator>
 template <class InputIt>
 vector<T, Allocator>::vector(
     InputIt first, InputIt last, const Allocator& alloc) :
-    _alloc(alloc)
+    _begin(NULL),
+    _end(NULL), _end_cap(NULL), _alloc(alloc)
 {}
 template <class T, class Allocator>
 vector<T, Allocator>::vector(const vector& other) : _alloc(other._alloc)
