@@ -4,6 +4,7 @@
 #include "iterators.hpp"
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 
 namespace ft {
 
@@ -95,6 +96,9 @@ class vector
 	void pop_back(){};
 	void resize(size_type count, T value = T()){};
 	void swap(vector& other){};
+
+  private:
+	void _vallocate(size_type n);
 };
 
 /* -------------------------------------------------------------------------- */
@@ -236,6 +240,20 @@ bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 template <class T, class Alloc>
 void swap(std::vector<T, Alloc>& lhs, std::vector<T, Alloc>& rhs)
 {}
+
+/* -------------------------------------------------------------------------- */
+/*                          private member functions                          */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Alloc>
+void vector<T, Alloc>::_vallocate(size_type n)
+{
+	if (n > max_size())
+		throw std::logic_error("allocation size too large");
+	_begin   = _alloc.allocate(n);
+	_begin   = _end;
+	_end_cap = _begin + n;
+}
 
 } // namespace ft
 
