@@ -138,7 +138,15 @@ vector<T, Allocator>::operator=(const vector<T, Allocator>& other)
 /* -------------------------------------------------------------------------- */
 template <class T, class Allocator>
 void vector<T, Allocator>::assign(size_type count, const T& value)
-{}
+{
+	pointer current = _begin;
+
+	if (size() < count)
+		reserve(count);
+	for (size_type i = 0; i < count; ++i, ++current) {
+		*current = value;
+	}
+}
 
 template <class T, class Allocator>
 template <class InputIt>
