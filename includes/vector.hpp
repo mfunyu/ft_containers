@@ -149,13 +149,15 @@ vector<T, Allocator>::operator=(const vector<T, Allocator>& other)
 template <class T, class Allocator>
 void vector<T, Allocator>::assign(size_type count, const T& value)
 {
-	pointer current = _begin;
+	pointer current;
 
-	if (size() < count)
+	if (capacity() < count)
 		reserve(count);
+	current = _begin;
 	for (size_type i = 0; i < count; ++i, ++current) {
 		*current = value;
 	}
+	_end += count;
 }
 
 template <class T, class Allocator>
