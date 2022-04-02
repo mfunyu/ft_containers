@@ -55,8 +55,8 @@ class vector
 	reference       at(size_type pos);
 	const_reference at(size_type pos) const;
 	// operator[]
-	reference       operator[](size_type pos){};
-	const_reference operator[](size_type pos) const {};
+	reference       operator[](size_type pos) { return _begin[pos]; };
+	const_reference operator[](size_type pos) const { return _begin[pos]; };
 	// front
 	reference       front(){};
 	const_reference front() const {};
