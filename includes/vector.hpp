@@ -78,9 +78,15 @@ class vector
 	// ------------------------------ Capacity ------------------------------ //
 	bool      empty() const {};
 	size_type size() const { return static_cast<size_type>(_end - _begin); };
-	size_type max_size() const {};
+	size_type max_size() const
+	{
+		return std::numeric_limits<difference_type>::max();
+	};
 	void      reserve(size_type new_cap);
-	size_type capacity() const {};
+	size_type capacity() const
+	{
+		return static_cast<size_type>(_end_cap - _begin);
+	};
 	/* ------------------------------ Modifiers ----------------------------- */
 	void clear(){};
 	// insert
