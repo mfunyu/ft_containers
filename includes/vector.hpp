@@ -118,9 +118,9 @@ vector<T, Allocator>::vector(const Allocator& alloc) :
 template <class T, class Allocator>
 vector<T, Allocator>::vector(
     size_type count, const T& value, const Allocator& alloc) :
-    _begin(NULL),
-    _end(NULL), _end_cap(NULL), _alloc(alloc)
+    _alloc(alloc)
 {
+	_vallocate(count);
 	assign(count, value);
 }
 
@@ -128,12 +128,23 @@ template <class T, class Allocator>
 template <class InputIt>
 vector<T, Allocator>::vector(
     InputIt first, InputIt last, const Allocator& alloc) :
-    _begin(NULL),
-    _end(NULL), _end_cap(NULL), _alloc(alloc)
-{}
+    _alloc(alloc)
+{
+	size_type count = static_cast<size_type>(last - first);
+	_vallocate(count);
+	std::uninitialized_copy(first, last, _begin);
+	_end = _begin + count;
+}
+
 template <class T, class Allocator>
 vector<T, Allocator>::vector(const vector& other) : _alloc(other._alloc)
-{}
+{
+	size_type count = other.size();
+
+	_vallocate(count);
+	std::uninitialized_copy(other._begin, other._end, _begin);
+	_end = _begin + count;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                  operator=                                 */
