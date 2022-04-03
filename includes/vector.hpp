@@ -57,11 +57,11 @@ class vector
 	reference       operator[](size_type pos) { return _begin[pos]; };
 	const_reference operator[](size_type pos) const { return _begin[pos]; };
 	// front
-	reference       front(){};
-	const_reference front() const {};
+	reference       front() { return *_begin; };
+	const_reference front() const { return *_begin; };
 	// back
-	reference       back(){};
-	const_reference back() const {};
+	reference       back() { return *(_end - 1); };
+	const_reference back() const { return *(_end - 1); };
 	// data
 	T*       data() { return static_cast<T*>(_begin); };
 	const T* data() const { return static_cast<const T*>(_begin); };
