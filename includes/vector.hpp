@@ -165,13 +165,24 @@ void vector<T, Allocator>::assign(size_type count, const T& value)
 	for (size_type i = 0; i < count; ++i, ++current) {
 		*current = value;
 	}
-	_end += count;
+	_end = _begin + count;
 }
 
 template <class T, class Allocator>
 template <class InputIt>
 void vector<T, Allocator>::assign(InputIt first, InputIt last)
-{}
+{
+	size_type count = static_cast<size_type>(last - first);
+	pointer   current;
+
+	if (capacity() < count)
+		reserve(count);
+	current = _begin;
+	for (InputIt it = first; it != last; ++it, ++current) {
+		*current = *it;
+	}
+	_end = _begin + count;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                     at                                     */
