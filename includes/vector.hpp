@@ -63,8 +63,8 @@ class vector
 	reference       back(){};
 	const_reference back() const {};
 	// data
-	T*       data(){};
-	const T* data() const {};
+	T*       data() { return static_cast<T*>(_begin); };
+	const T* data() const { return static_cast<const T*>(_begin); };
 	// ------------------------------ Iterators ----------------------------- //
 	iterator               begin(){};
 	const_iterator         begin() const {};
