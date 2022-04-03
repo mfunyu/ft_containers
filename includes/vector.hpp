@@ -75,7 +75,7 @@ class vector
 	reverse_iterator       rend(){};
 	const_reverse_iterator rend() const {};
 	// ------------------------------ Capacity ------------------------------ //
-	bool      empty() const {};
+	bool      empty() const { return (size() == 0); };
 	size_type size() const { return static_cast<size_type>(_end - _begin); };
 	size_type max_size() const { return std::numeric_limits<difference_type>::max(); };
 	void      reserve(size_type new_cap);
