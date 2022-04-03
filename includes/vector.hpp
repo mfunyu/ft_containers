@@ -66,10 +66,10 @@ class vector
 	T*       data() { return static_cast<T*>(_begin); };
 	const T* data() const { return static_cast<const T*>(_begin); };
 	// ------------------------------ Iterators ----------------------------- //
-	iterator               begin(){};
-	const_iterator         begin() const {};
-	iterator               end(){};
-	const_iterator         end() const {};
+	iterator               begin() { return iterator(_begin); };
+	const_iterator         begin() const { return const_iterator(_begin); };
+	iterator               end() { return iterator(_end); };
+	const_iterator         end() const { return const_iterator(_end); };
 	reverse_iterator       rbegin(){};
 	const_reverse_iterator rbegin() const {};
 	reverse_iterator       rend(){};
