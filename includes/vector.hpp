@@ -141,7 +141,15 @@ vector<T, Allocator>::vector(const vector& other) : _alloc(other._alloc)
 /* -------------------------------------------------------------------------- */
 template <class T, class Allocator>
 vector<T, Allocator>& vector<T, Allocator>::operator=(const vector<T, Allocator>& other)
-{}
+{
+	if (this != &other) {
+		size_type count = other.size();
+		_vallocate(count);
+		std::uninitialized_copy(other._begin, other._end, _begin);
+		_end = _begin + count;
+	}
+	return *this;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                   assign                                   */
