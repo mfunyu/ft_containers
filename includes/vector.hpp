@@ -91,7 +91,7 @@ class vector
 	iterator erase(iterator pos){};
 	iterator erase(iterator first, iterator last){};
 	// push_back
-	void push_back(const T& value){};
+	void push_back(const T& value);
 	void pop_back(){};
 	void resize(size_type count, T value = T()){};
 	void swap(vector& other){};
@@ -211,6 +211,19 @@ template <class InputIt>
 void vector<T, Allocator>::insert(iterator pos, InputIt first, InputIt last)
 {}
 // */
+
+/* -------------------------------------------------------------------------- */
+/*                                  push_back                                 */
+/* -------------------------------------------------------------------------- */
+template <class T, class Allocator>
+void vector<T, Allocator>::push_back(const T& value)
+{
+	size_type new_size = size() + 1;
+	if (capacity() < new_size)
+		reserve(new_size);
+	_begin[new_size - 1] = value;
+	_end++;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                            Non-member functions                            */
