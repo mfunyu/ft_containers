@@ -189,11 +189,19 @@ void vector<T, Allocator>::assign(InputIt first, InputIt last)
 /* -------------------------------------------------------------------------- */
 template <class T, class Allocator>
 typename vector<T, Allocator>::reference vector<T, Allocator>::at(size_type pos)
-{}
+{
+	if (pos >= size())
+		throw std::out_of_range("index out of range");
+	return _begin[pos];
+}
 
 template <class T, class Allocator>
 typename vector<T, Allocator>::const_reference vector<T, Allocator>::at(size_type pos) const
-{}
+{
+	if (pos >= size())
+		throw std::out_of_range("index out of range");
+	return _begin[pos];
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                   reserve                                  */
