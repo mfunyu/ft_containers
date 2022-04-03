@@ -35,8 +35,7 @@ class vector
   public:
 	vector() : _begin(NULL), _end(NULL), _end_cap(NULL), _alloc(Allocator()){};
 	explicit vector(const Allocator& alloc);
-	explicit vector(size_type count, const T& value = T(),
-	    const Allocator& alloc = Allocator());
+	explicit vector(size_type count, const T& value = T(), const Allocator& alloc = Allocator());
 	template <class InputIt>
 	vector(InputIt first, InputIt last, const Allocator& alloc = Allocator());
 	vector(const vector& other);
@@ -78,15 +77,9 @@ class vector
 	// ------------------------------ Capacity ------------------------------ //
 	bool      empty() const {};
 	size_type size() const { return static_cast<size_type>(_end - _begin); };
-	size_type max_size() const
-	{
-		return std::numeric_limits<difference_type>::max();
-	};
+	size_type max_size() const { return std::numeric_limits<difference_type>::max(); };
 	void      reserve(size_type new_cap);
-	size_type capacity() const
-	{
-		return static_cast<size_type>(_end_cap - _begin);
-	};
+	size_type capacity() const { return static_cast<size_type>(_end_cap - _begin); };
 	/* ------------------------------ Modifiers ----------------------------- */
 	void clear(){};
 	// insert
@@ -116,8 +109,7 @@ vector<T, Allocator>::vector(const Allocator& alloc) :
 {}
 
 template <class T, class Allocator>
-vector<T, Allocator>::vector(
-    size_type count, const T& value, const Allocator& alloc) :
+vector<T, Allocator>::vector(size_type count, const T& value, const Allocator& alloc) :
     _alloc(alloc)
 {
 	_vallocate(count);
@@ -126,9 +118,7 @@ vector<T, Allocator>::vector(
 
 template <class T, class Allocator>
 template <class InputIt>
-vector<T, Allocator>::vector(
-    InputIt first, InputIt last, const Allocator& alloc) :
-    _alloc(alloc)
+vector<T, Allocator>::vector(InputIt first, InputIt last, const Allocator& alloc) : _alloc(alloc)
 {
 	size_type count = static_cast<size_type>(last - first);
 	_vallocate(count);
@@ -150,8 +140,7 @@ vector<T, Allocator>::vector(const vector& other) : _alloc(other._alloc)
 /*                                  operator=                                 */
 /* -------------------------------------------------------------------------- */
 template <class T, class Allocator>
-vector<T, Allocator>&
-vector<T, Allocator>::operator=(const vector<T, Allocator>& other)
+vector<T, Allocator>& vector<T, Allocator>::operator=(const vector<T, Allocator>& other)
 {}
 
 /* -------------------------------------------------------------------------- */
@@ -184,8 +173,7 @@ typename vector<T, Allocator>::reference vector<T, Allocator>::at(size_type pos)
 {}
 
 template <class T, class Allocator>
-typename vector<T, Allocator>::const_reference
-vector<T, Allocator>::at(size_type pos) const
+typename vector<T, Allocator>::const_reference vector<T, Allocator>::at(size_type pos) const
 {}
 
 /* -------------------------------------------------------------------------- */
@@ -211,8 +199,7 @@ void vector<T, Allocator>::reserve(size_type new_cap)
 /* -------------------------------------------------------------------------- */
 // /*
 template <class T, class Allocator>
-typename vector<T, Allocator>::iterator
-vector<T, Allocator>::insert(iterator pos, const T& value)
+typename vector<T, Allocator>::iterator vector<T, Allocator>::insert(iterator pos, const T& value)
 {}
 
 template <class T, class Allocator>

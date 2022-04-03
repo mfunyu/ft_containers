@@ -224,8 +224,7 @@ void vector_operator_l()
 
 void _vector_operator_le_true()
 {
-	set_explanation_(
-	    "std::string vector size difference not evaluated correctly");
+	set_explanation_("std::string vector size difference not evaluated correctly");
 	int                     size = 10;
 	ft::vector<std::string> ft_0 = _set_vector_string(size, false);
 	ft::vector<std::string> ft_1 = _set_vector_string(size, false);
@@ -347,8 +346,7 @@ void vector_operator_g()
 
 void _vector_operator_ge_true()
 {
-	set_explanation_(
-	    "std::string vector size difference not evaluated correctly");
+	set_explanation_("std::string vector size difference not evaluated correctly");
 	ft::vector<std::string> ft_1 = _set_vector_string();
 	ft::vector<std::string> ft_2 = ft_1;
 
@@ -361,8 +359,7 @@ void _vector_operator_ge_true()
 
 void _vector_operator_ge_false()
 {
-	set_explanation_(
-	    "std::string vector size difference not evaluated correctly");
+	set_explanation_("std::string vector size difference not evaluated correctly");
 	int                     size = 12;
 	ft::vector<std::string> ft_1 = _set_vector_string(size, false);
 	ft::vector<std::string> ft_2 = ft_1;
