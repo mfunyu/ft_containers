@@ -21,8 +21,8 @@ class reverse_iterator
 
   public:
 	// (constructor)
-	reverse_iterator();
-	explicit reverse_iterator(iterator_type x);
+	reverse_iterator(){};
+	explicit reverse_iterator(iterator_type x){};
 	template <class U>
 	reverse_iterator(const reverse_iterator<U>& other){};
 	// operator=
