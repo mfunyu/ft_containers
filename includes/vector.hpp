@@ -96,7 +96,7 @@ class vector
 	// pop_back
 	void pop_back() { _destruct_at_end(_end - 1); };
 	void resize(size_type count, T value = T()){};
-	void swap(vector& other){};
+	void swap(vector& other);
 
   private:
 	void _vallocate(size_type n);
@@ -257,6 +257,22 @@ void vector<T, Allocator>::push_back(const T& value)
 }
 
 /* -------------------------------------------------------------------------- */
+/*                                    swap                                    */
+/* -------------------------------------------------------------------------- */
+template <class T, class Allocator>
+void vector<T, Allocator>::swap(vector& other)
+{
+	vector<T, Allocator> save = *this;
+
+	_begin         = other._begin;
+	_end           = other._end;
+	_end_cap       = other._end_cap;
+	other._begin   = save._begin;
+	other._end     = save._end;
+	other._end_cap = save._end_cap;
+}
+
+/* -------------------------------------------------------------------------- */
 /*                            Non-member functions                            */
 /* -------------------------------------------------------------------------- */
 
@@ -302,7 +318,16 @@ bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 
 template <class T, class Alloc>
 void swap(std::vector<T, Alloc>& lhs, std::vector<T, Alloc>& rhs)
-{}
+{
+	std::vector<T, Alloc> save = lhs;
+
+	lhs._begin   = rhs._begin;
+	lhs._end     = rhs._end;
+	lhs._end_cap = rhs._end_cap;
+	rhs._begin   = save._begin;
+	rhs._end     = save._end;
+	rhs._end_cap = save._end_cap;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                          private member functions                          */
