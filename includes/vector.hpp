@@ -98,6 +98,8 @@ class vector
 
   private:
 	void _vallocate(size_type n);
+	void _construct_at_end(size_type n);
+	void _destruct_at_end(pointer new_last);
 };
 
 /* -------------------------------------------------------------------------- */
@@ -311,6 +313,25 @@ void vector<T, Alloc>::_vallocate(size_type n)
 	_begin   = _alloc.allocate(n);
 	_end     = _begin;
 	_end_cap = _begin + n;
+}
+
+template <class T, class Alloc>
+void vector<T, Alloc>::_construct_at_end(size_type n)
+{
+	while (n > 0) {
+		_alloc.construct(_end);
+		++_end;
+		--n;
+	}
+}
+
+template <class T, class Alloc>
+void vector<T, Alloc>::_destruct_at_end(pointer new_last)
+{
+	while (_end != new_last) {
+		--_end;
+		_alloc.destroy(_end);
+	}
 }
 
 } // namespace ft
