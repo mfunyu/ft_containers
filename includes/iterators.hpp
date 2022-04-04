@@ -72,7 +72,10 @@ class random_access_iterator : public std::iterator<std::random_access_iterator_
 	{
 		return (lhs.__i == rhs.__i);
 	}
-	friend bool operator<(const random_access_iterator& lhs, const random_access_iterator& rhs);
+	friend bool operator<(const random_access_iterator& lhs, const random_access_iterator& rhs)
+	{
+		return (lhs.__i < rhs.__i);
+	};
 };
 
 template <class T>

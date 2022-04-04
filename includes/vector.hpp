@@ -1,6 +1,7 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
+#include "algorithm.hpp"
 #include "iterators.hpp"
 #include <iostream>
 #include <memory>
@@ -272,26 +273,39 @@ void vector<T, Allocator>::push_back(const T& value)
 
 template <class T, class Alloc>
 bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
-{}
+{
+	return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
 template <class T, class Alloc>
 bool operator!=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
-{}
+{
+	return !(lhs == rhs);
+}
 
 template <class T, class Alloc>
 bool operator<(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
-{}
+{
+	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+}
 
 template <class T, class Alloc>
 bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
-{}
+{
+	return (lhs == rhs || lhs < rhs);
+}
 
 template <class T, class Alloc>
 bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
-{}
+{
+	return !(lhs < rhs);
+}
 
 template <class T, class Alloc>
 bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
-{}
+{
+	return (lhs == rhs || lhs > rhs);
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                  std::swap                                 */
