@@ -82,7 +82,7 @@ class vector
 	void      reserve(size_type new_cap);
 	size_type capacity() const { return static_cast<size_type>(_end_cap - _begin); };
 	/* ------------------------------ Modifiers ----------------------------- */
-	void clear();
+	void clear() { _destruct_at_end(_begin); };
 	// insert
 	iterator insert(iterator pos, const T& value);
 	void     insert(iterator pos, size_type count, const T& value);
@@ -222,18 +222,6 @@ void vector<T, Allocator>::reserve(size_type new_cap)
 	_begin   = new_begin;
 	_end     = _begin + _size;
 	_end_cap = _begin + new_cap;
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                    clear                                   */
-/* -------------------------------------------------------------------------- */
-template <class T, class Allocator>
-void vector<T, Allocator>::clear()
-{
-	for (pointer ptr = _begin; ptr == _end; ++ptr) {
-		_alloc.destroy(ptr);
-	}
-	_begin = _end;
 }
 
 /* -------------------------------------------------------------------------- */
