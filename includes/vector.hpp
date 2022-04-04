@@ -93,7 +93,8 @@ class vector
 	iterator erase(iterator first, iterator last){};
 	// push_back
 	void push_back(const T& value);
-	void pop_back();
+	// pop_back
+	void pop_back() { _destruct_at_end(_end - 1); };
 	void resize(size_type count, T value = T()){};
 	void swap(vector& other){};
 
@@ -253,15 +254,6 @@ void vector<T, Allocator>::push_back(const T& value)
 		reserve(new_size);
 	_construct_at_end(1);
 	*(_end - 1) = value;
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                  pop_back                                  */
-/* -------------------------------------------------------------------------- */
-template <class T, class Allocator>
-void vector<T, Allocator>::pop_back()
-{
-	_destruct_at_end(_end - 1);
 }
 
 /* -------------------------------------------------------------------------- */
