@@ -263,8 +263,8 @@ void vector<T, Allocator>::push_back(const T& value)
 	size_type new_size = size() + 1;
 	if (capacity() < new_size)
 		reserve(new_size);
-	_begin[new_size - 1] = value;
-	_end++;
+	_construct_at_end(1);
+	*(_end - 1) = value;
 }
 
 /* -------------------------------------------------------------------------- */
