@@ -85,19 +85,10 @@ class random_access_iterator : public std::iterator<std::random_access_iterator_
 	}
 	/* 	the rest implemented outside of this class */
 
-	friend random_access_iterator& operator+(int i, const random_access_iterator& rhs)
-	{
-		rhs.__i += i;
-		return rhs;
-	}
-	friend random_access_iterator& operator-(int i, const random_access_iterator& rhs)
-	{
-		rhs.__i -= i;
-		return rhs;
-	}
 	friend random_access_iterator operator+(difference_type n, const random_access_iterator& it)
 	{
-		return (n + it.__i);
+		it.__i += n;
+		return it;
 	}
 	friend difference_type
 	operator-(const random_access_iterator& lhs, const random_access_iterator& rhs)
