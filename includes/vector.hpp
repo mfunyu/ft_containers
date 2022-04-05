@@ -228,20 +228,59 @@ void vector<T, Allocator>::reserve(size_type new_cap)
 /* -------------------------------------------------------------------------- */
 /*                                   insert                                   */
 /* -------------------------------------------------------------------------- */
-// /*
 template <class T, class Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::insert(iterator pos, const T& value)
-{}
+{
+	difference_type offset = pos - begin();
+
+	if (size() + 1 > capacity()) {
+		reserve(size() + 1);
+	}
+	pointer insert_p = _begin + offset;
+	_construct_at_end(1);
+	std::copy_backward(insert_p, _end - 1, _end);
+
+	*insert_p = value;
+	return iterator(insert_p);
+}
 
 template <class T, class Allocator>
 void vector<T, Allocator>::insert(iterator pos, size_type count, const T& value)
-{}
+{
+	difference_type offset = pos - begin();
+
+	if (size() + count > capacity()) {
+		reserve(size() + count);
+	}
+
+	pointer insert_p = _begin + offset;
+	_construct_at_end(count);
+	std::copy_backward(insert_p, _end - count, _end);
+
+	for (size_type i = 0; i < count; ++i) {
+		insert_p[i] = value;
+	}
+}
 
 template <class T, class Allocator>
 template <class InputIt>
 void vector<T, Allocator>::insert(iterator pos, InputIt first, InputIt last)
-{}
-// */
+{
+	difference_type count  = last - first;
+	difference_type offset = pos - begin();
+
+	if (size() + count >= capacity()) {
+		reserve(size() + count);
+	}
+
+	pos = _begin + offset;
+	_construct_at_end(count);
+	std::copy_backward(pos, end() - count, end());
+
+	for (InputIt it = first; it != last; ++it, ++pos) {
+		*pos = *it;
+	}
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                  push_back                                 */
