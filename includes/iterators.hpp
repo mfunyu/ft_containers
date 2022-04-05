@@ -67,7 +67,16 @@ class random_access_iterator : public std::iterator<std::random_access_iterator_
 		__i += rhs;
 		return *this;
 	}
-
+	friend random_access_iterator& operator-(int i, const random_access_iterator& rhs)
+	{
+		rhs.__i -= i;
+		return rhs;
+	}
+	random_access_iterator& operator-(difference_type rhs)
+	{
+		__i -= rhs;
+		return *this;
+	}
 	friend bool operator==(const random_access_iterator& lhs, const random_access_iterator& rhs)
 	{
 		return (lhs.__i == rhs.__i);
@@ -75,7 +84,16 @@ class random_access_iterator : public std::iterator<std::random_access_iterator_
 	friend bool operator<(const random_access_iterator& lhs, const random_access_iterator& rhs)
 	{
 		return (lhs.__i < rhs.__i);
-	};
+	}
+	friend random_access_iterator operator+(difference_type n, const random_access_iterator& it)
+	{
+		return (n + it.__i);
+	}
+	friend difference_type
+	operator-(const random_access_iterator& lhs, const random_access_iterator& rhs)
+	{
+		return (lhs.__i - rhs.__i);
+	}
 };
 
 template <class T>
