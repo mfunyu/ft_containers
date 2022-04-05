@@ -213,12 +213,15 @@ typename vector<T, Allocator>::const_reference vector<T, Allocator>::at(size_typ
 template <class T, class Allocator>
 void vector<T, Allocator>::reserve(size_type new_cap)
 {
+	if (new_cap <= size())
+		return;
 	if (capacity() > new_cap)
 		return;
 	size_type _size     = size();
 	pointer   new_begin = _alloc.allocate(new_cap);
 	std::uninitialized_copy(_begin, _end, new_begin);
-	_alloc.destroy(_begin);
+	_destruct_at_end(_begin);
+	_alloc.deallocate(_begin, _size);
 
 	_begin   = new_begin;
 	_end     = _begin + _size;
