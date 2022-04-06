@@ -51,13 +51,13 @@ class random_access_iterator : public std::iterator<std::random_access_iterator_
 	}
 	random_access_iterator operator++(int)
 	{
-		random_access_iterator tmp(T);
+		random_access_iterator tmp(*this);
 		++__i;
 		return tmp;
 	}
 	random_access_iterator operator--(int)
 	{
-		random_access_iterator tmp(T);
+		random_access_iterator tmp(*this);
 		--__i;
 		return tmp;
 	}
