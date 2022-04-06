@@ -96,13 +96,14 @@ class vector
 	// push_back
 	void push_back(const T& value);
 	// pop_back
-	void pop_back() { _destruct_at_end(_end - 1); };
+	void pop_back() { _destruct_at_end(1); };
 	void resize(size_type count, T value = T()){};
 	void swap(vector& other);
 
   private:
 	void _vallocate(size_type n);
 	void _construct_at_end(size_type n);
+	void _destruct_at_end(size_type n);
 	void _destruct_at_end(pointer new_last);
 };
 
@@ -394,6 +395,16 @@ void vector<T, Alloc>::_construct_at_end(size_type n)
 	while (n > 0) {
 		_alloc.construct(_end);
 		++_end;
+		--n;
+	}
+}
+
+template <class T, class Alloc>
+void vector<T, Alloc>::_destruct_at_end(size_type n)
+{
+	while (n > 0) {
+		--_end;
+		_alloc.destroy(_end);
 		--n;
 	}
 }
