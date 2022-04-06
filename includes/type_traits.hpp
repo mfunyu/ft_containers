@@ -3,8 +3,17 @@
 
 namespace ft {
 
+/* -------------------------------------------------------------------------- */
+/*                                  enable_if                                 */
+/* -------------------------------------------------------------------------- */
 template <bool B, class T = void>
-struct enable_if {};
+struct enable_if {
+	typedef T type;
+};
+
+template <class T>
+struct enable_if<false, T> {};
+
 
 
 } // namespace ft
