@@ -97,7 +97,7 @@ class vector
 	void push_back(const T& value);
 	// pop_back
 	void pop_back() { _destruct_at_end(1); }
-	void resize(size_type count, T value = T()) {}
+	void resize(size_type count, T value = T());
 	void swap(vector& other);
 
   private:
@@ -323,6 +323,25 @@ void vector<T, Allocator>::push_back(const T& value)
 		reserve(new_size);
 	_construct_at_end(1);
 	*(_end - 1) = value;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   resize                                   */
+/* -------------------------------------------------------------------------- */
+template <class T, class Allocator>
+void vector<T, Allocator>::resize(size_type count, T value)
+{
+	size_type diff;
+
+	if (size() > count) {
+		diff = size() - count;
+		_destruct_at_end(diff);
+	} else if (size() < count) {
+		diff = count - size();
+		if (capacity() < count)
+			reserve(count);
+		_construct_at_end(diff, value);
+	}
 }
 
 /* -------------------------------------------------------------------------- */
