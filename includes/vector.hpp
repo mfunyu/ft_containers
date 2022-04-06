@@ -3,6 +3,7 @@
 
 #include "algorithm.hpp"
 #include "iterators.hpp"
+#include "type_traits.hpp"
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -87,7 +88,8 @@ class vector
 	iterator insert(iterator pos, const T& value);
 	void     insert(iterator pos, size_type count, const T& value);
 	template <class InputIt>
-	void insert(iterator pos, InputIt first, InputIt last);
+	void insert(iterator pos, InputIt first, InputIt last,
+	    typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0);
 	// erase
 	iterator erase(iterator pos){};
 	iterator erase(iterator first, iterator last){};
@@ -267,7 +269,8 @@ void vector<T, Allocator>::insert(iterator pos, size_type count, const T& value)
 
 template <class T, class Allocator>
 template <class InputIt>
-void vector<T, Allocator>::insert(iterator pos, InputIt first, InputIt last)
+void vector<T, Allocator>::insert(iterator pos, InputIt first, InputIt last,
+    typename ft::enable_if<!ft::is_integral<InputIt>::value>::type*)
 {
 	difference_type count  = last - first;
 	difference_type offset = pos - begin();
