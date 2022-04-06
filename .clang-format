@@ -9,6 +9,7 @@ AlignArrayOfStructures: Right
 AlignOperands: Align
 AlignTrailingComments: false
 AllowShortBlocksOnASingleLine: Empty
+AllowShortEnumsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: Inline
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
@@ -34,8 +35,9 @@ BreakBeforeBraces: Custom
 BraceWrapping:
   AfterClass: true
   AfterFunction: true
-  AfterStruct: true
+  AfterStruct: false
   AfterEnum: true
   BeforeElse: false
   BeforeWhile: false
+  SplitEmptyRecord: false
   SplitEmptyFunction: false
