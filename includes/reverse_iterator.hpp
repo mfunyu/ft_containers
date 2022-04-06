@@ -21,69 +21,70 @@ class reverse_iterator
 
   public:
 	// (constructor)
-	reverse_iterator(){};
-	explicit reverse_iterator(iterator_type x) : current(x){};
+	reverse_iterator() {}
+	explicit reverse_iterator(iterator_type x) : current(x) {}
 	template <class U>
-	reverse_iterator(const reverse_iterator<U>& other) : current(other.current){};
+	reverse_iterator(const reverse_iterator<U>& other) : current(other.current)
+	{}
 	// operator=
 	template <class U>
 	reverse_iterator& operator=(const reverse_iterator<U>& other)
 	{
 		current = other.current;
 		return *this;
-	};
-	iterator_type base() const { return current; };
+	}
+	iterator_type base() const { return current; }
 	reference     operator*() const
 	{
 		Iter tmp = current;
 		return *--tmp;
-	};
-	pointer operator->() const { return &--current; };
+	}
+	pointer operator->() const { return &--current; }
 	// /*unspecified*/   operator[](difference_type n) const;
 	reverse_iterator& operator++()
 	{
 		++current;
 		return *this;
-	};
+	}
 	reverse_iterator& operator--()
 	{
 		--current;
 		return *this;
-	};
+	}
 	reverse_iterator operator++(int)
 	{
 		reverse_iterator tmp(*this);
 		++current;
 		return tmp;
-	};
+	}
 	reverse_iterator operator--(int)
 	{
 		reverse_iterator tmp(*this);
 		--current;
 		return tmp;
-	};
+	}
 	reverse_iterator operator+(difference_type n) const
 	{
 		Iter tmp = current;
 		tmp += n;
 		return tmp;
-	};
+	}
 	reverse_iterator operator-(difference_type n) const
 	{
 		Iter tmp = current;
 		tmp -= n;
 		return tmp;
-	};
+	}
 	reverse_iterator& operator+=(difference_type n)
 	{
 		current += n;
 		return *this;
-	};
+	}
 	reverse_iterator& operator-=(difference_type n)
 	{
 		current -= n;
 		return *this;
-	};
+	}
 
 	/* ------------------------ Non-member functions ------------------------ */
 	template <class Iterator1, class Iterator2>

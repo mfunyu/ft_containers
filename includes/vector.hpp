@@ -35,14 +35,14 @@ class vector
 	allocator_type _alloc;
 
   public:
-	vector() : _begin(NULL), _end(NULL), _end_cap(NULL), _alloc(Allocator()){};
+	vector() : _begin(NULL), _end(NULL), _end_cap(NULL), _alloc(Allocator()) {}
 	explicit vector(const Allocator& alloc);
 	explicit vector(size_type count, const T& value = T(), const Allocator& alloc = Allocator());
 	template <class InputIt>
 	vector(InputIt first, InputIt last, const Allocator& alloc = Allocator());
 	vector(const vector& other);
 	// (destructor)
-	~vector(){};
+	~vector() {}
 	// operator=
 	vector& operator=(const vector& other);
 	// assign
@@ -50,40 +50,40 @@ class vector
 	template <class InputIt>
 	void assign(InputIt first, InputIt last);
 	// get_allocator
-	allocator_type get_allocator() const { return _alloc; };
+	allocator_type get_allocator() const { return _alloc; }
 	// --------------------------- Elements access -------------------------- //
 	// at
 	reference       at(size_type pos);
 	const_reference at(size_type pos) const;
 	// operator[]
-	reference       operator[](size_type pos) { return _begin[pos]; };
-	const_reference operator[](size_type pos) const { return _begin[pos]; };
+	reference       operator[](size_type pos) { return _begin[pos]; }
+	const_reference operator[](size_type pos) const { return _begin[pos]; }
 	// front
-	reference       front() { return *_begin; };
-	const_reference front() const { return *_begin; };
+	reference       front() { return *_begin; }
+	const_reference front() const { return *_begin; }
 	// back
-	reference       back() { return *(_end - 1); };
-	const_reference back() const { return *(_end - 1); };
+	reference       back() { return *(_end - 1); }
+	const_reference back() const { return *(_end - 1); }
 	// data
-	T*       data() { return static_cast<T*>(_begin); };
-	const T* data() const { return static_cast<const T*>(_begin); };
+	T*       data() { return static_cast<T*>(_begin); }
+	const T* data() const { return static_cast<const T*>(_begin); }
 	// ------------------------------ Iterators ----------------------------- //
-	iterator               begin() { return iterator(_begin); };
-	const_iterator         begin() const { return const_iterator(_begin); };
-	iterator               end() { return iterator(_end); };
-	const_iterator         end() const { return const_iterator(_end); };
-	reverse_iterator       rbegin() { return reverse_iterator(end()); };
-	const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); };
-	reverse_iterator       rend() { return reverse_iterator(begin()); };
-	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); };
+	iterator               begin() { return iterator(_begin); }
+	const_iterator         begin() const { return const_iterator(_begin); }
+	iterator               end() { return iterator(_end); }
+	const_iterator         end() const { return const_iterator(_end); }
+	reverse_iterator       rbegin() { return reverse_iterator(end()); }
+	const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
+	reverse_iterator       rend() { return reverse_iterator(begin()); }
+	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 	// ------------------------------ Capacity ------------------------------ //
-	bool      empty() const { return (size() == 0); };
-	size_type size() const { return static_cast<size_type>(_end - _begin); };
-	size_type max_size() const { return std::numeric_limits<difference_type>::max(); };
+	bool      empty() const { return (size() == 0); }
+	size_type size() const { return static_cast<size_type>(_end - _begin); }
+	size_type max_size() const { return std::numeric_limits<difference_type>::max(); }
 	void      reserve(size_type new_cap);
-	size_type capacity() const { return static_cast<size_type>(_end_cap - _begin); };
+	size_type capacity() const { return static_cast<size_type>(_end_cap - _begin); }
 	/* ------------------------------ Modifiers ----------------------------- */
-	void clear() { _destruct_at_end(_begin); };
+	void clear() { _destruct_at_end(_begin); }
 	// insert
 	iterator insert(iterator pos, const T& value);
 	void     insert(iterator pos, size_type count, const T& value);
@@ -96,8 +96,8 @@ class vector
 	// push_back
 	void push_back(const T& value);
 	// pop_back
-	void pop_back() { _destruct_at_end(1); };
-	void resize(size_type count, T value = T()){};
+	void pop_back() { _destruct_at_end(1); }
+	void resize(size_type count, T value = T()) {}
 	void swap(vector& other);
 
   private:
