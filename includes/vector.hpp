@@ -91,8 +91,8 @@ class vector
 	void insert(iterator pos, InputIt first, InputIt last,
 	    typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0);
 	// erase
-	iterator erase(iterator pos){};
-	iterator erase(iterator first, iterator last){};
+	iterator erase(iterator pos);
+	iterator erase(iterator first, iterator last);
 	// push_back
 	void push_back(const T& value);
 	// pop_back
@@ -287,6 +287,28 @@ void vector<T, Allocator>::insert(iterator pos, InputIt first, InputIt last,
 	for (InputIt it = first; it != last; ++it, ++pos) {
 		*pos = *it;
 	}
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    erase                                   */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Allocator>
+typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator pos)
+{
+	std::copy(pos + 1, end(), pos);
+	_destruct_at_end(1);
+	return pos;
+}
+
+template <class T, class Allocator>
+typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator first, iterator last)
+{
+	size_type count = last - first;
+
+	std::copy(last, end(), first);
+	_destruct_at_end(count);
+	return first;
 }
 
 /* -------------------------------------------------------------------------- */
