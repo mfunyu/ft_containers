@@ -297,9 +297,12 @@ void vector<T, Allocator>::insert(iterator pos, InputIt first, InputIt last,
 template <class T, class Allocator>
 typename vector<T, Allocator>::iterator vector<T, Allocator>::erase(iterator pos)
 {
-	std::copy(pos + 1, end(), pos);
+	difference_type count    = pos - begin();
+	pointer         position = _begin + count;
+
+	std::copy(position + 1, _end, position);
 	_destruct_at_end(1);
-	return pos;
+	return position;
 }
 
 template <class T, class Allocator>
