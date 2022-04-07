@@ -79,7 +79,8 @@ class vector
 	// ------------------------------ Capacity ------------------------------ //
 	bool      empty() const { return (size() == 0); }
 	size_type size() const { return static_cast<size_type>(_end - _begin); }
-	size_type max_size() const { return std::numeric_limits<difference_type>::max(); }
+	// max_size
+	size_type max_size() const;
 	void      reserve(size_type new_cap);
 	size_type capacity() const { return static_cast<size_type>(_end_cap - _begin); }
 	/* ------------------------------ Modifiers ----------------------------- */
@@ -230,6 +231,15 @@ void vector<T, Allocator>::reserve(size_type new_cap)
 	_begin   = new_begin;
 	_end     = _begin + _size;
 	_end_cap = _begin + new_cap;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  max_size                                  */
+/* -------------------------------------------------------------------------- */
+template <class T, class Allocator>
+typename vector<T, Allocator>::size_type vector<T, Allocator>::max_size() const
+{
+	return std::min<size_type>(std::numeric_limits<difference_type>::max(), _alloc.max_size());
 }
 
 /* -------------------------------------------------------------------------- */
