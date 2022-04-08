@@ -206,7 +206,7 @@ void UnitTester::_display_total()
 	          << std::endl;
 }
 
-void UnitTester::run_tests(void)
+int UnitTester::run_tests(void)
 {
 	std::list<t_unit_subtests>::iterator current = _func_subtest_table.begin();
 	std::list<t_unit_subtests>::iterator it_end  = _func_subtest_table.end();
@@ -218,6 +218,9 @@ void UnitTester::run_tests(void)
 		_cnt_total += 1;
 	}
 	_display_total();
+	if (_cnt_success == _cnt_total)
+		return (0);
+	return (1);
 }
 
 void UnitTester::load_tests(void)
