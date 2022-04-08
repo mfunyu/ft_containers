@@ -267,11 +267,11 @@ void vector_push_back()
 
 void _vector_pop_back_empty()
 {
-	set_explanation_("size not reduced as expected");
+	set_explanation_("size not (size_t)-1 on empty (undefined behavior)");
 	ft::vector<int> ft;
 	ft.pop_back();
 
-	UnitTester::assert_(ft.size() == static_cast<size_t>(-1));
+	UnitTester::assert_diff_(ft.size() == static_cast<size_t>(-1));
 }
 
 void _vector_pop_back_one()
@@ -286,13 +286,14 @@ void _vector_pop_back_one()
 
 void _vector_pop_back_compare_zero()
 {
-	set_explanation_("result differs from std");
+	set_explanation_(
+	    "result differs from std after pop_back on empty int vector (undefined behavior)");
 	ft::vector<int>  ft;
 	std::vector<int> std;
 
 	ft.pop_back();
 	std.pop_back();
-	UnitTester::assert_(ft.size() == std.size());
+	UnitTester::assert_diff_(ft.size() == std.size());
 }
 
 void _vector_pop_back_compare()
