@@ -367,12 +367,8 @@ void vector<T, Allocator>::swap(vector& other)
 {
 	vector<T, Allocator> save = *this;
 
-	_begin         = other._begin;
-	_end           = other._end;
-	_end_cap       = other._end_cap;
-	other._begin   = save._begin;
-	other._end     = save._end;
-	other._end_cap = save._end_cap;
+	*this = other;
+	other = save;
 }
 
 /* -------------------------------------------------------------------------- */
