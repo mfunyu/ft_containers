@@ -49,7 +49,8 @@ t_unit_tests func_test_table[] = {
 	{         "vector_operator_g",          vector_operator_g, FAIL, VECTOR},
 	{        "vector_operator_ge",         vector_operator_ge, FAIL, VECTOR},
 	{           "vector_std_swap",            vector_std_swap, FAIL, VECTOR},
-    {                        "\0",                       NULL, FAIL, VECTOR}
+ // ------------------- Terminater (Do not comment out) ------------------ //
+	{                        "\0",                       NULL, FAIL, VECTOR}
 };
 
 void _set_int_array(int* array, int size, bool accend)
