@@ -69,6 +69,7 @@ class UnitTester
 
 	static void load_subtest(void (*func)(void), char* func_name);
 	static void assert_(bool evaluate);
+	static void assert_diff_(bool evaluate);
 
   private:
 	void _load_test(t_unit_tests* func_test_table);
