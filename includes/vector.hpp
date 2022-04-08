@@ -42,7 +42,14 @@ class vector
 	vector(InputIt first, InputIt last, const Allocator& alloc = Allocator());
 	vector(const vector& other);
 	// (destructor)
-	~vector() {}
+	~vector()
+	{
+		if (_begin == NULL)
+			return;
+		size_type s = capacity();
+		_destruct_at_end(_begin);
+		_alloc.deallocate(_begin, s);
+	}
 	// operator=
 	vector& operator=(const vector& other);
 	// assign
