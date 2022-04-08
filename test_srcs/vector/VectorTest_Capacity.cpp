@@ -81,8 +81,9 @@ void _vector_max_size_multiple()
 	set_explanation_("multiple vectors does not return the same max value");
 	UnitTester::assert_(ft.max_size() == ft2.max_size());
 	set_explanation_("returned value not max");
-	UnitTester::assert_((ft.max_size() == ft.get_allocator().max_size())
-	                    || (ft.max_size() == std::numeric_limits<ptrdiff_t>::max()));
+	UnitTester::assert_(
+	    (ft.max_size() == ft.get_allocator().max_size())
+	    || (ft.max_size() == static_cast<size_t>(std::numeric_limits<ptrdiff_t>::max())));
 }
 
 void _vector_max_size_compare()
@@ -174,7 +175,7 @@ void _vector_capacity_ratio()
 	set_explanation_("capacity not 0 at size 0");
 	ft::vector<int> ft;
 	size_t          cap = ft.capacity();
-	UnitTester::assert_(cap == 0);
+	UnitTester::assert_diff_(cap == 0);
 
 	size_t size = 4242;
 	for (size_t i = 0; i < size; ++i) {
@@ -182,31 +183,54 @@ void _vector_capacity_ratio()
 			if (i == 1) {
 				cap = ft.capacity();
 				set_explanation_("capacity is not 1 at size 1");
-				UnitTester::assert_(cap == 1);
+				UnitTester::assert_diff_(cap == 1);
 				continue;
 			}
 			set_explanation_("capacity is not doubled the size");
-			UnitTester::assert_(ft.capacity() / static_cast<float>(cap) == 2);
+			UnitTester::assert_diff_(ft.capacity() / static_cast<float>(cap) == 2);
 			cap = ft.capacity();
 		}
 		ft.push_back(i);
 	}
 }
 
-void _vector_capacity_compare()
+void _vector_capacity_compare_empty()
 {
-	set_explanation_("result differs from std");
+	set_explanation_("capacity differs from std (undefined behavior)");
 	ft::vector<int>  ft;
 	std::vector<int> std;
-	_set_compare_vectors(ft, std);
 
-	UnitTester::assert_(ft.capacity() == std.capacity());
+	UnitTester::assert_diff_(ft.capacity() == std.capacity());
+}
+
+void _vector_capacity_compare_even()
+{
+	set_explanation_("capacity differs from std (undefined behavior)");
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	size_t           size = 12;
+	_set_compare_vectors(ft, std, size);
+
+	UnitTester::assert_diff_(ft.capacity() == std.capacity());
+}
+
+void _vector_capacity_compare_odd()
+{
+	set_explanation_("capacity differs from std (undefined behavior)");
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	size_t           size = 13;
+	_set_compare_vectors(ft, std, size);
+
+	UnitTester::assert_diff_(ft.capacity() == std.capacity());
 }
 
 void vector_capacity()
 {
 	load_subtest_(_vector_capacity_ratio);
-	load_subtest_(_vector_capacity_compare);
+	load_subtest_(_vector_capacity_compare_empty);
+	load_subtest_(_vector_capacity_compare_odd);
+	load_subtest_(_vector_capacity_compare_even);
 }
 
 } // namespace VectorTest

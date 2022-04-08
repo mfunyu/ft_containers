@@ -18,6 +18,7 @@ typedef enum e_test_status
 {
 	TEST_SUCCESS,
 	TEST_FAILED,
+	TEST_DIFF,
 	TEST_ILL,
 	TEST_ABORT,
 	TEST_BUS,
@@ -68,6 +69,7 @@ class UnitTester
 
 	static void load_subtest(void (*func)(void), char* func_name);
 	static void assert_(bool evaluate);
+	static void assert_diff_(bool evaluate);
 
   private:
 	void _load_test(t_unit_tests* func_test_table);

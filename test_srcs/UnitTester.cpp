@@ -40,6 +40,12 @@ void UnitTester::assert_(bool evaluate)
 		exit(TEST_FAILED);
 }
 
+void UnitTester::assert_diff_(bool evaluate)
+{
+	if (evaluate == false)
+		exit(TEST_DIFF);
+}
+
 void set_explanation(int* fds)
 {
 	close(fds[1]);
@@ -169,6 +175,10 @@ void UnitTester::_display_result(t_unit_subtests& current_test)
 		break;
 	case TEST_FAILED:
 		std::cout << COLOR_FAILED "[KO] " COLOR_CLEAR;
+		break;
+	case TEST_DIFF:
+		std::cout << COLOR_CLEAR "[DIFF] " COLOR_CLEAR;
+		_cnt_total -= 1;
 		break;
 	case TEST_ILL:
 		std::cout << COLOR_FAILED "[ILLIGAL] " COLOR_CLEAR;
