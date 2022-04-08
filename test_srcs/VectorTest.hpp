@@ -62,13 +62,12 @@ void vector_std_swap();
 
 extern t_unit_tests func_test_table[TABLE_SIZE];
 
-void             _set_int_array(int* array, int size = 12, bool accend = false);
-ft::vector<int>  _set_vector(int size = 6, bool accend = false);
-ft::vector<char> _set_vector_char(size_t size = 6, bool accend = false);
-ft::vector<std::string>
-     _set_vector_string(size_t size = 6, bool random = false);
-void _set_compare_vectors(ft::vector<int>& ft_data, std::vector<int>& std_data,
-    int size = 6, bool accend = false);
+void                    _set_int_array(int* array, int size = 12, bool accend = false);
+ft::vector<int>         _set_vector(int size = 6, bool accend = false);
+ft::vector<char>        _set_vector_char(size_t size = 6, bool accend = false);
+ft::vector<std::string> _set_vector_string(size_t size = 6, bool random = false);
+void                    _set_compare_vectors(
+                       ft::vector<int>& ft_data, std::vector<int>& std_data, int size = 6, bool accend = false);
 
 template <class T>
 void _compare_vectors(ft::vector<T>& ft_vec, std::vector<T>& std_vec)

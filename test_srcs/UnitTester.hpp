@@ -31,16 +31,14 @@ typedef enum e_stl_types
 	MAP
 } t_stl_types;
 
-typedef struct s_unit_tests
-{
+typedef struct s_unit_tests {
 	const char* func_name;
 	void (*func_test_ptr)();
 	t_test_status result;
 	t_stl_types   type;
 } t_unit_tests;
 
-typedef struct s_unit_subtests
-{
+typedef struct s_unit_subtests {
 	const char* func_name;
 	const char* subtest_name;
 	void (*func_test_ptr)();

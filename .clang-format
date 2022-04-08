@@ -9,6 +9,7 @@ AlignArrayOfStructures: Right
 AlignOperands: Align
 AlignTrailingComments: false
 AllowShortBlocksOnASingleLine: Empty
+AllowShortEnumsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: Inline
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
@@ -18,7 +19,7 @@ AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakAfterDefinitionReturnType: false
 BreakConstructorInitializers: AfterColon
 BreakInheritanceList: AfterComma
-ColumnLimit: 80
+ColumnLimit: 100
 ConstructorInitializerIndentWidth: 4
 FixNamespaceComments: true
 IncludeBlocks: Preserve
@@ -34,8 +35,9 @@ BreakBeforeBraces: Custom
 BraceWrapping:
   AfterClass: true
   AfterFunction: true
-  AfterStruct: true
+  AfterStruct: false
   AfterEnum: true
   BeforeElse: false
   BeforeWhile: false
+  SplitEmptyRecord: false
   SplitEmptyFunction: false

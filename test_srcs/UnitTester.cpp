@@ -123,8 +123,7 @@ void UnitTester::_print_subheader(const std::string& header)
 	std::cout << std::setfill('=');
 	std::cout << std::setw(leftside) << " ";
 	std::cout << header;
-	std::cout << std::setw(fill_width - leftside) << std::left << " "
-	          << std::endl;
+	std::cout << std::setw(fill_width - leftside) << std::left << " " << std::endl;
 	std::cout << std::setfill(' ');
 }
 
@@ -185,8 +184,8 @@ void UnitTester::_display_total()
 	std::cout << _cnt_success << "/" << _cnt_total << COLOR_CLEAR;
 
 	int score_persentage = 100 * _cnt_success / _cnt_total;
-	std::cout << " tests passed (" << COLOR_BORD << score_persentage << "%"
-	          << COLOR_CLEAR << ")" << std::endl;
+	std::cout << " tests passed (" << COLOR_BORD << score_persentage << "%" << COLOR_CLEAR << ")"
+	          << std::endl;
 }
 
 void UnitTester::run_tests(void)
