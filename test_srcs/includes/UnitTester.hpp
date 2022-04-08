@@ -18,6 +18,7 @@ typedef enum e_test_status
 {
 	TEST_SUCCESS,
 	TEST_FAILED,
+	TEST_DIFF,
 	TEST_ILL,
 	TEST_ABORT,
 	TEST_BUS,
