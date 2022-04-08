@@ -4,8 +4,9 @@ INCLUDES:= includes/
 # CXXFLAGS:= -Wall -Wextra -Werror -std=c++98 -pedantic-errors -I$(INCLUDES) -MMD -MP
 CXXFLAGS:= -std=c++98 -pedantic-errors -I$(INCLUDES) -MMD -MP
 
-ifdef TEST
+ifdef STD
 CXXFLAGS += -DTEST
+NAME	:= std_test
 endif
 
 SRCS_DIR:= test_srcs/
@@ -50,5 +51,7 @@ fclean	: clean
 
 re	: fclean all
 
-test	:
-	make re TEST=1
+std	:
+	make re STD=1
+
+ft: re
