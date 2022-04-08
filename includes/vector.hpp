@@ -222,6 +222,8 @@ void vector<T, Allocator>::reserve(size_type new_cap)
 		return;
 	if (capacity() > new_cap)
 		return;
+	if (capacity() * 2 > new_cap)
+		new_cap = capacity() * 2;
 	size_type _size     = size();
 	pointer   new_begin = _alloc.allocate(new_cap);
 	std::uninitialized_copy(_begin, _end, new_begin);
