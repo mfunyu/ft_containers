@@ -1,8 +1,7 @@
 NAME	:= run_test
 CXX		:= clang++
 INCLUDES:= includes/
-# CXXFLAGS:= -Wall -Wextra -Werror -std=c++98 -pedantic-errors -I$(INCLUDES) -MMD -MP
-CXXFLAGS:= -std=c++98 -pedantic-errors -I$(INCLUDES) -MMD -MP
+CXXFLAGS:= -Wall -Wextra -Werror -std=c++98 -pedantic-errors -I$(INCLUDES) -MMD -MP
 
 ifdef STD
 CXXFLAGS += -DTEST

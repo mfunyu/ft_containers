@@ -81,8 +81,9 @@ void _vector_max_size_multiple()
 	set_explanation_("multiple vectors does not return the same max value");
 	UnitTester::assert_(ft.max_size() == ft2.max_size());
 	set_explanation_("returned value not max");
-	UnitTester::assert_((ft.max_size() == ft.get_allocator().max_size())
-	                    || (ft.max_size() == std::numeric_limits<ptrdiff_t>::max()));
+	UnitTester::assert_(
+	    (ft.max_size() == ft.get_allocator().max_size())
+	    || (ft.max_size() == static_cast<size_t>(std::numeric_limits<ptrdiff_t>::max())));
 }
 
 void _vector_max_size_compare()
