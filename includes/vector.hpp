@@ -140,9 +140,9 @@ vector<T, Allocator>::vector(const vector& other) : _alloc(other._alloc)
 {
 	size_type count = other.size();
 
-	_vallocate(count);
-	std::uninitialized_copy(other._begin, other._end, _begin);
-	_end = _begin + count;
+	_vallocate(other.capacity());
+	_construct_at_end(count);
+	std::copy(other._begin, other._end, _begin);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -152,10 +152,9 @@ template <class T, class Allocator>
 vector<T, Allocator>& vector<T, Allocator>::operator=(const vector<T, Allocator>& other)
 {
 	if (this != &other) {
-		size_type count = other.size();
-		_vallocate(count);
-		std::uninitialized_copy(other._begin, other._end, _begin);
-		_end = _begin + count;
+		_vallocate(other.capacity());
+		_construct_at_end(other.size());
+		std::copy(other._begin, other._end, _begin);
 	}
 	return *this;
 }
