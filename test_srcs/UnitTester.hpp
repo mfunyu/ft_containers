@@ -6,6 +6,7 @@
 #include <string>
 
 #define COLOR_SUCCESS "\033[32m"
+#define COLOR_WARNING "\033[33m"
 #define COLOR_FAILED  "\033[31m"
 #define COLOR_BORD    "\033[1m"
 #define COLOR_CLEAR   "\033[0m"
@@ -21,6 +22,7 @@ typedef enum e_test_status
 	TEST_ABORT,
 	TEST_BUS,
 	TEST_SEGV,
+	TEST_TIMEOUT,
 	TEST_UNEXPECTED
 } t_test_status;
 
