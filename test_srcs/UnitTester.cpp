@@ -1,11 +1,14 @@
 #include "UnitTester.hpp"
 #include "VectorTest.hpp"
 #include <iostream>
+#include <signal.h>
 #include <unistd.h>
 
 std::list<t_unit_subtests> UnitTester::_func_subtest_table;
 const char*                UnitTester::_current_func_name;
 t_stl_types                UnitTester::_current_func_type;
+
+volatile int g_pid = 0;
 
 UnitTester::UnitTester() : _cnt_success(0), _cnt_total(0) {}
 
@@ -72,11 +75,20 @@ void UnitTester::_set_test_result(t_unit_subtests& current_test, int wstatus)
 		case SIGSEGV:
 			current_test.result = TEST_SEGV;
 			return;
+		case SIGKILL:
+			current_test.result = TEST_TIMEOUT;
+			return;
 		default:
 			current_test.result = TEST_UNEXPECTED;
 			std::cerr << "signal: " << WTERMSIG(wstatus) << std::endl;
 		}
 	}
+}
+
+void _timeout_handler(int val)
+{
+	(void)val;
+	kill(g_pid, SIGKILL);
 }
 
 void UnitTester::_sandbox(t_unit_subtests& current_test)
@@ -96,6 +108,9 @@ void UnitTester::_sandbox(t_unit_subtests& current_test)
 		current_test.func_test_ptr();
 		exit(EXIT_SUCCESS);
 	} else {
+		g_pid = pid;
+		signal(SIGALRM, _timeout_handler);
+		alarm(1);
 		wait(&wstatus);
 		_set_test_result(current_test, wstatus);
 		set_explanation(fds);
@@ -167,6 +182,9 @@ void UnitTester::_display_result(t_unit_subtests& current_test)
 	case TEST_SEGV:
 		std::cout << COLOR_FAILED "[SEGV] " COLOR_CLEAR;
 		break;
+	case TEST_TIMEOUT:
+		std::cout << COLOR_WARNING "[TIMEOUT] " COLOR_CLEAR;
+		break;
 	case TEST_UNEXPECTED:
 		std::cout << COLOR_FAILED "[???] " COLOR_CLEAR;
 		break;
@@ -188,7 +206,7 @@ void UnitTester::_display_total()
 	          << std::endl;
 }
 
-void UnitTester::run_tests(void)
+int UnitTester::run_tests(void)
 {
 	std::list<t_unit_subtests>::iterator current = _func_subtest_table.begin();
 	std::list<t_unit_subtests>::iterator it_end  = _func_subtest_table.end();
@@ -200,6 +218,9 @@ void UnitTester::run_tests(void)
 		_cnt_total += 1;
 	}
 	_display_total();
+	if (_cnt_success == _cnt_total)
+		return (0);
+	return (1);
 }
 
 void UnitTester::load_tests(void)

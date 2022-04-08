@@ -3,6 +3,7 @@
 !*/
 !*.cpp
 !*.hpp
+!*.sh
 !Makefile
 !*.gitignore
 !*.clang-format
