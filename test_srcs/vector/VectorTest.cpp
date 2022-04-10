@@ -63,6 +63,20 @@ void _set_int_array(int* array, int size, bool accend)
 	}
 }
 
+ft::vector<int> _assign_vector(int size, bool accend)
+{
+	ft::vector<int> data(size);
+
+	for (int i = 0; i < size; ++i) {
+		if (accend) {
+			data.at(i) = i;
+		} else {
+			data.at(i) = std::rand();
+		}
+	}
+	return data;
+}
+
 ft::vector<int> _set_vector(int size, bool accend)
 {
 	ft::vector<int> data;
@@ -110,6 +124,21 @@ ft::vector<std::string> _set_vector_string(size_t size, bool random)
 		data.push_back(val);
 	}
 	return data;
+}
+
+void _assign_compare_vectors(
+    ft::vector<int>& ft_data, std::vector<int>& std_data, int size, bool accend)
+{
+	for (int i = 0; i < size; ++i) {
+		if (accend) {
+			ft_data.at(i)  = i;
+			std_data.at(i) = i;
+		} else {
+			int value      = std::rand();
+			ft_data.at(i)  = value;
+			std_data.at(i) = value;
+		}
+	}
 }
 
 void _set_compare_vectors(
