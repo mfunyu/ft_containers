@@ -117,6 +117,19 @@ void _vector_reserve_basic()
 	UnitTester::assert_(ft.capacity() == new_capacity);
 }
 
+void _vector_reserve_small()
+{
+	set_explanation_("capacity reallocated when it shouldn't");
+	unsigned int    new_capacity    = 12;
+	int             size            = 42;
+	ft::vector<int> ft              = _set_vector(size);
+	unsigned int    capacity_before = ft.capacity();
+
+	ft.reserve(new_capacity);
+
+	UnitTester::assert_(capacity_before == ft.capacity());
+}
+
 void _vector_reserve_large()
 {
 	set_explanation_("faied to reserve large capacity");
@@ -140,9 +153,45 @@ void _vector_reserve_extra_large()
 	} catch (std::length_error& e) {
 		exit(TEST_SUCCESS);
 	} catch (std::exception& e) {
-		set_explanation_("exception not thrown from allocator");
+		std::string str(e.what());
+		str += "; exception is not the langth error on n > max_size()";
+		set_explanation_(str.c_str());
+		exit(TEST_FAILED);
 	}
 	UnitTester::assert_(ft.capacity() == new_capacity);
+}
+
+void _vector_reserve_exception_msg_compare()
+{
+	size_t           new_capacity = SIZE_MAX;
+	int              size         = 2;
+	ft::vector<int>  ft;
+	std::vector<int> std;
+	_set_compare_vectors(ft, std, size);
+
+	std::string ft_exception_msg;
+	std::string std_exception_msg;
+
+	try {
+		ft.reserve(new_capacity);
+	} catch (std::length_error& e) {
+		ft_exception_msg = e.what();
+		try {
+			std.reserve(new_capacity);
+		} catch (std::length_error& e) {
+			std_exception_msg = e.what();
+		}
+		set_explanation_("exception not thrown from allocator (undefined behavior)");
+		UnitTester::assert_diff_(ft_exception_msg == std_exception_msg);
+		exit(TEST_SUCCESS);
+	} catch (std::exception& e) {
+		std::string str(e.what());
+		str += "; exception is not the langth error on n > max_size()";
+		set_explanation_(str.c_str());
+		exit(TEST_FAILED);
+	}
+	set_explanation_("no exception thrown on n > max_size()");
+	exit(TEST_FAILED);
 }
 
 void _vector_reserve_compare()
@@ -161,8 +210,10 @@ void _vector_reserve_compare()
 void vector_reserve()
 {
 	load_subtest_(_vector_reserve_basic);
+	load_subtest_(_vector_reserve_small);
 	load_subtest_(_vector_reserve_large);
 	load_subtest_(_vector_reserve_extra_large);
+	load_subtest_(_vector_reserve_exception_msg_compare);
 	load_subtest_(_vector_reserve_compare);
 }
 
@@ -206,10 +257,10 @@ void _vector_capacity_compare_empty()
 void _vector_capacity_compare_even()
 {
 	set_explanation_("capacity differs from std (undefined behavior)");
-	ft::vector<int>  ft;
-	std::vector<int> std;
 	size_t           size = 12;
-	_set_compare_vectors(ft, std, size);
+	ft::vector<int>  ft(size);
+	std::vector<int> std(size);
+	_assign_compare_vectors(ft, std, size);
 
 	UnitTester::assert_diff_(ft.capacity() == std.capacity());
 }
@@ -217,10 +268,10 @@ void _vector_capacity_compare_even()
 void _vector_capacity_compare_odd()
 {
 	set_explanation_("capacity differs from std (undefined behavior)");
-	ft::vector<int>  ft;
-	std::vector<int> std;
 	size_t           size = 13;
-	_set_compare_vectors(ft, std, size);
+	ft::vector<int>  ft(size);
+	std::vector<int> std(size);
+	_assign_compare_vectors(ft, std, size);
 
 	UnitTester::assert_diff_(ft.capacity() == std.capacity());
 }
