@@ -70,8 +70,16 @@ class random_access_iterator : public std::iterator<std::random_access_iterator_
 		__i -= rhs;
 		return *this;
 	}
-	// operator+=
-	// operator-=
+	random_access_iterator& operator+=(difference_type n)
+	{
+		__i += n;
+		return *this;
+	}
+	random_access_iterator& operator-=(difference_type n)
+	{
+		__i -= n;
+		return *this;
+	}
 
 	/* -------------------------- Non-member functions ------------------------- */
 	friend bool operator==(const random_access_iterator& lhs, const random_access_iterator& rhs)
