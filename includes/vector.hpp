@@ -138,8 +138,8 @@ vector<T, Allocator>::vector(InputIt first, InputIt last, const Allocator& alloc
 {
 	size_type count = static_cast<size_type>(last - first);
 	_vallocate(count);
-	std::uninitialized_copy(first, last, _begin);
-	_end = _begin + count;
+	_construct_at_end(count);
+	std::copy(first, last, _begin);
 }
 
 template <class T, class Allocator>
