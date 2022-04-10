@@ -39,7 +39,8 @@ class vector
 	explicit vector(const Allocator& alloc);
 	explicit vector(size_type count, const T& value = T(), const Allocator& alloc = Allocator());
 	template <class InputIt>
-	vector(InputIt first, InputIt last, const Allocator& alloc = Allocator());
+	vector(InputIt first, InputIt last, const Allocator& alloc = Allocator(),
+	    typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0);
 	vector(const vector& other);
 	// (destructor)
 	~vector()
@@ -135,7 +136,9 @@ vector<T, Allocator>::vector(size_type count, const T& value, const Allocator& a
 
 template <class T, class Allocator>
 template <class InputIt>
-vector<T, Allocator>::vector(InputIt first, InputIt last, const Allocator& alloc) : _alloc(alloc)
+vector<T, Allocator>::vector(InputIt first, InputIt last, const Allocator& alloc,
+    typename ft::enable_if<!ft::is_integral<InputIt>::value>::type*) :
+    _alloc(alloc)
 {
 	size_type count = static_cast<size_type>(last - first);
 	_vallocate(count);
