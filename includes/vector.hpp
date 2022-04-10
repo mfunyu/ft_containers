@@ -230,15 +230,13 @@ void vector<T, Allocator>::reserve(size_type new_cap)
 		return;
 	if (capacity() * 2 > new_cap)
 		new_cap = capacity() * 2;
-	size_type _size     = size();
-	pointer   new_begin = _alloc.allocate(new_cap);
-	std::uninitialized_copy(_begin, _end, new_begin);
-	_destruct_at_end(_begin);
-	_alloc.deallocate(_begin, _size);
 
-	_begin   = new_begin;
-	_end     = _begin + _size;
-	_end_cap = _begin + new_cap;
+	vector<T, Allocator> new_vector;
+	new_vector._vallocate(new_cap);
+	new_vector._construct_at_end(size());
+	std::copy(_begin, _end, new_vector._begin);
+
+	*this = new_vector;
 }
 
 /* -------------------------------------------------------------------------- */
