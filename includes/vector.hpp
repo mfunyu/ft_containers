@@ -42,7 +42,14 @@ class vector
 	vector(InputIt first, InputIt last, const Allocator& alloc = Allocator());
 	vector(const vector& other);
 	// (destructor)
-	~vector() {}
+	~vector()
+	{
+		if (_begin == NULL)
+			return;
+		size_type s = capacity();
+		_destruct_at_end(_begin);
+		_alloc.deallocate(_begin, s);
+	}
 	// operator=
 	vector& operator=(const vector& other);
 	// assign
@@ -131,8 +138,8 @@ vector<T, Allocator>::vector(InputIt first, InputIt last, const Allocator& alloc
 {
 	size_type count = static_cast<size_type>(last - first);
 	_vallocate(count);
-	std::uninitialized_copy(first, last, _begin);
-	_end = _begin + count;
+	_construct_at_end(count);
+	std::copy(first, last, _begin);
 }
 
 template <class T, class Allocator>
@@ -140,9 +147,9 @@ vector<T, Allocator>::vector(const vector& other) : _alloc(other._alloc)
 {
 	size_type count = other.size();
 
-	_vallocate(count);
-	std::uninitialized_copy(other._begin, other._end, _begin);
-	_end = _begin + count;
+	_vallocate(other.capacity());
+	_construct_at_end(count);
+	std::copy(other._begin, other._end, _begin);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -152,10 +159,9 @@ template <class T, class Allocator>
 vector<T, Allocator>& vector<T, Allocator>::operator=(const vector<T, Allocator>& other)
 {
 	if (this != &other) {
-		size_type count = other.size();
-		_vallocate(count);
-		std::uninitialized_copy(other._begin, other._end, _begin);
-		_end = _begin + count;
+		_vallocate(other.capacity());
+		_construct_at_end(other.size());
+		std::copy(other._begin, other._end, _begin);
 	}
 	return *this;
 }
@@ -367,12 +373,8 @@ void vector<T, Allocator>::swap(vector& other)
 {
 	vector<T, Allocator> save = *this;
 
-	_begin         = other._begin;
-	_end           = other._end;
-	_end_cap       = other._end_cap;
-	other._begin   = save._begin;
-	other._end     = save._end;
-	other._end_cap = save._end_cap;
+	*this = other;
+	other = save;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -440,7 +442,7 @@ template <class T, class Alloc>
 void vector<T, Alloc>::_vallocate(size_type n)
 {
 	if (n > max_size())
-		throw std::logic_error("allocation size too large");
+		throw std::length_error("allocation size too large");
 	_begin   = _alloc.allocate(n);
 	_end     = _begin;
 	_end_cap = _begin + n;
