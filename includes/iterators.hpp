@@ -33,10 +33,9 @@ class random_access_iterator : public std::iterator<std::random_access_iterator_
 		return *this;
 	}
 
-	reference operator*() { return *__i; }
-	pointer   operator->() { return __i; }
-
-	// operator[]
+	reference   operator*() { return *__i; }
+	pointer     operator->() { return __i; }
+	value_type& operator[](difference_type n) const { return *(__i + n); }
 
 	/* ------------------------- Advances / Decrements ------------------------- */
 	random_access_iterator& operator++()
