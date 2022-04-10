@@ -442,7 +442,7 @@ template <class T, class Alloc>
 void vector<T, Alloc>::_vallocate(size_type n)
 {
 	if (n > max_size())
-		throw std::logic_error("allocation size too large");
+		throw std::length_error("allocation size too large");
 	_begin   = _alloc.allocate(n);
 	_end     = _begin;
 	_end_cap = _begin + n;
