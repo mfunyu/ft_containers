@@ -11,8 +11,9 @@
 #define COLOR_BORD    "\033[1m"
 #define COLOR_CLEAR   "\033[0m"
 
-#define load_subtest_(x)    UnitTester::load_subtest(x, (char*)#x)
-#define set_explanation_(x) std::cout << x << std::endl;
+#define load_subtest_(x) UnitTester::load_subtest(x, (char*)#x)
+#define set_explanation_(x) \
+	std::cout << x << " (" << __FILE__ << ":" << __LINE__ << ")" << std::endl;
 
 typedef enum e_test_status
 {
@@ -67,9 +68,10 @@ class UnitTester
 	int  run_tests();
 	void launcher(int argc, char** argv);
 
-	static void load_subtest(void (*func)(void), char* func_name);
-	static void assert_(bool evaluate);
-	static void assert_diff_(bool evaluate);
+	static void        load_subtest(void (*func)(void), char* func_name);
+	static void        assert_(bool evaluate);
+	static void        assert_diff_(bool evaluate);
+	static std::string stl_type_to_string(t_stl_types type);
 
   private:
 	void _load_test(t_unit_tests* func_test_table);

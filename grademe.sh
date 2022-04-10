@@ -25,6 +25,8 @@ make -s std > /dev/null
 printf "${PROMPT} ./std_test > $stdfile${EOL}"
 ./std_test > $stdfile
 if [ $? == 1 ] ; then
+	cat $stdfile
+	printf "\n"
 	printf "${ERROR} : Tester does not return 100%% for STD${EOL}"
 	exit
 fi
