@@ -206,10 +206,10 @@ void _vector_capacity_compare_empty()
 void _vector_capacity_compare_even()
 {
 	set_explanation_("capacity differs from std (undefined behavior)");
-	ft::vector<int>  ft;
-	std::vector<int> std;
 	size_t           size = 12;
-	_set_compare_vectors(ft, std, size);
+	ft::vector<int>  ft(size);
+	std::vector<int> std(size);
+	_assign_compare_vectors(ft, std, size);
 
 	UnitTester::assert_diff_(ft.capacity() == std.capacity());
 }
@@ -217,10 +217,10 @@ void _vector_capacity_compare_even()
 void _vector_capacity_compare_odd()
 {
 	set_explanation_("capacity differs from std (undefined behavior)");
-	ft::vector<int>  ft;
-	std::vector<int> std;
 	size_t           size = 13;
-	_set_compare_vectors(ft, std, size);
+	ft::vector<int>  ft(size);
+	std::vector<int> std(size);
+	_assign_compare_vectors(ft, std, size);
 
 	UnitTester::assert_diff_(ft.capacity() == std.capacity());
 }
