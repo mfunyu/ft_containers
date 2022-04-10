@@ -71,13 +71,13 @@ class reverse_iterator
 	{
 		Iter tmp = current;
 		tmp -= n;
-		return tmp;
+		return reverse_iterator(tmp);
 	}
 	reverse_iterator operator-(difference_type n) const
 	{
 		Iter tmp = current;
 		tmp += n;
-		return tmp;
+		return reverse_iterator(tmp);
 	}
 	reverse_iterator& operator+=(difference_type n)
 	{
