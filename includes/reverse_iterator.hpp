@@ -90,6 +90,17 @@ class reverse_iterator
 		return *this;
 	}
 
+	friend reverse_iterator operator+(difference_type n, const reverse_iterator& it)
+	{
+		reverse_iterator tmp = it;
+		tmp.current += n;
+		return tmp;
+	}
+	friend difference_type operator-(const reverse_iterator& lhs, const reverse_iterator& rhs)
+	{
+		return (lhs.current - rhs.current);
+	}
+
 	/* ------------------------ Non-member functions ------------------------ */
 	template <class Iterator1, class Iterator2>
 	friend bool operator==(
@@ -129,15 +140,6 @@ class reverse_iterator
 	}
 };
 
-// template <class Iter>
-// reverse_iterator<Iter>
-// operator+(typename reverse_iterator<Iter>::difference_type n, const reverse_iterator<Iter>& it)
-// {}
-
-// template <class Iterator>
-// typename reverse_iterator<Iterator>::difference_type
-// operator-(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
-// {}
 } // namespace ft
 
 #endif /* REVERSE_ITERATOR_HPP */
