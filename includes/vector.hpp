@@ -55,7 +55,8 @@ class vector
 	// assign
 	void assign(size_type count, const T& value);
 	template <class InputIt>
-	void assign(InputIt first, InputIt last);
+	void assign(InputIt first, InputIt last,
+	    typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0);
 	// get_allocator
 	allocator_type get_allocator() const { return _alloc; }
 	// --------------------------- Elements access -------------------------- //
@@ -185,7 +186,8 @@ void vector<T, Allocator>::assign(size_type count, const T& value)
 
 template <class T, class Allocator>
 template <class InputIt>
-void vector<T, Allocator>::assign(InputIt first, InputIt last)
+void vector<T, Allocator>::assign(
+    InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value>::type*)
 {
 	size_type count = static_cast<size_type>(last - first);
 	pointer   current;
