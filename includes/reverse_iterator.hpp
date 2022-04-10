@@ -103,38 +103,38 @@ class reverse_iterator
 
 	/* ------------------------ Non-member functions ------------------------ */
 	template <class Iterator1, class Iterator2>
-	friend bool operator==(
-	    const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs)
+	friend bool
+	operator==(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs)
 	{
 		return (lhs.base() == rhs.base());
 	}
 	template <class Iterator1, class Iterator2>
-	friend bool operator!=(
-	    const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs)
+	friend bool
+	operator!=(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs)
 	{
 		return (lhs.base() != rhs.base());
 	}
 	template <class Iterator1, class Iterator2>
-	friend bool operator<(
-	    const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs)
+	friend bool
+	operator<(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs)
 	{
 		return (lhs.base() < rhs.base());
 	}
 	template <class Iterator1, class Iterator2>
-	friend bool operator<=(
-	    const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs)
+	friend bool
+	operator<=(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs)
 	{
 		return (lhs.base() <= rhs.base());
 	}
 	template <class Iterator1, class Iterator2>
-	friend bool operator>(
-	    const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs)
+	friend bool
+	operator>(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs)
 	{
 		return (lhs.base() > rhs.base());
 	}
 	template <class Iterator1, class Iterator2>
-	friend bool operator>=(
-	    const std::reverse_iterator<Iterator1>& lhs, const std::reverse_iterator<Iterator2>& rhs)
+	friend bool
+	operator>=(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs)
 	{
 		return (lhs.base() >= rhs.base());
 	}
