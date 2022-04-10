@@ -44,7 +44,7 @@ class reverse_iterator
 		Iter tmp = current;
 		return &--tmp;
 	}
-	value_type&       operator[](difference_type n) const { return *(current + n); }
+	reference         operator[](difference_type n) const { return current[n]; }
 	reverse_iterator& operator++()
 	{
 		--current;
