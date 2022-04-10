@@ -140,7 +140,10 @@ void _vector_reserve_extra_large()
 	} catch (std::length_error& e) {
 		exit(TEST_SUCCESS);
 	} catch (std::exception& e) {
-		set_explanation_("exception not thrown from allocator");
+		std::string str(e.what());
+		str += "; exception is not the langth error on n > max_size()";
+		set_explanation_(str.c_str());
+		exit(TEST_FAILED);
 	}
 	UnitTester::assert_(ft.capacity() == new_capacity);
 }
