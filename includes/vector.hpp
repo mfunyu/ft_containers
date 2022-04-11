@@ -376,10 +376,13 @@ void vector<T, Allocator>::resize(size_type count, T value)
 template <class T, class Allocator>
 void vector<T, Allocator>::swap(vector& other)
 {
-	vector<T, Allocator> save = *this;
+	std::swap(_begin, other._begin);
+	std::swap(_end, other._end);
+	std::swap(_end_cap, other._end_cap);
 
-	*this = other;
-	other = save;
+	Allocator save_alloc = _alloc;
+	_alloc               = other._alloc;
+	other._alloc         = save_alloc;
 }
 
 /* -------------------------------------------------------------------------- */
