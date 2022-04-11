@@ -91,43 +91,44 @@ class random_access_iterator : public std::iterator<std::random_access_iterator_
 	{
 		return (lhs.__i < rhs.__i);
 	}
-	/* 	the rest implemented outside of this class */
-
-	friend random_access_iterator operator+(difference_type n, const random_access_iterator& it)
-	{
-		random_access_iterator tmp = it;
-		tmp.__i += n;
-		return tmp;
-	}
-	friend difference_type
-	operator-(const random_access_iterator& lhs, const random_access_iterator& rhs)
-	{
-		return (lhs.__i - rhs.__i);
-	}
 };
 
-template <class T>
-bool operator!=(const random_access_iterator<T>& lhs, const random_access_iterator<T>& rhs)
+template <class _Iter1, class _Iter2>
+bool operator==(
+    const random_access_iterator<_Iter1>& lhs, const random_access_iterator<_Iter2>& rhs)
+{
+	return (lhs.base() == rhs.base());
+}
+
+template <class _Iter1, class _Iter2>
+bool operator<(const random_access_iterator<_Iter1>& lhs, const random_access_iterator<_Iter2>& rhs)
+{
+	return (lhs.base() < rhs.base());
+}
+
+template <class _Iter1, class _Iter2>
+bool operator!=(
+    const random_access_iterator<_Iter1>& lhs, const random_access_iterator<_Iter2>& rhs)
 {
 	return (!(lhs == rhs));
 }
-template <class T>
-bool operator<(const random_access_iterator<T>& lhs, const random_access_iterator<T>& rhs)
-{
-	return (lhs.__i < rhs.__i);
-}
-template <class T>
-bool operator<=(const random_access_iterator<T>& lhs, const random_access_iterator<T>& rhs)
+
+template <class _Iter1, class _Iter2>
+bool operator<=(
+    const random_access_iterator<_Iter1>& lhs, const random_access_iterator<_Iter2>& rhs)
 {
 	return (lhs < rhs || lhs == rhs);
 }
-template <class T>
-bool operator>(const random_access_iterator<T>& lhs, const random_access_iterator<T>& rhs)
+
+template <class _Iter1, class _Iter2>
+bool operator>(const random_access_iterator<_Iter1>& lhs, const random_access_iterator<_Iter2>& rhs)
 {
 	return (!(lhs < rhs) && !(lhs == rhs));
 }
-template <class T>
-bool operator>=(const random_access_iterator<T>& lhs, const random_access_iterator<T>& rhs)
+
+template <class _Iter1, class _Iter2>
+bool operator>=(
+    const random_access_iterator<_Iter1>& lhs, const random_access_iterator<_Iter2>& rhs)
 {
 	return !(lhs < rhs);
 }
