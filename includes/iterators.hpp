@@ -81,17 +81,22 @@ class random_access_iterator : public std::iterator<std::random_access_iterator_
 		__i -= n;
 		return *this;
 	}
-
-	/* -------------------------- Non-member functions ------------------------- */
-	friend bool operator==(const random_access_iterator& lhs, const random_access_iterator& rhs)
-	{
-		return (lhs.__i == rhs.__i);
-	}
-	friend bool operator<(const random_access_iterator& lhs, const random_access_iterator& rhs)
-	{
-		return (lhs.__i < rhs.__i);
-	}
 };
+
+/* -------------------------- Non-member functions ------------------------- */
+template <class _Iter>
+random_access_iterator<_Iter> operator+(typename random_access_iterator<_Iter>::difference_type n,
+    const random_access_iterator<_Iter>&                                                        it)
+{
+	return random_access_iterator<_Iter>(it.base() + n);
+}
+
+template <class _Iter1, class _Iter2>
+typename random_access_iterator<_Iter1>::difference_type
+operator-(const random_access_iterator<_Iter1>& lhs, const random_access_iterator<_Iter2>& rhs)
+{
+	return (lhs.base() - rhs.base());
+}
 
 template <class _Iter1, class _Iter2>
 bool operator==(
