@@ -24,13 +24,16 @@ class random_access_iterator : public std::iterator<std::random_access_iterator_
 	// (constructor)
 	random_access_iterator() : __i(NULL) {}
 	random_access_iterator(T* pointer) : __i(pointer) {}
-	random_access_iterator(random_access_iterator const& other) : __i(other.__i) {}
+	template <class U>
+	random_access_iterator(random_access_iterator<U> const& other) : __i(other.base())
+	{}
 	// (destructor)
 	~random_access_iterator() {}
 
-	random_access_iterator& operator=(random_access_iterator const& other)
+	template <class U>
+	random_access_iterator& operator=(random_access_iterator<U> const& other)
 	{
-		__i = other.__i;
+		__i = other.base();
 		return *this;
 	}
 	iterator_type base() const { return __i; }

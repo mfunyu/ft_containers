@@ -24,13 +24,13 @@ class reverse_iterator
 	reverse_iterator() : current(Iter()) {}
 	explicit reverse_iterator(iterator_type x) : current(x) {}
 	template <class U>
-	reverse_iterator(const reverse_iterator<U>& other) : current(other.current)
+	reverse_iterator(const reverse_iterator<U>& other) : current(other.base())
 	{}
 	// operator=
 	template <class U>
 	reverse_iterator& operator=(const reverse_iterator<U>& other)
 	{
-		current = other.current;
+		current = other.base();
 		return *this;
 	}
 	iterator_type base() const { return current; }
