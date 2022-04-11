@@ -23,10 +23,10 @@ class vector
 	typedef typename Allocator::pointer       pointer;
 	typedef typename Allocator::const_pointer const_pointer;
 
-	typedef random_access_iterator<T>            iterator;
-	typedef random_access_iterator<T>            const_iterator;
-	typedef ft::reverse_iterator<iterator>       reverse_iterator;
-	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+	typedef random_access_iterator<value_type>       iterator;
+	typedef random_access_iterator<const value_type> const_iterator;
+	typedef ft::reverse_iterator<iterator>           reverse_iterator;
+	typedef ft::reverse_iterator<const_iterator>     const_reverse_iterator;
 
   private:
 	pointer        _begin;
