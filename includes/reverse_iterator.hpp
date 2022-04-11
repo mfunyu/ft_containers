@@ -21,7 +21,7 @@ class reverse_iterator
 
   public:
 	// (constructor)
-	reverse_iterator() : current(Iter()) {}
+	reverse_iterator() : current(iterator_type()) {}
 	explicit reverse_iterator(iterator_type x) : current(x) {}
 	template <class U>
 	reverse_iterator(const reverse_iterator<U>& other) : current(other.base())
@@ -36,13 +36,13 @@ class reverse_iterator
 	iterator_type base() const { return current; }
 	reference     operator*() const
 	{
-		Iter tmp = current;
+		iterator_type tmp = current;
 		return *--tmp;
 	}
 	pointer operator->() const
 	{
-		Iter tmp = current;
-		return &operator*();
+		iterator_type tmp = current;
+		return &      operator*();
 	}
 	reference         operator[](difference_type n) const { return *(*this + n); }
 	reverse_iterator& operator++()
