@@ -23,10 +23,10 @@ class vector
 	typedef typename Allocator::pointer       pointer;
 	typedef typename Allocator::const_pointer const_pointer;
 
-	typedef random_access_iterator<T>            iterator;
-	typedef random_access_iterator<T>            const_iterator;
-	typedef ft::reverse_iterator<iterator>       reverse_iterator;
-	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+	typedef random_access_iterator<value_type>       iterator;
+	typedef random_access_iterator<const value_type> const_iterator;
+	typedef ft::reverse_iterator<iterator>           reverse_iterator;
+	typedef ft::reverse_iterator<const_iterator>     const_reverse_iterator;
 
   private:
 	pointer        _begin;
@@ -39,7 +39,8 @@ class vector
 	explicit vector(const Allocator& alloc);
 	explicit vector(size_type count, const T& value = T(), const Allocator& alloc = Allocator());
 	template <class InputIt>
-	vector(InputIt first, InputIt last, const Allocator& alloc = Allocator());
+	vector(InputIt first, InputIt last, const Allocator& alloc = Allocator(),
+	    typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0);
 	vector(const vector& other);
 	// (destructor)
 	~vector()
@@ -55,7 +56,8 @@ class vector
 	// assign
 	void assign(size_type count, const T& value);
 	template <class InputIt>
-	void assign(InputIt first, InputIt last);
+	void assign(InputIt first, InputIt last,
+	    typename ft::enable_if<!ft::is_integral<InputIt>::value>::type* = 0);
 	// get_allocator
 	allocator_type get_allocator() const { return _alloc; }
 	// --------------------------- Elements access -------------------------- //
@@ -129,14 +131,16 @@ vector<T, Allocator>::vector(size_type count, const T& value, const Allocator& a
     _alloc(alloc)
 {
 	_vallocate(count);
-	assign(count, value);
+	_construct_at_end(count, value);
 }
 
 template <class T, class Allocator>
 template <class InputIt>
-vector<T, Allocator>::vector(InputIt first, InputIt last, const Allocator& alloc) : _alloc(alloc)
+vector<T, Allocator>::vector(InputIt first, InputIt last, const Allocator& alloc,
+    typename ft::enable_if<!ft::is_integral<InputIt>::value>::type*) :
+    _alloc(alloc)
 {
-	size_type count = static_cast<size_type>(last - first);
+	size_type count = std::distance(first, last);
 	_vallocate(count);
 	_construct_at_end(count);
 	std::copy(first, last, _begin);
@@ -185,9 +189,10 @@ void vector<T, Allocator>::assign(size_type count, const T& value)
 
 template <class T, class Allocator>
 template <class InputIt>
-void vector<T, Allocator>::assign(InputIt first, InputIt last)
+void vector<T, Allocator>::assign(
+    InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value>::type*)
 {
-	size_type count = static_cast<size_type>(last - first);
+	size_type count = std::distance(first, last);
 	pointer   current;
 
 	if (capacity() < count)
@@ -292,7 +297,7 @@ template <class InputIt>
 void vector<T, Allocator>::insert(iterator pos, InputIt first, InputIt last,
     typename ft::enable_if<!ft::is_integral<InputIt>::value>::type*)
 {
-	difference_type count  = last - first;
+	difference_type count  = std::distance(first, last);
 	difference_type offset = pos - begin();
 
 	if (size() + count >= capacity()) {
@@ -371,10 +376,13 @@ void vector<T, Allocator>::resize(size_type count, T value)
 template <class T, class Allocator>
 void vector<T, Allocator>::swap(vector& other)
 {
-	vector<T, Allocator> save = *this;
+	std::swap(_begin, other._begin);
+	std::swap(_end, other._end);
+	std::swap(_end_cap, other._end_cap);
 
-	*this = other;
-	other = save;
+	Allocator save_alloc = _alloc;
+	_alloc               = other._alloc;
+	other._alloc         = save_alloc;
 }
 
 /* -------------------------------------------------------------------------- */
