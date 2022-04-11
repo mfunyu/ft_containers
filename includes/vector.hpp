@@ -131,7 +131,7 @@ vector<T, Allocator>::vector(size_type count, const T& value, const Allocator& a
     _alloc(alloc)
 {
 	_vallocate(count);
-	assign(count, value);
+	_construct_at_end(count, value);
 }
 
 template <class T, class Allocator>
