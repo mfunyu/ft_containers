@@ -64,15 +64,13 @@ class random_access_iterator : public std::iterator<std::random_access_iterator_
 		--__i;
 		return tmp;
 	}
-	random_access_iterator& operator+(difference_type rhs)
+	random_access_iterator operator+(difference_type n) const
 	{
-		__i += rhs;
-		return *this;
+		return random_access_iterator(__i + n);
 	}
-	random_access_iterator& operator-(difference_type rhs)
+	random_access_iterator operator-(difference_type n) const
 	{
-		__i -= rhs;
-		return *this;
+		return random_access_iterator(__i - n);
 	}
 	random_access_iterator& operator+=(difference_type n)
 	{

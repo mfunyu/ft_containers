@@ -67,18 +67,8 @@ class reverse_iterator
 		++current;
 		return tmp;
 	}
-	reverse_iterator operator+(difference_type n) const
-	{
-		Iter tmp = current;
-		tmp -= n;
-		return reverse_iterator(tmp);
-	}
-	reverse_iterator operator-(difference_type n) const
-	{
-		Iter tmp = current;
-		tmp += n;
-		return reverse_iterator(tmp);
-	}
+	reverse_iterator  operator+(difference_type n) const { return reverse_iterator(current - n); }
+	reverse_iterator  operator-(difference_type n) const { return reverse_iterator(current + n); }
 	reverse_iterator& operator+=(difference_type n)
 	{
 		current -= n;
