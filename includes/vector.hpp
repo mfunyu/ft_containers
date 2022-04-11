@@ -140,7 +140,7 @@ vector<T, Allocator>::vector(InputIt first, InputIt last, const Allocator& alloc
     typename ft::enable_if<!ft::is_integral<InputIt>::value>::type*) :
     _alloc(alloc)
 {
-	size_type count = static_cast<size_type>(last - first);
+	size_type count = std::distance(first, last);
 	_vallocate(count);
 	_construct_at_end(count);
 	std::copy(first, last, _begin);
@@ -192,7 +192,7 @@ template <class InputIt>
 void vector<T, Allocator>::assign(
     InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value>::type*)
 {
-	size_type count = static_cast<size_type>(last - first);
+	size_type count = std::distance(first, last);
 	pointer   current;
 
 	if (capacity() < count)
@@ -297,7 +297,7 @@ template <class InputIt>
 void vector<T, Allocator>::insert(iterator pos, InputIt first, InputIt last,
     typename ft::enable_if<!ft::is_integral<InputIt>::value>::type*)
 {
-	difference_type count  = last - first;
+	difference_type count  = std::distance(first, last);
 	difference_type offset = pos - begin();
 
 	if (size() + count >= capacity()) {
