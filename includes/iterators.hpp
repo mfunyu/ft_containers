@@ -116,27 +116,27 @@ template <class _Iter1, class _Iter2>
 bool operator!=(
     const random_access_iterator<_Iter1>& lhs, const random_access_iterator<_Iter2>& rhs)
 {
-	return (!(lhs == rhs));
+	return (lhs.base() != rhs.base());
 }
 
 template <class _Iter1, class _Iter2>
 bool operator<=(
     const random_access_iterator<_Iter1>& lhs, const random_access_iterator<_Iter2>& rhs)
 {
-	return (lhs < rhs || lhs == rhs);
+	return (lhs.base() <= rhs.base());
 }
 
 template <class _Iter1, class _Iter2>
 bool operator>(const random_access_iterator<_Iter1>& lhs, const random_access_iterator<_Iter2>& rhs)
 {
-	return (!(lhs < rhs) && !(lhs == rhs));
+	return (lhs.base() > rhs.base());
 }
 
 template <class _Iter1, class _Iter2>
 bool operator>=(
     const random_access_iterator<_Iter1>& lhs, const random_access_iterator<_Iter2>& rhs)
 {
-	return !(lhs < rhs);
+	return (lhs.base() >= rhs.base());
 }
 
 } // namespace ft
