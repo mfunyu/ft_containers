@@ -21,12 +21,12 @@ t_unit_tests func_test_table[] = {
 	{              "map_empty",               map_empty, FAIL, MAP},
     {               "map_size",                map_size, FAIL, MAP},
 	{           "map_max_size",            map_max_size, FAIL, MAP},
+ // ------------------------------ Modifiers ----------------------------- //
+	{              "map_clear",               map_clear, FAIL, MAP},
+    {             "map_insert",              map_insert, FAIL, MAP},
+	{              "map_erase",               map_erase, FAIL, MAP},
+    {               "map_swap",                map_swap, FAIL, MAP},
  /*
-  // ------------------------------ Modifiers ----------------------------- //
-  {              "map_clear",               map_clear, FAIL, MAP},
-  {             "map_insert",              map_insert, FAIL, MAP},
-  {              "map_erase",               map_erase, FAIL, MAP},
-  {               "map_swap",                map_swap, FAIL, MAP},
   // ------------------------------- Lookup ------------------------------- //
   {              "map_count",               map_count, FAIL, MAP},
   {               "map_find",                map_find, FAIL, MAP},
@@ -61,6 +61,46 @@ ft::map<int, int> _set_map(int size, bool accend)
 		}
 	}
 	return data;
+}
+
+ft::map<int, char> _set_map_char(int size, bool accend)
+{
+	ft::map<int, char> data;
+
+	for (int i = 0; i < size; ++i) {
+		if (accend) {
+			data[i] = 'a' + i;
+		} else {
+			data[std::rand()] = 'a' + std::rand() % 26;
+		}
+	}
+	return data;
+}
+
+ft::map<int, std::string> _set_map_string(int size, bool accend)
+{
+	ft::map<int, std::string> data;
+
+	for (int i = 0; i < size; ++i) {
+		if (accend) {
+			data[i] = 'a' + i;
+		} else {
+			data[i] = 'a' + std::rand() % 26;
+		}
+	}
+	return data;
+}
+
+void _set_compare_maps(ft::map<int, int>& ft_data, std::map<int, int>& std_data, int size)
+{
+	int val;
+
+	for (int i = 0; i < size; ++i) {
+		val = std::rand();
+
+		ft_data.insert(std::pair<int, int>(i, val));
+		std_data.insert(std::pair<int, int>(i, val));
+	}
 }
 
 void _set_compare_maps(
