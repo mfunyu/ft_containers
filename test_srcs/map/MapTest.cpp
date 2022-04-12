@@ -91,18 +91,6 @@ ft::map<int, std::string> _set_map_string(int size, bool accend)
 	return data;
 }
 
-void _set_compare_maps(ft::map<int, int>& ft_data, std::map<int, int>& std_data, int size)
-{
-	int val;
-
-	for (int i = 0; i < size; ++i) {
-		val = std::rand();
-
-		ft_data.insert(std::pair<int, int>(i, val));
-		std_data.insert(std::pair<int, int>(i, val));
-	}
-}
-
 void _set_compare_maps(
     ft::map<int, std::string>& ft_data, std::map<int, std::string>& std_data, int size)
 {

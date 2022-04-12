@@ -64,9 +64,11 @@ void map_std_swap();
 
 extern t_unit_tests func_test_table[TABLE_SIZE];
 
-ft::map<int, int> _set_map(int size = 6, bool accend = false);
-void              _set_compare_maps(
-                 ft::map<int, std::string>& ft_data, std::map<int, std::string>& std_data, int size = 6);
+ft::map<int, int>         _set_map(int size = 6, bool accend = false);
+ft::map<int, char>        _set_map_char(int size = 6, bool accend = false);
+ft::map<int, std::string> _set_map_string(int size = 6, bool accend = false);
+void                      _set_compare_maps(
+                         ft::map<int, std::string>& ft_data, std::map<int, std::string>& std_data, int size = 6);
 
 /* --------------------------- template functions --------------------------- */
 
@@ -79,6 +81,19 @@ void _compare_maps(ft::map<Key, T>& ft, std::map<Key, T>& std)
 
 	for (; it != ft.end(); ++it, ++its) {
 		UnitTester::assert_(*it == *its);
+	}
+}
+
+template <class Comp>
+void _set_compare_maps(
+    ft::map<int, char, Comp>& ft_data, std::map<int, char, Comp>& std_data, int size)
+{
+	for (int i = 0; i < size; ++i) {
+		char key = std::rand();
+		char val = 'a' + std::rand() % 26;
+
+		ft_data[key]  = val;
+		std_data[key] = val;
 	}
 }
 
