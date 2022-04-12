@@ -17,11 +17,11 @@ t_unit_tests func_test_table[] = {
     {                "map_end",                 map_end, FAIL, MAP},
 	{             "map_rbegin",              map_rbegin, FAIL, MAP},
     {               "map_rend",                map_rend, FAIL, MAP},
+ // ------------------------------ Capacity ----------------------------- //
+	{              "map_empty",               map_empty, FAIL, MAP},
+    {               "map_size",                map_size, FAIL, MAP},
+	{           "map_max_size",            map_max_size, FAIL, MAP},
  /*
-  // ------------------------------ Capacity ----------------------------- //
-  {              "map_empty",               map_empty, FAIL, MAP},
-  {               "map_size",                map_size, FAIL, MAP},
-  {           "map_max_size",            map_max_size, FAIL, MAP},
   // ------------------------------ Modifiers ----------------------------- //
   {              "map_clear",               map_clear, FAIL, MAP},
   {             "map_insert",              map_insert, FAIL, MAP},
