@@ -1,4 +1,5 @@
 #include "UnitTester.hpp"
+#include "MapTest.hpp"
 #include "VectorTest.hpp"
 #include <iostream>
 #include <signal.h>
@@ -236,6 +237,7 @@ int UnitTester::run_tests(void)
 void UnitTester::load_tests(void)
 {
 	_load_test(VectorTest::func_test_table);
+	_load_test(MapTest::func_test_table);
 }
 
 void UnitTester::launcher(int ac, char** av)
