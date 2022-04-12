@@ -5,12 +5,12 @@ namespace MapTest {
 #define FAIL TEST_FAILED
 
 t_unit_tests func_test_table[] = {
-	{"map_constructor", map_constructor, FAIL, MAP},
- /*
-  {         "map_destructor",          map_destructor, FAIL, MAP},
-  {"map_assignment_operator", map_assignment_operator, FAIL, MAP},
-  {	  "map_get_allocator",       map_get_allocator, FAIL, MAP},
-  // --------------------------- Element access --------------------------- //
+	{        "map_constructor",         map_constructor, FAIL, MAP},
+	{         "map_destructor",          map_destructor, FAIL, MAP},
+	{"map_assignment_operator", map_assignment_operator, FAIL, MAP},
+	{	  "map_get_allocator",       map_get_allocator, FAIL, MAP},
+ // --------------------------- Element access --------------------------- //
+  /*
   {                 "map_at",                  map_at, FAIL, MAP},
   { "map_subscript_operator",  map_subscript_operator, FAIL, MAP},
   // ------------------------------ Iterators ----------------------------- //
@@ -46,7 +46,7 @@ t_unit_tests func_test_table[] = {
   {           "map_std_swap",            map_std_swap, FAIL, MAP},
   */
   // ------------------- Terminater (Do not comment out) ------------------ //
-	{             "\0",	        NULL, FAIL, MAP}
+	{                     "\0",                    NULL, FAIL, MAP}
 };
 
 ft::map<int, int> _set_map(int size, bool accend)
