@@ -49,4 +49,34 @@ t_unit_tests func_test_table[] = {
 	{             "\0",	        NULL, FAIL, MAP}
 };
 
+ft::map<int, int> _set_map(int size, bool accend)
+{
+	ft::map<int, int> data;
+
+	for (int i = 0; i < size; ++i) {
+		if (accend) {
+			data[i] = i;
+		} else {
+			data[i] = std::rand();
+		}
+	}
+	return data;
+}
+
+void _set_compare_maps(
+    ft::map<int, std::string>& ft_data, std::map<int, std::string>& std_data, int size)
+{
+	std::string val;
+	std::string strs[]   = { "42", "Tokyo", "Hello", "World", "!" };
+	size_t      patterns = 5;
+
+	for (int i = 0; i < size; ++i) {
+		int index = std::rand() % patterns;
+
+		val = strs[index] + strs[std::max(index - 1, 0)];
+		ft_data.insert(std::pair<int, std::string>(i, val));
+		std_data.insert(std::pair<int, std::string>(i, val));
+	}
+}
+
 } // namespace MapTest

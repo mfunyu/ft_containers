@@ -2,9 +2,10 @@
 #define MAPTEST_HPP
 
 #include "UnitTester.hpp"
+#include <iostream>
+#include <map>
 
 #if TEST
-#include <map>
 namespace ft = std;
 #else
 #include "map.hpp"
@@ -62,6 +63,38 @@ void map_operator_ge();
 void map_std_swap();
 
 extern t_unit_tests func_test_table[TABLE_SIZE];
+
+ft::map<int, int> _set_map(int size = 6, bool accend = false);
+void              _set_compare_maps(
+                 ft::map<int, std::string>& ft_data, std::map<int, std::string>& std_data, int size = 6);
+
+/* --------------------------- template functions --------------------------- */
+
+template <class Key, class T>
+void _compare_maps(ft::map<Key, T>& ft, std::map<Key, T>& std)
+{
+	UnitTester::assert_(ft.size() == std.size());
+	typename ft::map<Key, T>::iterator  it  = ft.begin();
+	typename std::map<Key, T>::iterator its = std.begin();
+
+	for (; it != ft.end(); ++it, ++its) {
+		UnitTester::assert_(*it == *its);
+	}
+}
+
+template <class Key, class T>
+void _debug(ft::map<Key, T>& ft, std::string name = "")
+{
+	std::cerr << std::endl;
+	std::cerr << "[" << name << "] ";
+	std::cerr << "size=" << ft.size() << " | ";
+
+	typename ft::map<Key, T>::iterator it = ft.begin();
+	for (; it != ft.end(); ++it) {
+		std::cerr << it->first << ": " << it->second << " ";
+	}
+	std::cerr << std::endl;
+}
 
 } // namespace MapTest
 
