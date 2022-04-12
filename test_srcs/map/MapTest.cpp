@@ -12,12 +12,12 @@ t_unit_tests func_test_table[] = {
  // --------------------------- Element access --------------------------- //
 	{                 "map_at",                  map_at, FAIL, MAP},
 	{ "map_subscript_operator",  map_subscript_operator, FAIL, MAP},
+ // ------------------------------ Iterators ----------------------------- //
+	{              "map_begin",               map_begin, FAIL, MAP},
+    {                "map_end",                 map_end, FAIL, MAP},
+	{             "map_rbegin",              map_rbegin, FAIL, MAP},
+    {               "map_rend",                map_rend, FAIL, MAP},
  /*
-  // ------------------------------ Iterators ----------------------------- //
-  {              "map_begin",               map_begin, FAIL, MAP},
-  {                "map_end",                 map_end, FAIL, MAP},
-  {             "map_rbegin",              map_rbegin, FAIL, MAP},
-  {               "map_rend",                map_rend, FAIL, MAP},
   // ------------------------------ Capacity ----------------------------- //
   {              "map_empty",               map_empty, FAIL, MAP},
   {               "map_size",                map_size, FAIL, MAP},
