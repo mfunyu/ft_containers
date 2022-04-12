@@ -10,9 +10,9 @@ t_unit_tests func_test_table[] = {
 	{"map_assignment_operator", map_assignment_operator, FAIL, MAP},
 	{	  "map_get_allocator",       map_get_allocator, FAIL, MAP},
  // --------------------------- Element access --------------------------- //
-  /*
-  {                 "map_at",                  map_at, FAIL, MAP},
-  { "map_subscript_operator",  map_subscript_operator, FAIL, MAP},
+	{                 "map_at",                  map_at, FAIL, MAP},
+	{ "map_subscript_operator",  map_subscript_operator, FAIL, MAP},
+ /*
   // ------------------------------ Iterators ----------------------------- //
   {              "map_begin",               map_begin, FAIL, MAP},
   {                "map_end",                 map_end, FAIL, MAP},
