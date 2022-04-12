@@ -34,10 +34,10 @@ t_unit_tests func_test_table[] = {
   {        "map_lower_bound",         map_lower_bound, FAIL, MAP},
   {        "map_upper_bound",         map_upper_bound, FAIL, MAP},
   // ------------------------------ Observers ----------------------------- //
-  {           "map_key_comp",            map_key_comp, FAIL, MAP},
-  {         "map_value_comp",          map_value_comp, FAIL, MAP},
   */
-  // ------------------------ Non-member functions ------------------------ //
+	{           "map_key_comp",            map_key_comp, FAIL, MAP},
+    {         "map_value_comp",          map_value_comp, FAIL, MAP},
+ // ------------------------ Non-member functions ------------------------ //
 	{         "map_operator_e",          map_operator_e, FAIL, MAP},
 	{        "map_operator_ne",         map_operator_ne, FAIL, MAP},
 	{         "map_operator_l",          map_operator_l, FAIL, MAP},
