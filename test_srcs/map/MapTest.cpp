@@ -36,16 +36,16 @@ t_unit_tests func_test_table[] = {
   // ------------------------------ Observers ----------------------------- //
   {           "map_key_comp",            map_key_comp, FAIL, MAP},
   {         "map_value_comp",          map_value_comp, FAIL, MAP},
-  // ------------------------ Non-member functions ------------------------ //
-  {         "map_operator_e",          map_operator_e, FAIL, MAP},
-  {        "map_operator_ne",         map_operator_ne, FAIL, MAP},
-  {         "map_operator_l",          map_operator_l, FAIL, MAP},
-  {        "map_operator_le",         map_operator_le, FAIL, MAP},
-  {         "map_operator_g",          map_operator_g, FAIL, MAP},
-  {        "map_operator_ge",         map_operator_ge, FAIL, MAP},
-  {           "map_std_swap",            map_std_swap, FAIL, MAP},
   */
-  // ------------------- Terminater (Do not comment out) ------------------ //
+  // ------------------------ Non-member functions ------------------------ //
+	{         "map_operator_e",          map_operator_e, FAIL, MAP},
+	{        "map_operator_ne",         map_operator_ne, FAIL, MAP},
+	{         "map_operator_l",          map_operator_l, FAIL, MAP},
+	{        "map_operator_le",         map_operator_le, FAIL, MAP},
+	{         "map_operator_g",          map_operator_g, FAIL, MAP},
+	{        "map_operator_ge",         map_operator_ge, FAIL, MAP},
+    {           "map_std_swap",            map_std_swap, FAIL, MAP},
+ // ------------------- Terminater (Do not comment out) ------------------ //
 	{                     "\0",                    NULL, FAIL, MAP}
 };
 
