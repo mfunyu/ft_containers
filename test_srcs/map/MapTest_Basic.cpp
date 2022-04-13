@@ -2,7 +2,6 @@
 #include "UnitTester.hpp"
 #include <iostream>
 #include <map>
-#include <vector>
 
 namespace MapTest {
 

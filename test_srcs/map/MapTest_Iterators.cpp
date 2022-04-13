@@ -2,9 +2,6 @@
 #include "UnitTester.hpp"
 #include <iostream>
 #include <map>
-#include <vector>
-
-namespace ft = std;
 
 namespace MapTest {
 
