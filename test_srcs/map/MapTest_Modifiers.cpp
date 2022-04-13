@@ -147,20 +147,13 @@ void _map_erase_one()
 	ft::map<int, int>::iterator it   = ++(++ft.begin());
 	int                         key  = it->first;
 
+	set_explanation_("count() not working");
+	UnitTester::assert_(ft.count(key) == 1);
 	ft.erase(it);
-	try {
-		set_explanation_("the first element not erased");
-		UnitTester::assert_(ft.at(key) != it->second);
-	} catch (std::out_of_range& e) {
-		exit(TEST_SUCCESS);
-	} catch (std::exception& e) {
-		std::string str(e.what());
-		str += "; exception is not the out_of_range error";
-		set_explanation_(str.c_str());
-		exit(TEST_FAILED);
-	}
-	exit(TEST_FAILED);
+	set_explanation_("the third element not erased");
+	UnitTester::assert_(ft.count(key) == 0);
 }
+
 void _map_erase_head()
 {
 	int                         size = 10;
@@ -168,19 +161,11 @@ void _map_erase_head()
 	ft::map<int, int>::iterator it   = ft.begin();
 	int                         key  = it->first;
 
+	set_explanation_("count() not working");
+	UnitTester::assert_(ft.count(key) == 1);
 	ft.erase(it);
-	try {
-		set_explanation_("the first element not erased");
-		UnitTester::assert_(ft.at(key) != it->second);
-	} catch (std::out_of_range& e) {
-		exit(TEST_SUCCESS);
-	} catch (std::exception& e) {
-		std::string str(e.what());
-		str += "; exception is not the out_of_range error";
-		set_explanation_(str.c_str());
-		exit(TEST_FAILED);
-	}
-	exit(TEST_FAILED);
+	set_explanation_("the first element not erased");
+	UnitTester::assert_(ft.count(key) == 0);
 }
 
 void _map_erase_tail()
@@ -190,19 +175,11 @@ void _map_erase_tail()
 	ft::map<int, int>::iterator it   = --ft.end();
 	int                         key  = it->first;
 
+	set_explanation_("count() not working");
+	UnitTester::assert_(ft.count(key) == 1);
 	ft.erase(it);
-	try {
-		set_explanation_("the last element not erased");
-		UnitTester::assert_(ft.at(key) != it->second);
-	} catch (std::out_of_range& e) {
-		exit(TEST_SUCCESS);
-	} catch (std::exception& e) {
-		std::string str(e.what());
-		str += "; exception is not the out_of_range error";
-		set_explanation_(str.c_str());
-		exit(TEST_FAILED);
-	}
-	exit(TEST_FAILED);
+	set_explanation_("the last element not erased");
+	UnitTester::assert_(ft.count(key) == 0);
 }
 
 void _map_erase_range()
