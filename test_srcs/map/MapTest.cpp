@@ -26,15 +26,13 @@ t_unit_tests func_test_table[] = {
     {             "map_insert",              map_insert, FAIL, MAP},
 	{              "map_erase",               map_erase, FAIL, MAP},
     {               "map_swap",                map_swap, FAIL, MAP},
- /*
-  // ------------------------------- Lookup ------------------------------- //
-  {              "map_count",               map_count, FAIL, MAP},
-  {               "map_find",                map_find, FAIL, MAP},
-  {        "map_equal_range",         map_equal_range, FAIL, MAP},
-  {        "map_lower_bound",         map_lower_bound, FAIL, MAP},
-  {        "map_upper_bound",         map_upper_bound, FAIL, MAP},
-  // ------------------------------ Observers ----------------------------- //
-  */
+ // ------------------------------- Lookup ------------------------------- //
+	{              "map_count",               map_count, FAIL, MAP},
+    {               "map_find",                map_find, FAIL, MAP},
+	{        "map_equal_range",         map_equal_range, FAIL, MAP},
+	{        "map_lower_bound",         map_lower_bound, FAIL, MAP},
+	{        "map_upper_bound",         map_upper_bound, FAIL, MAP},
+ // ------------------------------ Observers ----------------------------- //
 	{           "map_key_comp",            map_key_comp, FAIL, MAP},
     {         "map_value_comp",          map_value_comp, FAIL, MAP},
  // ------------------------ Non-member functions ------------------------ //
