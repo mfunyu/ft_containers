@@ -1,4 +1,5 @@
 #include "UnitTester.hpp"
+#include "MapTest.hpp"
 #include "VectorTest.hpp"
 #include <iostream>
 #include <signal.h>
@@ -142,9 +143,9 @@ void UnitTester::_print_subheader(const std::string& header)
 	int leftside   = fill_width / 2;
 
 	std::cout << std::setfill('=');
-	std::cout << std::setw(leftside) << " ";
+	std::cout << std::setw(leftside) << std::right << " ";
 	std::cout << header;
-	std::cout << std::setw(fill_width - leftside) << std::left << " " << std::endl;
+	std::cout << std::setw(fill_width - leftside) << std::left << " " << std::flush;
 	std::cout << std::setfill(' ');
 }
 
@@ -155,12 +156,13 @@ void UnitTester::_display_result(t_unit_subtests& current_test)
 	std::string        type_stirng = _stl_type_to_string(current_test.type);
 
 	if (type != current_test.type) {
+		if (type)
+			std::cout << "\n" << std::endl;
 		_print_subheader(type_stirng);
 		type = current_test.type;
 	}
 	if (!prev_func_name || strcmp(prev_func_name, current_test.func_name)) {
-		if (prev_func_name)
-			std::cout << std::endl;
+		std::cout << std::endl;
 
 		std::string func_name(current_test.func_name);
 		std::cout << std::left << std::setw(k_subtest_block_width)
@@ -236,6 +238,7 @@ int UnitTester::run_tests(void)
 void UnitTester::load_tests(void)
 {
 	_load_test(VectorTest::func_test_table);
+	_load_test(MapTest::func_test_table);
 }
 
 void UnitTester::launcher(int ac, char** av)

@@ -17,12 +17,23 @@ SRCS	:= main.cpp \
 		VectorTest_Iterators.cpp \
 		VectorTest_Capacity.cpp \
 		VectorTest_NonMemberFunctions.cpp \
-		VectorTest_Modifiers.cpp
+		VectorTest_Modifiers.cpp \
+		MapTest.cpp \
+		MapTest_Basic.cpp \
+		MapTest_ElementAccess.cpp \
+		MapTest_Iterators.cpp \
+		MapTest_Capacity.cpp \
+		MapTest_Lookup.cpp \
+		MapTest_Observers.cpp \
+		MapTest_NonMemberFunctions.cpp \
+		MapTest_Modifiers.cpp \
 
 OBJS_DIR:= objs/
 OBJS	:= $(addprefix $(OBJS_DIR), $(SRCS:.cpp=.o))
 SRCS_DIR:= test_srcs
-VPATH	:= $(SRCS_DIR) $(SRCS_DIR)/vector
+VPATH	:= $(SRCS_DIR) \
+	$(SRCS_DIR)/vector \
+	$(SRCS_DIR)/map
 DEPS	:= $(OBJS:.o=.d)
 
 .PHONY	: all clean fclean re test
