@@ -2,11 +2,9 @@
 
 int main(int ac, char** av)
 {
-	int status;
-	(void)ac;
-	(void)av;
+	int        status;
 	UnitTester test;
-	test.load_tests();
+	test.load_tests(ac, av);
 	status = test.run_tests();
 	return (status);
 }

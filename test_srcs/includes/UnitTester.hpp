@@ -64,9 +64,8 @@ class UnitTester
   public:
 	UnitTester();
 	~UnitTester();
-	void load_tests();
+	void load_tests(int ac, char** av);
 	int  run_tests();
-	void launcher(int argc, char** argv);
 
 	static void        load_subtest(void (*func)(void), char* func_name);
 	static void        assert_(bool evaluate);

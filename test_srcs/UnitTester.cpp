@@ -235,14 +235,28 @@ int UnitTester::run_tests(void)
 	return (1);
 }
 
-void UnitTester::load_tests(void)
+void UnitTester::load_tests(int ac, char** av)
 {
-	_load_test(VectorTest::func_test_table);
-	_load_test(MapTest::func_test_table);
-}
+	t_stl_types stl = NONE;
+	std::string argv;
 
-void UnitTester::launcher(int ac, char** av)
-{
-	(void)ac;
-	(void)av;
+	for (size_t i = 1; i < ac; ++i) {
+		argv = av[i];
+		if (argv == "vector") {
+			stl = VECTOR;
+		} else if (argv == "map") {
+			stl = MAP;
+		}
+	}
+	switch (stl) {
+	case VECTOR:
+		_load_test(VectorTest::func_test_table);
+		break;
+	case MAP:
+		_load_test(MapTest::func_test_table);
+		break;
+	default:
+		_load_test(VectorTest::func_test_table);
+		_load_test(MapTest::func_test_table);
+	}
 }
