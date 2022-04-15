@@ -69,6 +69,7 @@ class _rbtree
 
   public:
 	node_pointer insert(const node_value_type& v);
+	void         display(std::string func_name = "", int line = -1);
 };
 
 
@@ -258,14 +259,16 @@ std::string _rbtree<T, Comp, Allocator>::_node_to_dir(
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::display()
+void _rbtree<T, Comp, Allocator>::display(std::string func_name, int line)
 {
 	std::string dirpath;
 	std::string cmd;
 	dirpath = _node_to_dir(_begin_node, "./", true);
 
+	std::cout << __FILE__ << ":" << line << " (" << func_name << ")" << std::endl;
+
 	setenv("LS_COLORS", "di=00;91:ow=30;107", 1); /* set Red & Black color */
-	cmd = "tree -C " + dirpath;
+	cmd = "tree -C --noreport " + dirpath;
 	system(cmd.c_str());
 	cmd = "rm -Rf " + dirpath;
 	system(cmd.c_str());
