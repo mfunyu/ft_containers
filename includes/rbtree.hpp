@@ -169,11 +169,11 @@ void _rbtree<T, Comp, Allocator>::_insert_fixup(_rbtree<T, Comp, Allocator>::nod
 			} else {
 				if (!_is_left_child(ptr)) {
 					ptr = ptr->_parent;
-					_rotate_right(ptr);
+					_rotate_left(ptr);
 				}
 				ptr->_parent->_is_black          = true;
 				ptr->_parent->_parent->_is_black = false;
-				_rotate_left(ptr->_parent);
+				_rotate_right(ptr->_parent->_parent);
 			}
 		} else {
 			uncle = ptr->_parent->_parent->_left;
@@ -184,11 +184,11 @@ void _rbtree<T, Comp, Allocator>::_insert_fixup(_rbtree<T, Comp, Allocator>::nod
 			} else {
 				if (_is_left_child(ptr)) {
 					ptr = ptr->_parent;
-					_rotate_left(ptr);
+					_rotate_right(ptr);
 				}
 				ptr->_parent->_is_black          = true;
 				ptr->_parent->_parent->_is_black = false;
-				_rotate_right(ptr->_parent);
+				_rotate_left(ptr->_parent->_parent);
 			}
 		}
 	}
