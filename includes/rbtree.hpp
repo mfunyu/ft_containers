@@ -55,6 +55,9 @@ class _rbtree
 
   private:
 	node_pointer _init_tree_node(node_value_type v);
+
+	void _rotate_left(node_pointer ptr);
+	void _rotate_right(node_pointer ptr);
 	std::string   _node_to_dir(node_pointer& v, std::string dirprefix, bool is_right);
 	node_pointer& _find_parent(node_pointer p);
 
@@ -63,6 +66,53 @@ class _rbtree
 	void display();
 };
 
+/* -------------------------------------------------------------------------- */
+/*                                   rotates                                  */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_rotate_left(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+{
+	node_pointer child = ptr->_right;
+	ptr->_right        = child->_left;
+	if (ptr->_right != _nil_node) {
+		ptr->_right->parent = ptr;
+	}
+
+	node_pointer parent = ptr->_parent;
+	child->_parent      = parent;
+	if (parent == _nil_node) {
+		_begin_node = child;
+	} else if (ptr == parent->_left) {
+		parent->_left = child;
+	} else {
+		parent->_right = child;
+	}
+	child->_left = ptr;
+	ptr->_parent = child;
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_rotate_right(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+{
+	node_pointer child = ptr->_left;
+	ptr->_left         = child->_right;
+	if (ptr->_right != _nil_node) {
+		ptr->_right->parent = ptr;
+	}
+
+	node_pointer parent = ptr->_parent;
+	child->_parent      = parent;
+	if (parent == _nil_node) {
+		_begin_node = child;
+	} else if (ptr == parent->_left) {
+		parent->_left = child;
+	} else {
+		parent->_right = child;
+	}
+	child->_right = ptr;
+	ptr->_parent  = child;
+}
 
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::insert(const _rbtree<T, Comp, Allocator>::node_value_type& value)
