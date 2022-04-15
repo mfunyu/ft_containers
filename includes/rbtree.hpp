@@ -280,6 +280,10 @@ void _rbtree<T, Comp, Allocator>::display(std::string func_name, int line)
 	dirpath = _node_to_dir(_begin_node, "./", true);
 
 	std::cout << __FILE__ << ":" << line << " (" << func_name << ")" << std::endl;
+	if (dirpath == "") {
+		std::cerr << "Error: root deleted" << std::endl;
+		exit(1);
+	}
 
 	setenv("LS_COLORS", "di=00;91:ow=30;107", 1); /* set Red & Black color */
 	cmd = "tree -C --noreport " + dirpath;
