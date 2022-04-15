@@ -44,7 +44,11 @@ class _rbtree
 	allocator_type _alloc;
 
   public:
-	_rbtree() : _begin_node(NULL) { _nil_node = new node_type; };
+	_rbtree()
+	{
+		_nil_node   = new node_type;
+		_begin_node = _nil_node;
+	};
 	~_rbtree(){};
 	_rbtree(_rbtree const& other);
 	_rbtree& operator=(_rbtree const& other);
