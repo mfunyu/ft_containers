@@ -46,13 +46,15 @@ class _rbtree
   public:
 	_rbtree()
 	{
-		_nil_node   = new node_type;
+		_nil_node   = _allocate_tree_node(0);
 		_begin_node = _nil_node;
 	};
 	~_rbtree(){};
 	_rbtree(_rbtree const& other);
 	_rbtree& operator=(_rbtree const& other);
 
+  private:
+	node_pointer _allocate_tree_node(node_value_type v);
 	std::string   _node_to_dir(node_pointer& v, std::string dirprefix, bool is_right);
 	node_pointer& _find_parent(node_pointer p);
 
@@ -65,7 +67,7 @@ class _rbtree
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::insert(const _rbtree<T, Comp, Allocator>::node_value_type& value)
 {
-	node_pointer new_   = new node_type;
+	node_pointer new_   = _allocate_tree_node(value);
 	node_pointer parent = _nil_node;
 
 	for (node_pointer current = _begin_node; current != _nil_node;) {
@@ -83,11 +85,25 @@ void _rbtree<T, Comp, Allocator>::insert(const _rbtree<T, Comp, Allocator>::node
 	} else {
 		parent->_right = new_;
 	}
-	new_->_parent   = parent;
-	new_->_right    = _nil_node;
-	new_->_left     = _nil_node;
-	new_->_value    = value;
-	new_->_is_black = false;
+	new_->_parent = parent;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              private functions                             */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Comp, class Allocator>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::_allocate_tree_node(_rbtree<T, Comp, Allocator>::node_value_type v)
+{
+	node_pointer ptr = new node_type;
+	ptr->_parent     = _nil_node;
+	ptr->_right      = _nil_node;
+	ptr->_left       = _nil_node;
+	ptr->_value      = v;
+	ptr->_is_black   = false;
+
+	return ptr;
 }
 
 /* -------------------------------------------------------------------------- */
