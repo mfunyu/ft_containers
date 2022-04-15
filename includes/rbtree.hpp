@@ -118,7 +118,7 @@ std::string _rbtree<T, Comp, Allocator>::_node_to_dir(
 		return "";
 
 	std::stringstream current_dirname;
-	current_dirname << dirprefix << (is_right ? "R_" : "L_") << v->_value;
+	current_dirname << dirprefix << (is_right ? "-R_" : "_L_") << v->_value;
 
 	/* delete all before creating the root directory */
 	if (dirprefix == "./") {
