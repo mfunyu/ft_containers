@@ -85,7 +85,6 @@ class _rbtree
 	void         display(std::string func_name = "", int line = -1);
 };
 
-
 /* -------------------------------------------------------------------------- */
 /*                                    utils                                   */
 /* -------------------------------------------------------------------------- */
@@ -113,7 +112,7 @@ void _rbtree<T, Comp, Allocator>::_rotate_left(const _rbtree<T, Comp, Allocator>
 	node_pointer child = ptr->_right;
 	ptr->_right        = child->_left;
 	if (ptr->_right != _nil_node) {
-		ptr->_right->parent = ptr;
+		ptr->_right->_parent = ptr;
 	}
 
 	node_pointer parent = ptr->_parent;
@@ -135,7 +134,7 @@ void _rbtree<T, Comp, Allocator>::_rotate_right(const _rbtree<T, Comp, Allocator
 	node_pointer child = ptr->_left;
 	ptr->_left         = child->_right;
 	if (ptr->_right != _nil_node) {
-		ptr->_right->parent = ptr;
+		ptr->_right->_parent = ptr;
 	}
 
 	node_pointer parent = ptr->_parent;
