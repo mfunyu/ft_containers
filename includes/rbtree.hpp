@@ -59,8 +59,9 @@ class _rbtree
   public:
 	_rbtree()
 	{
-		_nil_node   = _init_tree_node(0);
-		_begin_node = _nil_node;
+		_nil_node            = _init_tree_node(0);
+		_nil_node->_is_black = true;
+		_begin_node          = _nil_node;
 	};
 	~_rbtree(){};
 	_rbtree(_rbtree const& other);
