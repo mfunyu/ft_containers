@@ -24,8 +24,21 @@ class _tree_node
 	bool             _is_black;
 
 	_tree_node() : _left(NULL), _right(NULL), _parent(NULL), _value(0), _is_black(false){};
-};
+	_tree_node& operator=(_tree_node const& other)
+	{
+		if (*this != other) {
+			_left     = other._left;
+			_right    = other._right;
+			_parent   = other._parent;
+			_value    = other._value;
+			_is_black = other._is_black;
+		}
+		return *this;
+	};
 
+  private:
+	_tree_node(_tree_node const& other);
+};
 
 template <class T, class Comp, class Allocator>
 class _rbtree
@@ -136,6 +149,7 @@ void _rbtree<T, Comp, Allocator>::_rotate_right(const _rbtree<T, Comp, Allocator
 	}
 	child->_right = ptr;
 	ptr->_parent  = child;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                   inserts                                  */
