@@ -61,6 +61,9 @@ class _rbtree
 
 	void _rotate_left(node_pointer ptr);
 	void _rotate_right(node_pointer ptr);
+
+	void _insert_fixup(node_pointer v);
+
 	std::string   _node_to_dir(node_pointer& v, std::string dirprefix, bool is_right);
 	node_pointer& _find_parent(node_pointer p);
 
@@ -133,6 +136,49 @@ void _rbtree<T, Comp, Allocator>::_rotate_right(const _rbtree<T, Comp, Allocator
 	}
 	child->_right = ptr;
 	ptr->_parent  = child;
+
+/* -------------------------------------------------------------------------- */
+/*                                   inserts                                  */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_insert_fixup(_rbtree<T, Comp, Allocator>::node_pointer ptr)
+{
+	node_pointer uncle;
+	while (!_is_black(ptr->_parent)) {
+		if (_is_left_child(ptr->_parent)) {
+			uncle = ptr->_parent->_parent->_right;
+			if (!_is_black(uncle)) {
+				ptr->_parent->_is_black   = true;
+				uncle->_is_black          = true;
+				uncle->_parent->_is_black = false;
+			} else {
+				if (!_is_left_child(ptr)) {
+					ptr = ptr->_parent;
+					_rotate_right(ptr);
+				}
+				ptr->_parent->_is_black          = true;
+				ptr->_parent->_parent->_is_black = false;
+				_rotate_left(ptr->_parent);
+			}
+		} else {
+			uncle = ptr->_parent->_parent->_left;
+			if (!_is_black(uncle)) {
+				ptr->_parent->_is_black   = true;
+				uncle->_is_black          = true;
+				uncle->_parent->_is_black = false;
+			} else {
+				if (_is_left_child(ptr)) {
+					ptr = ptr->_parent;
+					_rotate_left(ptr);
+				}
+				ptr->_parent->_is_black          = true;
+				ptr->_parent->_parent->_is_black = false;
+				_rotate_right(ptr->_parent);
+			}
+		}
+	}
+	_begin_node->_is_black = true;
 }
 
 template <class T, class Comp, class Allocator>
@@ -157,6 +203,7 @@ void _rbtree<T, Comp, Allocator>::insert(const _rbtree<T, Comp, Allocator>::node
 		parent->_right = new_;
 	}
 	new_->_parent = parent;
+	_insert_fixup(new_);
 }
 
 /* -------------------------------------------------------------------------- */
