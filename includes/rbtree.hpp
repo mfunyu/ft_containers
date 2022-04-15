@@ -57,8 +57,38 @@ class _rbtree
 	node_pointer& _find_parent(node_pointer p);
 
   public:
+	void insert(const node_value_type& v);
 	void display();
 };
+
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::insert(const _rbtree<T, Comp, Allocator>::node_value_type& value)
+{
+	node_pointer new_   = new node_type;
+	node_pointer parent = _nil_node;
+
+	for (node_pointer current = _begin_node; current != _nil_node;) {
+		parent = current;
+		if (value < current->_value) {
+			current = current->_left;
+		} else {
+			current = current->_right;
+		}
+	}
+	if (parent == _nil_node) {
+		_begin_node = new_;
+	} else if (value < parent->_value) {
+		parent->_left = new_;
+	} else {
+		parent->_right = new_;
+	}
+	new_->_parent   = parent;
+	new_->_right    = _nil_node;
+	new_->_left     = _nil_node;
+	new_->_value    = value;
+	new_->_is_black = false;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                    debug                                   */
