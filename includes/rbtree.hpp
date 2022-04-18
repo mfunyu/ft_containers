@@ -77,6 +77,7 @@ class _rbtree
 	bool         _is_left_child(node_pointer ptr);
 	bool         _is_right_child(node_pointer ptr);
 	bool         _is_black(node_pointer ptr);
+	bool         _is_black(bool _is_black_);
 	bool         _is_red(node_pointer ptr);
 	node_pointer _tree_min(node_pointer ptr) const;
 
@@ -120,6 +121,12 @@ template <class T, class Comp, class Allocator>
 bool _rbtree<T, Comp, Allocator>::_is_black(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
 {
 	return (ptr->_is_black);
+}
+
+template <class T, class Comp, class Allocator>
+bool _rbtree<T, Comp, Allocator>::_is_black(bool _is_black_)
+{
+	return (_is_black_);
 }
 
 template <class T, class Comp, class Allocator>
