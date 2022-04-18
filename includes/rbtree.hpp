@@ -86,6 +86,8 @@ class _rbtree
 	void _rotate_left(node_pointer ptr);
 	void _rotate_right(node_pointer ptr);
 
+	void _delete_fixup(node_pointer ptr);
+
 	void _insert_fixup(node_pointer v);
 
 	std::string   _node_to_dir(node_pointer& v, std::string dirprefix, bool is_right);
@@ -201,6 +203,61 @@ void _rbtree<T, Comp, Allocator>::_transplant(
 /* -------------------------------------------------------------------------- */
 
 template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_delete_fixup(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+{
+	node_pointer cousin;
+
+	while (ptr != _begin_node && _is_black(ptr)) {
+		if (_is_left_child(ptr)) {
+			cousin = ptr->_parent->_right;
+			if (_is_red(cousin)) {
+				cousin->_is_black       = true;
+				ptr->_parent->_is_black = false;
+				_rotate_left(ptr->_parent);
+				cousin = ptr->_parent->_right;
+			}
+			if (_is_black(cousin->_left) && _is_black(cousin->_right)) {
+				cousin->_is_black = false;
+				ptr               = ptr->_parent;
+			} else if (_is_black(cousin->_right)) {
+				cousin->_left->_is_black = true;
+				cousin->_is_black        = false;
+				_rotate_right(cousin);
+				cousin = ptr->_parent->_right;
+			}
+			cousin->_is_black         = ptr->_parent->_is_black;
+			ptr->_parent->_is_black   = true;
+			cousin->_right->_is_black = true;
+			_rotate_left(ptr->_parent);
+			ptr = _begin_node;
+		} else {
+			cousin = ptr->_parent->_left;
+			if (_is_red(cousin)) {
+				cousin->_is_black       = true;
+				ptr->_parent->_is_black = false;
+				_rotate_left(ptr->_parent);
+				cousin = ptr->_parent->_left;
+			}
+			if (_is_black(cousin->_right) && _is_black(cousin->_left)) {
+				cousin->_is_black = false;
+				ptr               = ptr->_parent;
+			} else if (_is_black(cousin->_left)) {
+				cousin->_right->_is_black = true;
+				cousin->_is_black         = false;
+				_rotate_left(cousin);
+				cousin = ptr->_parent->_left;
+			}
+			cousin->_is_black        = ptr->_parent->_is_black;
+			ptr->_parent->_is_black  = true;
+			cousin->_left->_is_black = true;
+			_rotate_right(ptr->_parent);
+			ptr = _begin_node;
+		}
+	}
+	ptr->_is_black = true;
+}
+
+template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
 _rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::node_value_type& value)
 {
@@ -233,7 +290,7 @@ _rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::node_val
 	}
 
 	if (_is_black(original_color)) {
-		// fixup;
+		_delete_fixup(child_to_recolor);
 	}
 	return ptr;
 }
