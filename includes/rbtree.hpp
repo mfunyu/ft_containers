@@ -186,7 +186,7 @@ template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_transplant(
     _rbtree<T, Comp, Allocator>::node_pointer old_, _rbtree<T, Comp, Allocator>::node_pointer new_)
 {
-	if (old_->_parent == _nid_node) {
+	if (old_->_parent == _nil_node) {
 		_begin_node = new_;
 	} else if (_is_left_child(old_)) {
 		old_->_parent->_left = new_;
