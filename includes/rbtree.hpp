@@ -74,10 +74,11 @@ class _rbtree
   private:
 	node_pointer _init_tree_node(node_value_type v);
 
-	bool _is_left_child(node_pointer ptr);
-	bool _is_right_child(node_pointer ptr);
-	bool _is_black(node_pointer ptr);
-	bool _is_red(node_pointer ptr);
+	bool         _is_left_child(node_pointer ptr);
+	bool         _is_right_child(node_pointer ptr);
+	bool         _is_black(node_pointer ptr);
+	bool         _is_red(node_pointer ptr);
+	node_pointer _tree_min(node_pointer ptr) const;
 
 	void _transplant(node_pointer old_, node_pointer new_);
 
@@ -125,6 +126,16 @@ template <class T, class Comp, class Allocator>
 bool _rbtree<T, Comp, Allocator>::_is_red(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
 {
 	return (!ptr->_is_black);
+}
+
+template <class T, class Comp, class Allocator>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::_tree_min(_rbtree<T, Comp, Allocator>::node_pointer ptr) const
+{
+	while (ptr->_left != _nil_node) {
+		ptr = ptr->_left;
+	}
+	return ptr;
 }
 
 /* -------------------------------------------------------------------------- */
