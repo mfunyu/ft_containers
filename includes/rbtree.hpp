@@ -180,15 +180,15 @@ template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_insert_fixup(_rbtree<T, Comp, Allocator>::node_pointer ptr)
 {
 	node_pointer uncle;
-	while (!_is_black(ptr->_parent)) {
+	while (_is_red(ptr->_parent)) {
 		if (_is_left_child(ptr->_parent)) {
 			uncle = ptr->_parent->_parent->_right;
-			if (!_is_black(uncle)) {
+			if (_is_red(uncle)) {
 				ptr->_parent->_is_black   = true;
 				uncle->_is_black          = true;
 				uncle->_parent->_is_black = false;
 			} else {
-				if (!_is_left_child(ptr)) {
+				if (_is_right_child(ptr)) {
 					ptr = ptr->_parent;
 					_rotate_left(ptr);
 				}
@@ -198,7 +198,7 @@ void _rbtree<T, Comp, Allocator>::_insert_fixup(_rbtree<T, Comp, Allocator>::nod
 			}
 		} else {
 			uncle = ptr->_parent->_parent->_left;
-			if (!_is_black(uncle)) {
+			if (_is_red(uncle)) {
 				ptr->_parent->_is_black   = true;
 				uncle->_is_black          = true;
 				uncle->_parent->_is_black = false;
