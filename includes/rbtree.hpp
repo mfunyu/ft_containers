@@ -187,6 +187,8 @@ void _rbtree<T, Comp, Allocator>::_insert_fixup(_rbtree<T, Comp, Allocator>::nod
 				ptr->_parent->_is_black   = true;
 				uncle->_is_black          = true;
 				uncle->_parent->_is_black = false;
+
+				ptr = uncle->_parent;
 			} else {
 				if (_is_right_child(ptr)) {
 					ptr = ptr->_parent;
@@ -202,6 +204,8 @@ void _rbtree<T, Comp, Allocator>::_insert_fixup(_rbtree<T, Comp, Allocator>::nod
 				ptr->_parent->_is_black   = true;
 				uncle->_is_black          = true;
 				uncle->_parent->_is_black = false;
+
+				ptr = uncle->_parent;
 			} else {
 				if (_is_left_child(ptr)) {
 					ptr = ptr->_parent;
