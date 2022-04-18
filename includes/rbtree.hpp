@@ -71,7 +71,9 @@ class _rbtree
 	node_pointer _init_tree_node(node_value_type v);
 
 	bool _is_left_child(node_pointer ptr);
+	bool _is_right_child(node_pointer ptr);
 	bool _is_black(node_pointer ptr);
+	bool _is_red(node_pointer ptr);
 
 	void _rotate_left(node_pointer ptr);
 	void _rotate_right(node_pointer ptr);
@@ -98,9 +100,22 @@ bool _rbtree<T, Comp, Allocator>::_is_left_child(
 }
 
 template <class T, class Comp, class Allocator>
+bool _rbtree<T, Comp, Allocator>::_is_right_child(
+    const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+{
+	return (ptr == ptr->_parent->_right);
+}
+
+template <class T, class Comp, class Allocator>
 bool _rbtree<T, Comp, Allocator>::_is_black(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
 {
 	return (ptr->_is_black);
+}
+
+template <class T, class Comp, class Allocator>
+bool _rbtree<T, Comp, Allocator>::_is_red(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+{
+	return (!ptr->_is_black);
 }
 
 /* -------------------------------------------------------------------------- */
