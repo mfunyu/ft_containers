@@ -79,6 +79,8 @@ class _rbtree
 	bool _is_black(node_pointer ptr);
 	bool _is_red(node_pointer ptr);
 
+	void _transplant(node_pointer old_, node_pointer new_);
+
 	void _rotate_left(node_pointer ptr);
 	void _rotate_right(node_pointer ptr);
 
@@ -120,6 +122,24 @@ template <class T, class Comp, class Allocator>
 bool _rbtree<T, Comp, Allocator>::_is_red(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
 {
 	return (!ptr->_is_black);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 transplant                                 */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_transplant(
+    _rbtree<T, Comp, Allocator>::node_pointer old_, _rbtree<T, Comp, Allocator>::node_pointer new_)
+{
+	if (old_->_parent == _nid_node) {
+		_begin_node = new_;
+	} else if (_is_left_child(old_)) {
+		old_->_parent->_left = new_;
+	} else {
+		old_->_parent->_right = new_;
+	}
+	new_->_parent = old_->_parent;
 }
 
 /* -------------------------------------------------------------------------- */
