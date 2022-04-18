@@ -231,7 +231,6 @@ _rbtree<T, Comp, Allocator>::insert(const _rbtree<T, Comp, Allocator>::node_valu
 	}
 	if (parent == _nil_node) {
 		_begin_node = new_;
-		return new_;
 	} else if (value < parent->_value) {
 		parent->_left = new_;
 	} else {
