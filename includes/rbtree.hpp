@@ -94,6 +94,7 @@ class _rbtree
 	node_pointer _find_recursive(const node_pointer ptr, const node_value_type& v) const;
 
   public:
+	node_pointer _delete(const node_value_type& v);
 	node_pointer _find(const node_value_type& v) const;
 	node_pointer insert(const node_value_type& v);
 	void         display(std::string func_name = "", int line = -1);
@@ -193,6 +194,48 @@ void _rbtree<T, Comp, Allocator>::_transplant(
 		old_->_parent->_right = new_;
 	}
 	new_->_parent = old_->_parent;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   deletes                                  */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Comp, class Allocator>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::node_value_type& value)
+{
+	node_pointer ptr              = _find(value);
+	node_pointer fix_trigger_node = ptr;
+	node_pointer child_to_recolor;
+	bool         original_color = _is_black(fix_trigger_node);
+
+	if (ptr->_left == _nil_node) {
+		child_to_recolor = ptr->_right;
+		_transplant(ptr, ptr->_right);
+	} else if (ptr->_right == _nil_node) {
+		child_to_recolor = ptr->_left;
+		_transplant(ptr, ptr->_left);
+	} else {
+		fix_trigger_node = _tree_min(ptr->_right);
+		original_color   = _is_black(fix_trigger_node);
+		child_to_recolor = fix_trigger_node->_right;
+		if (fix_trigger_node->_parent == ptr) {
+			child_to_recolor->_parent = fix_trigger_node;
+		} else {
+			_transplant(fix_trigger_node, fix_trigger_node->_right);
+			fix_trigger_node->_right          = ptr->_right;
+			fix_trigger_node->_right->_parent = fix_trigger_node;
+		}
+		_transplant(ptr, fix_trigger_node);
+		fix_trigger_node->_left          = ptr->_left;
+		fix_trigger_node->_left->_parent = fix_trigger_node;
+		fix_trigger_node->_is_black      = ptr->_is_black;
+	}
+
+	if (_is_black(original_color)) {
+		// fixup;
+	}
+	return ptr;
 }
 
 /* -------------------------------------------------------------------------- */
