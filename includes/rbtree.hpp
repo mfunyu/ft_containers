@@ -89,7 +89,10 @@ class _rbtree
 	std::string   _node_to_dir(node_pointer& v, std::string dirprefix, bool is_right);
 	node_pointer& _find_parent(node_pointer p);
 
+	node_pointer _find_recursive(const node_pointer ptr, const node_value_type& v) const;
+
   public:
+	node_pointer _find(const node_value_type& v) const;
 	node_pointer insert(const node_value_type& v);
 	void         display(std::string func_name = "", int line = -1);
 };
@@ -122,6 +125,38 @@ template <class T, class Comp, class Allocator>
 bool _rbtree<T, Comp, Allocator>::_is_red(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
 {
 	return (!ptr->_is_black);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    find                                    */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Comp, class Allocator>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::_find_recursive(const _rbtree<T, Comp, Allocator>::node_pointer ptr,
+    const _rbtree<T, Comp, Allocator>::node_value_type& value) const
+{
+	node_pointer found;
+	// node
+	if (ptr == _nil_node) {
+		return NULL;
+	} else if (ptr->_value == value) {
+		return ptr;
+	}
+
+	found = _find_recursive(ptr->_right, value);
+	if (found) {
+		return found;
+	}
+	found = _find_recursive(ptr->_left, value);
+	return found;
+}
+
+template <class T, class Comp, class Allocator>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::_find(const _rbtree<T, Comp, Allocator>::node_value_type& value) const
+{
+	return _find_recursive(_begin_node, value);
 }
 
 /* -------------------------------------------------------------------------- */
