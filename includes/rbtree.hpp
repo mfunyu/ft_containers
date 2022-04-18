@@ -146,17 +146,18 @@ void _rbtree<T, Comp, Allocator>::_rotate_left(const _rbtree<T, Comp, Allocator>
 	}
 	child->_left = ptr;
 	ptr->_parent = child;
+	display(__FUNCTION__, __LINE__);
 }
 
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_rotate_right(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
 {
+	display(__FUNCTION__, __LINE__);
 	node_pointer child = ptr->_left;
 	ptr->_left         = child->_right;
 	if (ptr->_right != _nil_node) {
 		ptr->_right->_parent = ptr;
 	}
-
 	node_pointer parent = ptr->_parent;
 	child->_parent      = parent;
 	if (parent == _nil_node) {
@@ -168,6 +169,7 @@ void _rbtree<T, Comp, Allocator>::_rotate_right(const _rbtree<T, Comp, Allocator
 	}
 	child->_right = ptr;
 	ptr->_parent  = child;
+	display(__FUNCTION__, __LINE__);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -212,6 +214,7 @@ void _rbtree<T, Comp, Allocator>::_insert_fixup(_rbtree<T, Comp, Allocator>::nod
 		}
 	}
 	_begin_node->_is_black = true;
+	display(__FUNCTION__, __LINE__);
 }
 
 template <class T, class Comp, class Allocator>
@@ -237,6 +240,7 @@ _rbtree<T, Comp, Allocator>::insert(const _rbtree<T, Comp, Allocator>::node_valu
 		parent->_right = new_;
 	}
 	new_->_parent = parent;
+	display(__FUNCTION__, __LINE__);
 	_insert_fixup(new_);
 	return new_;
 }
