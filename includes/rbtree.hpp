@@ -62,14 +62,23 @@ class _rbtree
 	_rbtree(_rbtree const& other);
 	_rbtree& operator=(_rbtree const& other);
 
-	node_pointer _delete(const node_value_type& v);
 	node_pointer _find(const node_value_type& v) const;
 	node_pointer insert(const node_value_type& v);
+	node_pointer _delete(const node_value_type& v);
 	void         display(std::string func_name = "", int line = -1);
 
   private:
 	node_pointer _init_tree_node(node_value_type v);
 
+	/* ------------------------------- algorithms ------------------------------ */
+	node_pointer _find_recursive(const node_pointer ptr, const node_value_type& v) const;
+	void         _transplant(node_pointer old_, node_pointer new_);
+	void         _rotate_left(node_pointer ptr);
+	void         _rotate_right(node_pointer ptr);
+	void         _insert_fixup(node_pointer v);
+	void         _delete_fixup(node_pointer ptr);
+
+	/* --------------------------------- utils --------------------------------- */
 	bool         _is_left_child(node_pointer ptr);
 	bool         _is_right_child(node_pointer ptr);
 	bool         _is_black(node_pointer ptr);
@@ -77,25 +86,14 @@ class _rbtree
 	bool         _is_red(node_pointer ptr);
 	node_pointer _tree_min(node_pointer ptr) const;
 
-	void _transplant(node_pointer old_, node_pointer new_);
-
-	void _rotate_left(node_pointer ptr);
-	void _rotate_right(node_pointer ptr);
-
-	void _delete_fixup(node_pointer ptr);
-
-	void _insert_fixup(node_pointer v);
-
+	/* --------------------------------- debug --------------------------------- */
+	int         _check_tree_recursive(node_pointer ptr, int black_count, int& invalid);
+	void        _check_tree_validity();
 	std::string _node_to_dir(node_pointer& v, std::string dirprefix, bool is_right);
-
-	int  _check_tree_recursive(node_pointer ptr, int black_count, int& invalid);
-	void _check_tree_validity();
-
-	node_pointer _find_recursive(const node_pointer ptr, const node_value_type& v) const;
 };
 
 /* -------------------------------------------------------------------------- */
-/*                                constructors                                */
+/*                              public functions                              */
 /* -------------------------------------------------------------------------- */
 
 template <class T, class Comp, class Allocator>
@@ -110,54 +108,99 @@ _rbtree<T, Comp, Allocator>::_rbtree()
 	_begin_node          = _nil_node;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                    utils                                   */
-/* -------------------------------------------------------------------------- */
-
 template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_left_child(
-    const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::insert(const _rbtree<T, Comp, Allocator>::node_value_type& value)
 {
-	return (ptr == ptr->_parent->_left);
-}
+	node_pointer new_   = _init_tree_node(value);
+	node_pointer parent = _nil_node;
 
-template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_right_child(
-    const _rbtree<T, Comp, Allocator>::node_pointer ptr)
-{
-	return (ptr == ptr->_parent->_right);
-}
-
-template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_black(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
-{
-	return (ptr->_is_black);
-}
-
-template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_black(bool _is_black_)
-{
-	return (_is_black_);
-}
-
-template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_red(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
-{
-	return (!ptr->_is_black);
+	for (node_pointer current = _begin_node; current != _nil_node;) {
+		parent = current;
+		if (value < current->_value) {
+			current = current->_left;
+		} else {
+			current = current->_right;
+		}
+	}
+	if (parent == _nil_node) {
+		_begin_node = new_;
+	} else if (value < parent->_value) {
+		parent->_left = new_;
+	} else {
+		parent->_right = new_;
+	}
+	new_->_parent = parent;
+	display(__FUNCTION__, __LINE__);
+	_insert_fixup(new_);
+	return new_;
 }
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_tree_min(_rbtree<T, Comp, Allocator>::node_pointer ptr) const
+_rbtree<T, Comp, Allocator>::_find(const _rbtree<T, Comp, Allocator>::node_value_type& value) const
 {
-	while (ptr->_left != _nil_node) {
-		ptr = ptr->_left;
+	return _find_recursive(_begin_node, value);
+}
+
+template <class T, class Comp, class Allocator>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::node_value_type& value)
+{
+	node_pointer ptr              = _find(value);
+	node_pointer fix_trigger_node = ptr;
+	node_pointer child_to_recolor;
+	bool         original_color = _is_black(fix_trigger_node);
+
+	if (ptr->_left == _nil_node) {
+		child_to_recolor = ptr->_right;
+		_transplant(ptr, ptr->_right);
+	} else if (ptr->_right == _nil_node) {
+		child_to_recolor = ptr->_left;
+		_transplant(ptr, ptr->_left);
+	} else {
+		fix_trigger_node = _tree_min(ptr->_right);
+		original_color   = _is_black(fix_trigger_node);
+		child_to_recolor = fix_trigger_node->_right;
+		if (fix_trigger_node->_parent == ptr) {
+			child_to_recolor->_parent = fix_trigger_node;
+		} else {
+			_transplant(fix_trigger_node, fix_trigger_node->_right);
+			fix_trigger_node->_right          = ptr->_right;
+			fix_trigger_node->_right->_parent = fix_trigger_node;
+		}
+		_transplant(ptr, fix_trigger_node);
+		fix_trigger_node->_left          = ptr->_left;
+		fix_trigger_node->_left->_parent = fix_trigger_node;
+		fix_trigger_node->_is_black      = ptr->_is_black;
+	}
+
+	if (_is_black(original_color)) {
+		_delete_fixup(child_to_recolor);
 	}
 	return ptr;
 }
 
 /* -------------------------------------------------------------------------- */
-/*                                    find                                    */
+/*                              private functions                             */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Comp, class Allocator>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::_init_tree_node(_rbtree<T, Comp, Allocator>::node_value_type v)
+{
+	node_pointer ptr = new node_type;
+	ptr->_parent     = _nil_node;
+	ptr->_right      = _nil_node;
+	ptr->_left       = _nil_node;
+	ptr->_value      = v;
+	ptr->_is_black   = false;
+
+	return ptr;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                 algorithms                                 */
 /* -------------------------------------------------------------------------- */
 
 template <class T, class Comp, class Allocator>
@@ -182,17 +225,6 @@ _rbtree<T, Comp, Allocator>::_find_recursive(const _rbtree<T, Comp, Allocator>::
 }
 
 template <class T, class Comp, class Allocator>
-typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_find(const _rbtree<T, Comp, Allocator>::node_value_type& value) const
-{
-	return _find_recursive(_begin_node, value);
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                 transplant                                 */
-/* -------------------------------------------------------------------------- */
-
-template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_transplant(
     _rbtree<T, Comp, Allocator>::node_pointer old_, _rbtree<T, Comp, Allocator>::node_pointer new_)
 {
@@ -206,9 +238,96 @@ void _rbtree<T, Comp, Allocator>::_transplant(
 	new_->_parent = old_->_parent;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                   deletes                                  */
-/* -------------------------------------------------------------------------- */
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_rotate_left(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+{
+	node_pointer child = ptr->_right;
+	ptr->_right        = child->_left;
+	if (ptr->_right != _nil_node) {
+		ptr->_right->_parent = ptr;
+	}
+
+	node_pointer parent = ptr->_parent;
+	child->_parent      = parent;
+	if (parent == _nil_node) {
+		_begin_node = child;
+	} else if (_is_left_child(ptr)) {
+		parent->_left = child;
+	} else {
+		parent->_right = child;
+	}
+	child->_left = ptr;
+	ptr->_parent = child;
+	display(__FUNCTION__, __LINE__);
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_rotate_right(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+{
+	display(__FUNCTION__, __LINE__);
+	node_pointer child = ptr->_left;
+	ptr->_left         = child->_right;
+	if (ptr->_right != _nil_node) {
+		ptr->_right->_parent = ptr;
+	}
+	node_pointer parent = ptr->_parent;
+	child->_parent      = parent;
+	if (parent == _nil_node) {
+		_begin_node = child;
+	} else if (_is_left_child(ptr)) {
+		parent->_left = child;
+	} else {
+		parent->_right = child;
+	}
+	child->_right = ptr;
+	ptr->_parent  = child;
+	display(__FUNCTION__, __LINE__);
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_insert_fixup(_rbtree<T, Comp, Allocator>::node_pointer ptr)
+{
+	node_pointer uncle;
+	while (_is_red(ptr->_parent)) {
+		if (_is_left_child(ptr->_parent)) {
+			uncle = ptr->_parent->_parent->_right;
+			if (_is_red(uncle)) {
+				ptr->_parent->_is_black   = true;
+				uncle->_is_black          = true;
+				uncle->_parent->_is_black = false;
+
+				ptr = uncle->_parent;
+			} else {
+				if (_is_right_child(ptr)) {
+					ptr = ptr->_parent;
+					_rotate_left(ptr);
+				}
+				ptr->_parent->_is_black          = true;
+				ptr->_parent->_parent->_is_black = false;
+				_rotate_right(ptr->_parent->_parent);
+			}
+		} else {
+			uncle = ptr->_parent->_parent->_left;
+			if (_is_red(uncle)) {
+				ptr->_parent->_is_black   = true;
+				uncle->_is_black          = true;
+				uncle->_parent->_is_black = false;
+
+				ptr = uncle->_parent;
+			} else {
+				if (_is_left_child(ptr)) {
+					ptr = ptr->_parent;
+					_rotate_right(ptr);
+				}
+				ptr->_parent->_is_black          = true;
+				ptr->_parent->_parent->_is_black = false;
+				_rotate_left(ptr->_parent->_parent);
+			}
+		}
+	}
+	_begin_node->_is_black = true;
+	display(__FUNCTION__, __LINE__);
+}
 
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_delete_fixup(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
@@ -265,186 +384,49 @@ void _rbtree<T, Comp, Allocator>::_delete_fixup(const _rbtree<T, Comp, Allocator
 	ptr->_is_black = true;
 }
 
-template <class T, class Comp, class Allocator>
-typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::node_value_type& value)
-{
-	node_pointer ptr              = _find(value);
-	node_pointer fix_trigger_node = ptr;
-	node_pointer child_to_recolor;
-	bool         original_color = _is_black(fix_trigger_node);
-
-	if (ptr->_left == _nil_node) {
-		child_to_recolor = ptr->_right;
-		_transplant(ptr, ptr->_right);
-	} else if (ptr->_right == _nil_node) {
-		child_to_recolor = ptr->_left;
-		_transplant(ptr, ptr->_left);
-	} else {
-		fix_trigger_node = _tree_min(ptr->_right);
-		original_color   = _is_black(fix_trigger_node);
-		child_to_recolor = fix_trigger_node->_right;
-		if (fix_trigger_node->_parent == ptr) {
-			child_to_recolor->_parent = fix_trigger_node;
-		} else {
-			_transplant(fix_trigger_node, fix_trigger_node->_right);
-			fix_trigger_node->_right          = ptr->_right;
-			fix_trigger_node->_right->_parent = fix_trigger_node;
-		}
-		_transplant(ptr, fix_trigger_node);
-		fix_trigger_node->_left          = ptr->_left;
-		fix_trigger_node->_left->_parent = fix_trigger_node;
-		fix_trigger_node->_is_black      = ptr->_is_black;
-	}
-
-	if (_is_black(original_color)) {
-		_delete_fixup(child_to_recolor);
-	}
-	return ptr;
-}
-
 /* -------------------------------------------------------------------------- */
-/*                                   rotates                                  */
+/*                                    utils                                   */
 /* -------------------------------------------------------------------------- */
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_rotate_left(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+bool _rbtree<T, Comp, Allocator>::_is_left_child(
+    const _rbtree<T, Comp, Allocator>::node_pointer ptr)
 {
-	node_pointer child = ptr->_right;
-	ptr->_right        = child->_left;
-	if (ptr->_right != _nil_node) {
-		ptr->_right->_parent = ptr;
-	}
-
-	node_pointer parent = ptr->_parent;
-	child->_parent      = parent;
-	if (parent == _nil_node) {
-		_begin_node = child;
-	} else if (_is_left_child(ptr)) {
-		parent->_left = child;
-	} else {
-		parent->_right = child;
-	}
-	child->_left = ptr;
-	ptr->_parent = child;
-	display(__FUNCTION__, __LINE__);
+	return (ptr == ptr->_parent->_left);
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_rotate_right(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+bool _rbtree<T, Comp, Allocator>::_is_right_child(
+    const _rbtree<T, Comp, Allocator>::node_pointer ptr)
 {
-	display(__FUNCTION__, __LINE__);
-	node_pointer child = ptr->_left;
-	ptr->_left         = child->_right;
-	if (ptr->_right != _nil_node) {
-		ptr->_right->_parent = ptr;
-	}
-	node_pointer parent = ptr->_parent;
-	child->_parent      = parent;
-	if (parent == _nil_node) {
-		_begin_node = child;
-	} else if (_is_left_child(ptr)) {
-		parent->_left = child;
-	} else {
-		parent->_right = child;
-	}
-	child->_right = ptr;
-	ptr->_parent  = child;
-	display(__FUNCTION__, __LINE__);
+	return (ptr == ptr->_parent->_right);
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                   inserts                                  */
-/* -------------------------------------------------------------------------- */
+template <class T, class Comp, class Allocator>
+bool _rbtree<T, Comp, Allocator>::_is_black(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+{
+	return (ptr->_is_black);
+}
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_insert_fixup(_rbtree<T, Comp, Allocator>::node_pointer ptr)
+bool _rbtree<T, Comp, Allocator>::_is_black(bool _is_black_)
 {
-	node_pointer uncle;
-	while (_is_red(ptr->_parent)) {
-		if (_is_left_child(ptr->_parent)) {
-			uncle = ptr->_parent->_parent->_right;
-			if (_is_red(uncle)) {
-				ptr->_parent->_is_black   = true;
-				uncle->_is_black          = true;
-				uncle->_parent->_is_black = false;
+	return (_is_black_);
+}
 
-				ptr = uncle->_parent;
-			} else {
-				if (_is_right_child(ptr)) {
-					ptr = ptr->_parent;
-					_rotate_left(ptr);
-				}
-				ptr->_parent->_is_black          = true;
-				ptr->_parent->_parent->_is_black = false;
-				_rotate_right(ptr->_parent->_parent);
-			}
-		} else {
-			uncle = ptr->_parent->_parent->_left;
-			if (_is_red(uncle)) {
-				ptr->_parent->_is_black   = true;
-				uncle->_is_black          = true;
-				uncle->_parent->_is_black = false;
-
-				ptr = uncle->_parent;
-			} else {
-				if (_is_left_child(ptr)) {
-					ptr = ptr->_parent;
-					_rotate_right(ptr);
-				}
-				ptr->_parent->_is_black          = true;
-				ptr->_parent->_parent->_is_black = false;
-				_rotate_left(ptr->_parent->_parent);
-			}
-		}
-	}
-	_begin_node->_is_black = true;
-	display(__FUNCTION__, __LINE__);
+template <class T, class Comp, class Allocator>
+bool _rbtree<T, Comp, Allocator>::_is_red(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+{
+	return (!ptr->_is_black);
 }
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::insert(const _rbtree<T, Comp, Allocator>::node_value_type& value)
+_rbtree<T, Comp, Allocator>::_tree_min(_rbtree<T, Comp, Allocator>::node_pointer ptr) const
 {
-	node_pointer new_   = _init_tree_node(value);
-	node_pointer parent = _nil_node;
-
-	for (node_pointer current = _begin_node; current != _nil_node;) {
-		parent = current;
-		if (value < current->_value) {
-			current = current->_left;
-		} else {
-			current = current->_right;
-		}
+	while (ptr->_left != _nil_node) {
+		ptr = ptr->_left;
 	}
-	if (parent == _nil_node) {
-		_begin_node = new_;
-	} else if (value < parent->_value) {
-		parent->_left = new_;
-	} else {
-		parent->_right = new_;
-	}
-	new_->_parent = parent;
-	display(__FUNCTION__, __LINE__);
-	_insert_fixup(new_);
-	return new_;
-}
-
-/* -------------------------------------------------------------------------- */
-/*                              private functions                             */
-/* -------------------------------------------------------------------------- */
-
-template <class T, class Comp, class Allocator>
-typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_init_tree_node(_rbtree<T, Comp, Allocator>::node_value_type v)
-{
-	node_pointer ptr = new node_type;
-	ptr->_parent     = _nil_node;
-	ptr->_right      = _nil_node;
-	ptr->_left       = _nil_node;
-	ptr->_value      = v;
-	ptr->_is_black   = false;
-
 	return ptr;
 }
 
