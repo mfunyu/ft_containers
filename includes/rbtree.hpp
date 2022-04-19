@@ -65,7 +65,7 @@ class _rbtree
 	node_pointer _find(const node_value_type& v) const;
 	node_pointer insert(const node_value_type& v);
 	node_pointer _delete(const node_value_type& v);
-	void         display(std::string func_name = "", int line = -1);
+	void         display(std::string func_name = "", int line = -1) const;
 
   private:
 	node_pointer _init_tree_node(node_value_type v);
@@ -79,17 +79,17 @@ class _rbtree
 	void         _delete_fixup(node_pointer ptr);
 
 	/* --------------------------------- utils --------------------------------- */
-	bool         _is_left_child(node_pointer ptr);
-	bool         _is_right_child(node_pointer ptr);
-	bool         _is_black(node_pointer ptr);
-	bool         _is_black(bool _is_black_);
-	bool         _is_red(node_pointer ptr);
+	bool         _is_left_child(const node_pointer ptr) const;
+	bool         _is_right_child(const node_pointer ptr) const;
+	bool         _is_black(const node_pointer ptr) const;
+	bool         _is_black(bool _is_black_) const;
+	bool         _is_red(const node_pointer ptr) const;
 	node_pointer _tree_min(node_pointer ptr) const;
 
 	/* --------------------------------- debug --------------------------------- */
-	int         _check_tree_recursive(node_pointer ptr, int black_count, int& invalid);
-	void        _check_tree_validity();
-	std::string _node_to_dir(node_pointer& v, std::string dirprefix, bool is_right);
+	int         _check_tree_recursive(node_pointer ptr, int black_count, int& invalid) const;
+	void        _check_tree_validity() const;
+	std::string _node_to_dir(const node_pointer& v, std::string dirprefix, bool is_right) const;
 };
 
 /* -------------------------------------------------------------------------- */
@@ -390,32 +390,33 @@ void _rbtree<T, Comp, Allocator>::_delete_fixup(const _rbtree<T, Comp, Allocator
 
 template <class T, class Comp, class Allocator>
 bool _rbtree<T, Comp, Allocator>::_is_left_child(
-    const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+    const _rbtree<T, Comp, Allocator>::node_pointer ptr) const
 {
 	return (ptr == ptr->_parent->_left);
 }
 
 template <class T, class Comp, class Allocator>
 bool _rbtree<T, Comp, Allocator>::_is_right_child(
-    const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+    const _rbtree<T, Comp, Allocator>::node_pointer ptr) const
 {
 	return (ptr == ptr->_parent->_right);
 }
 
 template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_black(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+bool _rbtree<T, Comp, Allocator>::_is_black(
+    const _rbtree<T, Comp, Allocator>::node_pointer ptr) const
 {
 	return (ptr->_is_black);
 }
 
 template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_black(bool _is_black_)
+bool _rbtree<T, Comp, Allocator>::_is_black(bool _is_black_) const
 {
 	return (_is_black_);
 }
 
 template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_red(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+bool _rbtree<T, Comp, Allocator>::_is_red(const _rbtree<T, Comp, Allocator>::node_pointer ptr) const
 {
 	return (!ptr->_is_black);
 }
@@ -436,7 +437,7 @@ _rbtree<T, Comp, Allocator>::_tree_min(_rbtree<T, Comp, Allocator>::node_pointer
 
 template <class T, class Comp, class Allocator>
 int _rbtree<T, Comp, Allocator>::_check_tree_recursive(
-    _rbtree<T, Comp, Allocator>::node_pointer ptr, int black_counts, int& invalid)
+    _rbtree<T, Comp, Allocator>::node_pointer ptr, int black_counts, int& invalid) const
 {
 	if (ptr == _nil_node) {
 		return black_counts;
@@ -458,7 +459,7 @@ int _rbtree<T, Comp, Allocator>::_check_tree_recursive(
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_check_tree_validity()
+void _rbtree<T, Comp, Allocator>::_check_tree_validity() const
 {
 	int invalid = 0;
 	if (_is_red(_begin_node)) {
@@ -481,7 +482,7 @@ void _rbtree<T, Comp, Allocator>::_check_tree_validity()
 
 template <class T, class Comp, class Allocator>
 std::string _rbtree<T, Comp, Allocator>::_node_to_dir(
-    _rbtree<T, Comp, Allocator>::node_pointer& v, std::string dirprefix, bool is_right)
+    const _rbtree<T, Comp, Allocator>::node_pointer& v, std::string dirprefix, bool is_right) const
 {
 	if (v == _nil_node)
 		return "";
@@ -507,7 +508,7 @@ std::string _rbtree<T, Comp, Allocator>::_node_to_dir(
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::display(std::string func_name, int line)
+void _rbtree<T, Comp, Allocator>::display(std::string func_name, int line) const
 {
 	std::string dirpath;
 	std::string cmd;
