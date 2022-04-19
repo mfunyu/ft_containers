@@ -40,6 +40,36 @@ class _tree_node
 	_tree_node(_tree_node const& other);
 };
 
+template <class T>
+class _rbtree_iterator
+{
+  public:
+	typedef std::bidirectional_iterator_tag iterator_category;
+	typedef T                               value_type;
+	typedef value_type&                     reference;
+	typedef value_type*                     pointer;
+
+  private:
+	pointer _ptr_;
+	pointer _nil_node_;
+
+  public:
+	_rbtree_iterator() : _ptr_(NULL) {}
+	reference operator*() const;
+	pointer   operator->() const;
+
+	_rbtree_iterator& operator++();
+	_rbtree_iterator  operator++(int);
+	_rbtree_iterator& operator--();
+	_rbtree_iterator  operator--(int);
+
+	friend bool operator==(const _rbtree_iterator& _x, const _rbtree_iterator& _y)
+	{
+		return _x._ptr_ == _y._ptr_;
+	}
+	bool operator!=(const _rbtree_iterator& _x, const _rbtree_iterator& _y) { return !(_x == _y) }
+};
+
 template <class T, class Comp, class Allocator>
 class _rbtree
 {
