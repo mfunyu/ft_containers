@@ -194,6 +194,9 @@ class _rbtree
 	typedef _tree_node<T>  node_type;
 	typedef _tree_node<T>* node_pointer;
 
+	typedef _rbtree_iterator<value_type>       iterator;
+	typedef _rbtree_iterator<const value_type> const_iterator;
+
   private:
 	node_pointer   _begin_node;
 	node_pointer   _nil_node;
@@ -212,6 +215,11 @@ class _rbtree
 	void         _display(std::string func_name = "", int line = -1) const;
 
 	/* ------------------------------ Iterators ----------------------------- */
+	iterator       begin() { return iterator(_begin_node, _nil_node); }
+	const_iterator begin() const { return iterator(_begin_node, _nil_node); }
+	iterator       end() { return iterator(_tree_max_(_begin_node, _nil_node), _nil_node); }
+	const_iterator end() const { return iterator(_tree_max_(_begin_node, _nil_node), _nil_node); }
+
   private:
 	node_pointer _init_tree_node_(value_type value);
 
