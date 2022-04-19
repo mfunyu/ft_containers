@@ -1,6 +1,7 @@
 #ifndef RBTREE_HPP
 #define RBTREE_HPP
 
+#include "type_traits.hpp"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -39,6 +40,53 @@ class _tree_node
   private:
 	_tree_node(_tree_node const& other);
 };
+
+namespace {
+
+/* -------------------------------------------------------------------------- */
+/*                                    utils                                   */
+/* -------------------------------------------------------------------------- */
+
+template <class _NodePtr>
+bool _is_left_child_(const _NodePtr ptr)
+{
+	return (ptr == ptr->_parent->_left);
+}
+
+template <class _NodePtr>
+bool _is_right_child_(const _NodePtr ptr)
+{
+	return (ptr == ptr->_parent->_right);
+}
+
+template <class _NodePtr>
+bool _is_black_(
+    const _NodePtr ptr, typename ft::enable_if<!ft::is_integral<_NodePtr>::value>::type* = 0)
+{
+	return (ptr->_is_black);
+}
+
+bool _is_black_(bool _is_black_)
+{
+	return (_is_black_);
+}
+
+template <class _NodePtr>
+bool _is_red_(const _NodePtr ptr)
+{
+	return (!ptr->_is_black);
+}
+
+template <class _NodePtr>
+_NodePtr _tree_min_(_NodePtr ptr, _NodePtr _nil_node)
+{
+	while (ptr->_left != _nil_node) {
+		ptr = ptr->_left;
+	}
+	return ptr;
+}
+
+} // namespace
 
 template <class T>
 class _rbtree_iterator
@@ -110,14 +158,6 @@ class _rbtree
 	void         _rotate_right_(node_pointer ptr);
 	void         _insert_fixup_(node_pointer ptr);
 	void         _delete_fixup_(node_pointer ptr);
-
-	/* --------------------------------- utils --------------------------------- */
-	bool         _is_left_child_(const node_pointer ptr) const;
-	bool         _is_right_child_(const node_pointer ptr) const;
-	bool         _is_black_(const node_pointer ptr) const;
-	bool         _is_black_(bool _is_black_) const;
-	bool         _is_red_(const node_pointer ptr) const;
-	node_pointer _tree_min_(node_pointer ptr) const;
 
 	/* --------------------------------- debug --------------------------------- */
 	int  _check_tree_recursive_(node_pointer ptr, int black_count, int& invalid) const;
@@ -217,7 +257,7 @@ _rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::value_ty
 		child_to_recolor = ptr->_left;
 		_transplant_(ptr, ptr->_left);
 	} else {
-		fix_trigger_node = _tree_min_(ptr->_right);
+		fix_trigger_node = _tree_min_(ptr->_right, _nil_node);
 		original_color   = _is_black_(fix_trigger_node);
 		child_to_recolor = fix_trigger_node->_right;
 		if (fix_trigger_node->_parent == ptr) {
@@ -442,54 +482,6 @@ void _rbtree<T, Comp, Allocator>::_delete_fixup_(
 		}
 	}
 	ptr->_is_black = true;
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                    utils                                   */
-/* -------------------------------------------------------------------------- */
-
-template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_left_child_(
-    const _rbtree<T, Comp, Allocator>::node_pointer ptr) const
-{
-	return (ptr == ptr->_parent->_left);
-}
-
-template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_right_child_(
-    const _rbtree<T, Comp, Allocator>::node_pointer ptr) const
-{
-	return (ptr == ptr->_parent->_right);
-}
-
-template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_black_(
-    const _rbtree<T, Comp, Allocator>::node_pointer ptr) const
-{
-	return (ptr->_is_black);
-}
-
-template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_black_(bool _is_black_) const
-{
-	return (_is_black_);
-}
-
-template <class T, class Comp, class Allocator>
-bool _rbtree<T, Comp, Allocator>::_is_red_(
-    const _rbtree<T, Comp, Allocator>::node_pointer ptr) const
-{
-	return (!ptr->_is_black);
-}
-
-template <class T, class Comp, class Allocator>
-typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_tree_min_(_rbtree<T, Comp, Allocator>::node_pointer ptr) const
-{
-	while (ptr->_left != _nil_node) {
-		ptr = ptr->_left;
-	}
-	return ptr;
 }
 
 /* -------------------------------------------------------------------------- */
