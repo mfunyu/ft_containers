@@ -86,6 +86,39 @@ _NodePtr _tree_min_(_NodePtr ptr, _NodePtr _nil_node)
 	return ptr;
 }
 
+template <class _NodePtr>
+_NodePtr _tree_max_(_NodePtr ptr, _NodePtr _nil_node)
+{
+	while (ptr->_right != _nil_node) {
+		ptr = ptr->_right;
+	}
+	return ptr;
+}
+
+template <class _NodePtr>
+_NodePtr _tree_next_(_NodePtr ptr, _NodePtr _nil_node)
+{
+	if (ptr->_right != _nil_node) {
+		return _tree_min(ptr->_right, _nil_node);
+	}
+	while (!_is_left_child(ptr)) {
+		ptr = ptr->_parent;
+	}
+	return ptr->_pearent;
+}
+
+template <class _NodePtr>
+_NodePtr _tree_prev_(_NodePtr ptr, _NodePtr _nil_node)
+{
+	if (ptr->_left != _nil_node) {
+		return _tree_max(ptr->_left, _nil_node);
+	}
+	while (!_is_right_child(ptr)) {
+		ptr = ptr->_parent;
+	}
+	return ptr->_pearent;
+}
+
 } // namespace
 
 template <class T>
