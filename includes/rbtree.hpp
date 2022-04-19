@@ -11,6 +11,9 @@
 
 namespace ft {
 
+/* -------------------------------------------------------------------------- */
+/*                                  Tree Node                                 */
+/* -------------------------------------------------------------------------- */
 template <class T>
 class _tree_node
 {
@@ -44,7 +47,7 @@ class _tree_node
 namespace {
 
 /* -------------------------------------------------------------------------- */
-/*                                    utils                                   */
+/*                                    Utils                                   */
 /* -------------------------------------------------------------------------- */
 
 template <class _NodePtr>
@@ -121,6 +124,9 @@ _NodePtr _tree_prev_(_NodePtr ptr, _NodePtr _nil_node)
 
 } // namespace
 
+/* -------------------------------------------------------------------------- */
+/*                               RBtree Iterator                              */
+/* -------------------------------------------------------------------------- */
 template <class T>
 class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
@@ -138,6 +144,7 @@ class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T
 	_rbtree_iterator() : _current_(NULL), _nil_(NULL) {}
 	_rbtree_iterator(pointer current, pointer nil) : _current_(current), _nil_(nil) {}
 
+	/* -------------------------- Access operators -------------------------- */
 	reference operator*() const { return _current_->_value; }
 	pointer   operator->() const { return _current_; }
 	/* ------------------------ Arithmetic operators ------------------------ */
@@ -174,6 +181,9 @@ class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T
 	}
 };
 
+/* -------------------------------------------------------------------------- */
+/*                                   RBtree                                   */
+/* -------------------------------------------------------------------------- */
 template <class T, class Comp, class Allocator>
 class _rbtree
 {
@@ -201,10 +211,11 @@ class _rbtree
 	node_pointer _delete(const value_type& value);
 	void         _display(std::string func_name = "", int line = -1) const;
 
+	/* ------------------------------ Iterators ----------------------------- */
   private:
 	node_pointer _init_tree_node_(value_type value);
 
-	/* ------------------------------- algorithms ------------------------------ */
+	/* ----------------------------- algorithms ----------------------------- */
 	node_pointer _find_recursive_(const node_pointer ptr, const value_type& value) const;
 	void         _transplant_(node_pointer old_ptr, node_pointer new_ptr);
 	void         _rotate_left_(node_pointer ptr);
@@ -212,7 +223,7 @@ class _rbtree
 	void         _insert_fixup_(node_pointer ptr);
 	void         _delete_fixup_(node_pointer ptr);
 
-	/* --------------------------------- debug --------------------------------- */
+	/* -------------------------------- debug ------------------------------- */
 	int  _check_tree_recursive_(node_pointer ptr, int black_count, int& invalid) const;
 	void _check_tree_validity_() const;
 	std::string
