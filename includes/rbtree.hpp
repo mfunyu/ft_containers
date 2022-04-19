@@ -27,7 +27,7 @@ class _tree_node
 	value_type _value;
 	bool       _is_black;
 
-	_tree_node() : _parent(NULL), _right(NULL), _left(NULL), _value(0), _is_black(false){};
+	_tree_node() : _parent(NULL), _right(NULL), _left(NULL), _is_black(false){};
 	_tree_node& operator=(_tree_node const& other)
 	{
 		if (*this != other) {
@@ -250,7 +250,6 @@ _rbtree<T, Comp, Allocator>::_rbtree()
 	_nil_node->_parent   = _nil_node;
 	_nil_node->_left     = _nil_node;
 	_nil_node->_right    = _nil_node;
-	_nil_node->_value    = 0;
 	_begin_node          = _nil_node;
 }
 
