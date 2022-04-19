@@ -131,15 +131,16 @@ class _rbtree_iterator
 	typedef value_type*                     pointer;
 
   private:
-	pointer _curret_;
+	pointer _current_;
 	pointer _nil_;
 
   public:
-	_rbtree_iterator() : _curret_(NULL), _nil_(NULL) {}
-	_rbtree_iterator(pointer current, pointer nil) : _curret_(current), _nil_(nil) {}
-	reference operator*() const { return _curret_->_value; }
-	pointer   operator->() const { return _curret_; }
+	_rbtree_iterator() : _current_(NULL), _nil_(NULL) {}
+	_rbtree_iterator(pointer current, pointer nil) : _current_(current), _nil_(nil) {}
 
+	reference operator*() const { return _current_->_value; }
+	pointer   operator->() const { return _current_; }
+	/* ------------------------ Arithmetic operators ------------------------ */
 	_rbtree_iterator& operator++()
 	{
 		_current_ = _tree_next_(_current_, _nil_);
@@ -162,7 +163,7 @@ class _rbtree_iterator
 		--(*this);
 		return _tmp;
 	}
-
+	/* ------------------------ Non-member functions ------------------------ */
 	friend bool operator==(const _rbtree_iterator& _x, const _rbtree_iterator& _y)
 	{
 		return _x._curret_ == _y._curret_;
