@@ -18,8 +18,8 @@ template <class T>
 class _tree_node
 {
   public:
-	typedef _tree_node<T>* pointer;
-	typedef T              value_type;
+	typedef T                       value_type;
+	typedef _tree_node<value_type>* pointer;
 
 	pointer    _parent;
 	pointer    _right;
@@ -188,11 +188,11 @@ template <class T, class Comp, class Allocator>
 class _rbtree
 {
   public:
-	typedef T              value_type;
-	typedef Comp           value_compare;
-	typedef Allocator      allocator_type;
-	typedef _tree_node<T>  node_type;
-	typedef _tree_node<T>* node_pointer;
+	typedef T                       value_type;
+	typedef Comp                    value_compare;
+	typedef Allocator               allocator_type;
+	typedef _tree_node<value_type>  node_type;
+	typedef _tree_node<value_type>* node_pointer;
 
 	typedef _rbtree_iterator<value_type>       iterator;
 	typedef _rbtree_iterator<const value_type> const_iterator;
