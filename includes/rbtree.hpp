@@ -98,11 +98,11 @@ class _rbtree_iterator
 	typedef value_type*                     pointer;
 
   private:
-	pointer _ptr_;
-	pointer _nil_node_;
+	pointer _curret_;
+	pointer _nil_;
 
   public:
-	_rbtree_iterator() : _ptr_(NULL) {}
+	_rbtree_iterator() : _curret_(NULL) {}
 	reference operator*() const;
 	pointer   operator->() const;
 
@@ -113,7 +113,7 @@ class _rbtree_iterator
 
 	friend bool operator==(const _rbtree_iterator& _x, const _rbtree_iterator& _y)
 	{
-		return _x._ptr_ == _y._ptr_;
+		return _x._curret_ == _y._curret_;
 	}
 	friend bool operator!=(const _rbtree_iterator& _x, const _rbtree_iterator& _y)
 	{
