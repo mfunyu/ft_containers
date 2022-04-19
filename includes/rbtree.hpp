@@ -135,14 +135,33 @@ class _rbtree_iterator
 	pointer _nil_;
 
   public:
-	_rbtree_iterator() : _curret_(NULL) {}
-	reference operator*() const;
-	pointer   operator->() const;
+	_rbtree_iterator() : _curret_(NULL), _nil_(NULL) {}
+	_rbtree_iterator(pointer current, pointer nil) : _curret_(current), _nil_(nil) {}
+	reference operator*() const { return _curret_->_value; }
+	pointer   operator->() const { return _curret_; }
 
-	_rbtree_iterator& operator++();
-	_rbtree_iterator  operator++(int);
-	_rbtree_iterator& operator--();
-	_rbtree_iterator  operator--(int);
+	_rbtree_iterator& operator++()
+	{
+		_current_ = _tree_next_(_current_, _nil_);
+		return *this;
+	}
+	_rbtree_iterator operator++(int)
+	{
+		_rbtree_iterator _tmp(*this);
+		++(*this);
+		return _tmp;
+	}
+	_rbtree_iterator& operator--()
+	{
+		_current_ = _tree_prev_(_current_, _nil_);
+		return *this;
+	}
+	_rbtree_iterator operator--(int)
+	{
+		_rbtree_iterator _tmp(*this);
+		--(*this);
+		return _tmp;
+	}
 
 	friend bool operator==(const _rbtree_iterator& _x, const _rbtree_iterator& _y)
 	{
