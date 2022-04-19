@@ -109,6 +109,30 @@ _rbtree<T, Comp, Allocator>::_rbtree()
 }
 
 template <class T, class Comp, class Allocator>
+_rbtree<T, Comp, Allocator>::_rbtree(_rbtree<T, Comp, Allocator> const& other)
+{
+	_nil_node   = new node_type;
+	_nil_node   = other._nil_node;
+	_begin_node = other._begin_node;
+	_alloc      = other._alloc;
+	_comp       = other._comp;
+}
+
+template <class T, class Comp, class Allocator>
+_rbtree<T, Comp, Allocator>&
+_rbtree<T, Comp, Allocator>::operator=(_rbtree<T, Comp, Allocator> const& other)
+{
+	if (this != &other) {
+		_nil_node   = new node_type;
+		_nil_node   = other._nil_node;
+		_begin_node = other._begin_node;
+		_alloc      = other._alloc;
+		_comp       = other._comp;
+	}
+	return *this;
+}
+
+template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
 _rbtree<T, Comp, Allocator>::insert(const _rbtree<T, Comp, Allocator>::node_value_type& value)
 {
