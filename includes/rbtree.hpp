@@ -75,7 +75,7 @@ class _rbtree
 	void         _transplant(node_pointer old_ptr, node_pointer new_ptr);
 	void         _rotate_left(node_pointer ptr);
 	void         _rotate_right(node_pointer ptr);
-	void         _insert_fixup(node_pointer otr);
+	void         _insert_fixup(node_pointer ptr);
 	void         _delete_fixup(node_pointer ptr);
 
 	/* --------------------------------- utils --------------------------------- */
