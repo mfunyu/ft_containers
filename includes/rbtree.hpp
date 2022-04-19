@@ -122,7 +122,7 @@ _NodePtr _tree_prev_(_NodePtr ptr, _NodePtr _nil_node)
 } // namespace
 
 template <class T>
-class _rbtree_iterator
+class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
   public:
 	typedef std::bidirectional_iterator_tag iterator_category;
