@@ -93,6 +93,9 @@ class _rbtree
 	std::string   _node_to_dir(node_pointer& v, std::string dirprefix, bool is_right);
 	node_pointer& _find_parent(node_pointer p);
 
+	int  _check_tree_recursive(node_pointer ptr, int black_count, int& invalid);
+	void _check_tree_validity();
+
 	node_pointer _find_recursive(const node_pointer ptr, const node_value_type& v) const;
 
   public:
@@ -445,6 +448,51 @@ _rbtree<T, Comp, Allocator>::_init_tree_node(_rbtree<T, Comp, Allocator>::node_v
 /* -------------------------------------------------------------------------- */
 
 template <class T, class Comp, class Allocator>
+int _rbtree<T, Comp, Allocator>::_check_tree_recursive(
+    _rbtree<T, Comp, Allocator>::node_pointer ptr, int black_counts, int& invalid)
+{
+	if (ptr == _nil_node) {
+		return black_counts;
+	}
+	if (ptr->_is_black) {
+		++black_counts;
+	}
+	if (_is_red(ptr) && (_is_red(ptr->_left) || _is_red(ptr->_right))) {
+		std::cerr << "4. the children of red must be black" << std::endl;
+		++invalid;
+	}
+	int total;
+	total = _check_tree_recursive(ptr->_right, black_counts, invalid);
+	if (total != _check_tree_recursive(ptr->_left, black_counts, invalid)) {
+		std::cerr << "5. count of black nodes must be the same" << std::endl;
+		++invalid;
+	}
+	return total;
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_check_tree_validity()
+{
+	int invalid = 0;
+	if (_is_red(_begin_node)) {
+		std::cerr << "2. root must be black" << std::endl;
+		++invalid;
+	}
+	node_pointer ptr = _begin_node;
+	_check_tree_recursive(ptr, 0, invalid);
+	if (invalid) {
+		std::cerr << "\033[31m"
+		          << "ERROR: tree is wrong... ;("
+		          << "\033[0m" << std::endl;
+		// exit(EXIT_FAILURE);
+	} else {
+		std::cerr << "\033[32m"
+		          << "PASS: tree is correct! :)"
+		          << "\033[m" << std::endl;
+	}
+}
+
+template <class T, class Comp, class Allocator>
 std::string _rbtree<T, Comp, Allocator>::_node_to_dir(
     _rbtree<T, Comp, Allocator>::node_pointer& v, std::string dirprefix, bool is_right)
 {
@@ -489,6 +537,7 @@ void _rbtree<T, Comp, Allocator>::display(std::string func_name, int line)
 	system(cmd.c_str());
 	cmd = "rm -Rf " + dirpath;
 	system(cmd.c_str());
+	_check_tree_validity();
 }
 
 } // namespace ft
