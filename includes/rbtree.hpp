@@ -23,7 +23,7 @@ class _tree_node
 	value_type _value;
 	bool       _is_black;
 
-	_tree_node() : _left(NULL), _right(NULL), _parent(NULL), _value(0), _is_black(false){};
+	_tree_node() : _parent(NULL), _right(NULL), _left(NULL), _value(0), _is_black(false){};
 	_tree_node& operator=(_tree_node const& other)
 	{
 		if (*this != other) {
@@ -67,7 +67,10 @@ class _rbtree_iterator
 	{
 		return _x._ptr_ == _y._ptr_;
 	}
-	bool operator!=(const _rbtree_iterator& _x, const _rbtree_iterator& _y) { return !(_x == _y) }
+	friend bool operator!=(const _rbtree_iterator& _x, const _rbtree_iterator& _y)
+	{
+		return !(_x == _y);
+	}
 };
 
 template <class T, class Comp, class Allocator>
