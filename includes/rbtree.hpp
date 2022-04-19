@@ -57,19 +57,15 @@ class _rbtree
 	allocator_type _alloc;
 
   public:
-	_rbtree()
-	{
-		_nil_node            = new node_type;
-		_nil_node->_is_black = true;
-		_nil_node->_parent   = _nil_node;
-		_nil_node->_left     = _nil_node;
-		_nil_node->_right    = _nil_node;
-		_nil_node->_value    = 0;
-		_begin_node          = _nil_node;
-	};
+	_rbtree();
 	~_rbtree(){};
 	_rbtree(_rbtree const& other);
 	_rbtree& operator=(_rbtree const& other);
+
+	node_pointer _delete(const node_value_type& v);
+	node_pointer _find(const node_value_type& v) const;
+	node_pointer insert(const node_value_type& v);
+	void         display(std::string func_name = "", int line = -1);
 
   private:
 	node_pointer _init_tree_node(node_value_type v);
@@ -90,20 +86,29 @@ class _rbtree
 
 	void _insert_fixup(node_pointer v);
 
-	std::string   _node_to_dir(node_pointer& v, std::string dirprefix, bool is_right);
-	node_pointer& _find_parent(node_pointer p);
+	std::string _node_to_dir(node_pointer& v, std::string dirprefix, bool is_right);
 
 	int  _check_tree_recursive(node_pointer ptr, int black_count, int& invalid);
 	void _check_tree_validity();
 
 	node_pointer _find_recursive(const node_pointer ptr, const node_value_type& v) const;
-
-  public:
-	node_pointer _delete(const node_value_type& v);
-	node_pointer _find(const node_value_type& v) const;
-	node_pointer insert(const node_value_type& v);
-	void         display(std::string func_name = "", int line = -1);
 };
+
+/* -------------------------------------------------------------------------- */
+/*                                constructors                                */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Comp, class Allocator>
+_rbtree<T, Comp, Allocator>::_rbtree()
+{
+	_nil_node            = new node_type;
+	_nil_node->_is_black = true;
+	_nil_node->_parent   = _nil_node;
+	_nil_node->_left     = _nil_node;
+	_nil_node->_right    = _nil_node;
+	_nil_node->_value    = 0;
+	_begin_node          = _nil_node;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                    utils                                   */
