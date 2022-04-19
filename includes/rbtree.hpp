@@ -15,13 +15,13 @@ class _tree_node
 {
   public:
 	typedef _tree_node<T>* pointer;
-	typedef T              _node_value_type;
+	typedef T              value_type;
 
-	pointer          _left;
-	pointer          _right;
-	pointer          _parent;
-	_node_value_type _value;
-	bool             _is_black;
+	pointer    _parent;
+	pointer    _right;
+	pointer    _left;
+	value_type _value;
+	bool       _is_black;
 
 	_tree_node() : _left(NULL), _right(NULL), _parent(NULL), _value(0), _is_black(false){};
 	_tree_node& operator=(_tree_node const& other)
@@ -44,7 +44,7 @@ template <class T, class Comp, class Allocator>
 class _rbtree
 {
   public:
-	typedef T              node_value_type;
+	typedef T              value_type;
 	typedef Comp           value_compare;
 	typedef Allocator      allocator_type;
 	typedef _tree_node<T>  node_type;
@@ -62,16 +62,16 @@ class _rbtree
 	_rbtree(_rbtree const& other);
 	_rbtree& operator=(_rbtree const& other);
 
-	node_pointer _find(const node_value_type& value) const;
-	node_pointer _insert(const node_value_type& value);
-	node_pointer _delete(const node_value_type& value);
+	node_pointer _find(const value_type& value) const;
+	node_pointer _insert(const value_type& value);
+	node_pointer _delete(const value_type& value);
 	void         _display(std::string func_name = "", int line = -1) const;
 
   private:
-	node_pointer _init_tree_node_(node_value_type value);
+	node_pointer _init_tree_node_(value_type value);
 
 	/* ------------------------------- algorithms ------------------------------ */
-	node_pointer _find_recursive_(const node_pointer ptr, const node_value_type& value) const;
+	node_pointer _find_recursive_(const node_pointer ptr, const value_type& value) const;
 	void         _transplant_(node_pointer old_ptr, node_pointer new_ptr);
 	void         _rotate_left_(node_pointer ptr);
 	void         _rotate_right_(node_pointer ptr);
@@ -135,7 +135,7 @@ _rbtree<T, Comp, Allocator>::operator=(_rbtree<T, Comp, Allocator> const& other)
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_insert(const _rbtree<T, Comp, Allocator>::node_value_type& value)
+_rbtree<T, Comp, Allocator>::_insert(const _rbtree<T, Comp, Allocator>::value_type& value)
 {
 	node_pointer new_   = _init_tree_node_(value);
 	node_pointer parent = _nil_node;
@@ -163,14 +163,14 @@ _rbtree<T, Comp, Allocator>::_insert(const _rbtree<T, Comp, Allocator>::node_val
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_find(const _rbtree<T, Comp, Allocator>::node_value_type& value) const
+_rbtree<T, Comp, Allocator>::_find(const _rbtree<T, Comp, Allocator>::value_type& value) const
 {
 	return _find_recursive_(_begin_node, value);
 }
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::node_value_type& value)
+_rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::value_type& value)
 {
 	node_pointer ptr              = _find(value);
 	node_pointer fix_trigger_node = ptr;
@@ -212,7 +212,7 @@ _rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::node_val
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_init_tree_node_(_rbtree<T, Comp, Allocator>::node_value_type value)
+_rbtree<T, Comp, Allocator>::_init_tree_node_(_rbtree<T, Comp, Allocator>::value_type value)
 {
 	node_pointer ptr = new node_type;
 	ptr->_parent     = _nil_node;
@@ -231,7 +231,7 @@ _rbtree<T, Comp, Allocator>::_init_tree_node_(_rbtree<T, Comp, Allocator>::node_
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
 _rbtree<T, Comp, Allocator>::_find_recursive_(const _rbtree<T, Comp, Allocator>::node_pointer ptr,
-    const _rbtree<T, Comp, Allocator>::node_value_type& value) const
+    const _rbtree<T, Comp, Allocator>::value_type& value) const
 {
 	node_pointer found;
 
