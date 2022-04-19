@@ -63,9 +63,9 @@ class _rbtree
 	_rbtree& operator=(_rbtree const& other);
 
 	node_pointer _find(const node_value_type& value) const;
-	node_pointer insert(const node_value_type& value);
+	node_pointer _insert(const node_value_type& value);
 	node_pointer _delete(const node_value_type& value);
-	void         display(std::string func_name = "", int line = -1) const;
+	void         _display(std::string func_name = "", int line = -1) const;
 
   private:
 	node_pointer _init_tree_node(node_value_type value);
@@ -134,7 +134,7 @@ _rbtree<T, Comp, Allocator>::operator=(_rbtree<T, Comp, Allocator> const& other)
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::insert(const _rbtree<T, Comp, Allocator>::node_value_type& value)
+_rbtree<T, Comp, Allocator>::_insert(const _rbtree<T, Comp, Allocator>::node_value_type& value)
 {
 	node_pointer new_   = _init_tree_node(value);
 	node_pointer parent = _nil_node;
@@ -155,7 +155,7 @@ _rbtree<T, Comp, Allocator>::insert(const _rbtree<T, Comp, Allocator>::node_valu
 		parent->_right = new_;
 	}
 	new_->_parent = parent;
-	display(__FUNCTION__, __LINE__);
+	_display(__FUNCTION__, __LINE__);
 	_insert_fixup(new_);
 	return new_;
 }
@@ -282,13 +282,13 @@ void _rbtree<T, Comp, Allocator>::_rotate_left(const _rbtree<T, Comp, Allocator>
 	}
 	child->_left = ptr;
 	ptr->_parent = child;
-	display(__FUNCTION__, __LINE__);
+	_display(__FUNCTION__, __LINE__);
 }
 
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_rotate_right(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
 {
-	display(__FUNCTION__, __LINE__);
+	_display(__FUNCTION__, __LINE__);
 	node_pointer child = ptr->_left;
 	ptr->_left         = child->_right;
 	if (ptr->_right != _nil_node) {
@@ -305,7 +305,7 @@ void _rbtree<T, Comp, Allocator>::_rotate_right(const _rbtree<T, Comp, Allocator
 	}
 	child->_right = ptr;
 	ptr->_parent  = child;
-	display(__FUNCTION__, __LINE__);
+	_display(__FUNCTION__, __LINE__);
 }
 
 template <class T, class Comp, class Allocator>
@@ -350,7 +350,7 @@ void _rbtree<T, Comp, Allocator>::_insert_fixup(_rbtree<T, Comp, Allocator>::nod
 		}
 	}
 	_begin_node->_is_black = true;
-	display(__FUNCTION__, __LINE__);
+	_display(__FUNCTION__, __LINE__);
 }
 
 template <class T, class Comp, class Allocator>
@@ -532,7 +532,7 @@ std::string _rbtree<T, Comp, Allocator>::_node_to_dir(
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::display(std::string func_name, int line) const
+void _rbtree<T, Comp, Allocator>::_display(std::string func_name, int line) const
 {
 	std::string dirpath;
 	std::string cmd;
