@@ -18,14 +18,11 @@ template <class T>
 class _tree_node
 {
   public:
-	typedef T                       value_type;
-	typedef _tree_node<value_type>* pointer;
-
-	pointer    _parent;
-	pointer    _right;
-	pointer    _left;
-	value_type _value;
-	bool       _is_black;
+	_tree_node* _parent;
+	_tree_node* _right;
+	_tree_node* _left;
+	T           _value;
+	bool        _is_black;
 
 	_tree_node() : _parent(NULL), _right(NULL), _left(NULL), _is_black(false){};
 	_tree_node& operator=(_tree_node const& other)
