@@ -2,6 +2,7 @@
 #define MAP_HPP
 
 #include "iterators.hpp"
+#include "rbtree.hpp"
 
 namespace ft {
 
@@ -43,7 +44,9 @@ class map
 	};
 
   private:
-	// _base _tree;
+	typedef _rbtree<value_type, key_compare, allocator_type> _base;
+
+	_base _tree;
 
   public:
 	// (constructor)
