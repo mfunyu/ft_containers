@@ -67,14 +67,14 @@ class map
 	// operator[]
 	T& operator[](const Key& key){};
 	// ------------------------------- Iterators ------------------------------- //
-	iterator               begin(){};
-	const_iterator         begin() const {};
-	iterator               end(){};
-	const_iterator         end() const {};
-	reverse_iterator       rbegin(){};
-	const_reverse_iterator rbegin() const {};
-	reverse_iterator       rend(){};
-	const_reverse_iterator rend() const {};
+	iterator               begin() { return _tree.begin(); }
+	const_iterator         begin() const { return _tree.begin(); }
+	iterator               end() { return _tree.end(); }
+	const_iterator         end() const { return _tree.end(); }
+	reverse_iterator       rbegin() { return reverse_iterator(end()); }
+	const_reverse_iterator rbegin() const { return reverse_iterator(end()); }
+	reverse_iterator       rend() { return reverse_iterator(begin()); }
+	const_reverse_iterator rend() const { return reverse_iterator(begin()); }
 	/* -------------------------------- Capacity ------------------------------- */
 	bool      empty() const {};
 	size_type size() const {};
