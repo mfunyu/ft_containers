@@ -127,7 +127,7 @@ _NodePtr _tree_prev_(_NodePtr ptr, _NodePtr _nil_node)
 /* -------------------------------------------------------------------------- */
 /*                               RBtree Iterator                              */
 /* -------------------------------------------------------------------------- */
-template <class T>
+template <class T, class _NodePtr>
 class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
   public:
@@ -137,12 +137,12 @@ class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T
 	typedef value_type*                     pointer;
 
   private:
-	pointer _current_;
-	pointer _nil_;
+	_NodePtr _current_;
+	_NodePtr _nil_;
 
   public:
 	_rbtree_iterator() : _current_(NULL), _nil_(NULL) {}
-	_rbtree_iterator(pointer current, pointer nil) : _current_(current), _nil_(nil) {}
+	_rbtree_iterator(_NodePtr current, _NodePtr nil) : _current_(current), _nil_(nil) {}
 
 	/* -------------------------- Access operators -------------------------- */
 	reference operator*() const { return _current_->_value; }
@@ -194,8 +194,8 @@ class _rbtree
 	typedef _tree_node<value_type>  node_type;
 	typedef _tree_node<value_type>* node_pointer;
 
-	typedef _rbtree_iterator<value_type>       iterator;
-	typedef _rbtree_iterator<const value_type> const_iterator;
+	typedef _rbtree_iterator<value_type, node_pointer>       iterator;
+	typedef _rbtree_iterator<const value_type, node_pointer> const_iterator;
 
   private:
 	node_pointer   _begin_node;
