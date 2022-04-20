@@ -291,7 +291,7 @@ _rbtree<T, Comp, Allocator>::_insert(const _rbtree<T, Comp, Allocator>::value_ty
 
 	for (node_pointer current = _begin_node; current != _nil_node;) {
 		parent = current;
-		if (value < current->_value) {
+		if (_comp(value, current->_value)) {
 			current = current->_left;
 		} else {
 			current = current->_right;
@@ -299,7 +299,7 @@ _rbtree<T, Comp, Allocator>::_insert(const _rbtree<T, Comp, Allocator>::value_ty
 	}
 	if (parent == _nil_node) {
 		_begin_node = new_;
-	} else if (value < parent->_value) {
+	} else if (_comp(value, parent->_value)) {
 		parent->_left = new_;
 	} else {
 		parent->_right = new_;
