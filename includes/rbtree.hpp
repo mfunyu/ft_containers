@@ -197,6 +197,8 @@ class _rbtree
 	typedef _rbtree_iterator<value_type, node_pointer>       iterator;
 	typedef _rbtree_iterator<const value_type, node_pointer> const_iterator;
 
+	typedef typename Allocator::template rebind<node_type>::other node_allocator;
+
   private:
 	node_pointer   _begin_node;
 	node_pointer   _nil_node;
@@ -245,7 +247,8 @@ class _rbtree
 template <class T, class Comp, class Allocator>
 _rbtree<T, Comp, Allocator>::_rbtree()
 {
-	_nil_node            = new node_type;
+	node_allocator node_alloc;
+	_nil_node            = node_alloc.allocate(1);
 	_nil_node->_is_black = true;
 	_nil_node->_parent   = _nil_node;
 	_nil_node->_left     = _nil_node;
@@ -256,7 +259,8 @@ _rbtree<T, Comp, Allocator>::_rbtree()
 template <class T, class Comp, class Allocator>
 _rbtree<T, Comp, Allocator>::_rbtree(_rbtree<T, Comp, Allocator> const& other)
 {
-	_nil_node   = new node_type;
+	node_allocator node_alloc;
+	_nil_node   = node_alloc.allocate(1);
 	_nil_node   = other._nil_node;
 	_begin_node = other._begin_node;
 	_alloc      = other._alloc;
@@ -268,7 +272,8 @@ _rbtree<T, Comp, Allocator>&
 _rbtree<T, Comp, Allocator>::operator=(_rbtree<T, Comp, Allocator> const& other)
 {
 	if (this != &other) {
-		_nil_node   = new node_type;
+		node_allocator node_alloc;
+		_nil_node   = node_alloc.allocate(1);
 		_nil_node   = other._nil_node;
 		_begin_node = other._begin_node;
 		_alloc      = other._alloc;
@@ -358,12 +363,13 @@ template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
 _rbtree<T, Comp, Allocator>::_init_tree_node_(_rbtree<T, Comp, Allocator>::value_type value)
 {
-	node_pointer ptr = new node_type;
-	ptr->_parent     = _nil_node;
-	ptr->_right      = _nil_node;
-	ptr->_left       = _nil_node;
-	ptr->_value      = value;
-	ptr->_is_black   = false;
+	node_allocator node_alloc;
+	node_pointer   ptr = node_alloc.allocate(1);
+	ptr->_parent       = _nil_node;
+	ptr->_right        = _nil_node;
+	ptr->_left         = _nil_node;
+	ptr->_value        = value;
+	ptr->_is_black     = false;
 
 	return ptr;
 }
