@@ -23,11 +23,6 @@ class map
 	typedef typename Allocator::pointer       pointer;
 	typedef typename Allocator::const_pointer const_pointer;
 
-	typedef ft::random_access_iterator<value_type>       iterator;
-	typedef ft::random_access_iterator<const value_type> const_iterator;
-	typedef ft::reverse_iterator<iterator>               reverse_iterator;
-	typedef ft::reverse_iterator<const_iterator>         const_reverse_iterator;
-
 	class value_compare
 	{
 	  public:
@@ -49,6 +44,11 @@ class map
 	_base _tree;
 
   public:
+	typedef typename _base::iterator             iterator;
+	typedef typename _base::const_iterator       const_iterator;
+	typedef ft::reverse_iterator<iterator>       reverse_iterator;
+	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+
 	// (constructor)
 	map(){};
 	explicit map(const Compare& comp, const Allocator& alloc = Allocator()){};
