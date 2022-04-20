@@ -2,6 +2,7 @@
 #define MAP_HPP
 
 #include "iterators.hpp"
+#include "rbtree.hpp"
 
 namespace ft {
 
@@ -22,11 +23,6 @@ class map
 	typedef typename Allocator::pointer       pointer;
 	typedef typename Allocator::const_pointer const_pointer;
 
-	typedef ft::random_access_iterator<value_type>       iterator;
-	typedef ft::random_access_iterator<const value_type> const_iterator;
-	typedef ft::reverse_iterator<iterator>               reverse_iterator;
-	typedef ft::reverse_iterator<const_iterator>         const_reverse_iterator;
-
 	class value_compare
 	{
 	  public:
@@ -43,9 +39,16 @@ class map
 	};
 
   private:
-	// _base _tree;
+	typedef _rbtree<value_type, key_compare, allocator_type> _base;
+
+	_base _tree;
 
   public:
+	typedef typename _base::iterator             iterator;
+	typedef typename _base::const_iterator       const_iterator;
+	typedef ft::reverse_iterator<iterator>       reverse_iterator;
+	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+
 	// (constructor)
 	map(){};
 	explicit map(const Compare& comp, const Allocator& alloc = Allocator()){};
@@ -64,14 +67,14 @@ class map
 	// operator[]
 	T& operator[](const Key& key){};
 	// ------------------------------- Iterators ------------------------------- //
-	iterator               begin(){};
-	const_iterator         begin() const {};
-	iterator               end(){};
-	const_iterator         end() const {};
-	reverse_iterator       rbegin(){};
-	const_reverse_iterator rbegin() const {};
-	reverse_iterator       rend(){};
-	const_reverse_iterator rend() const {};
+	iterator               begin() { return _tree.begin(); }
+	const_iterator         begin() const { return _tree.begin(); }
+	iterator               end() { return _tree.end(); }
+	const_iterator         end() const { return _tree.end(); }
+	reverse_iterator       rbegin() { return reverse_iterator(end()); }
+	const_reverse_iterator rbegin() const { return reverse_iterator(end()); }
+	reverse_iterator       rend() { return reverse_iterator(begin()); }
+	const_reverse_iterator rend() const { return reverse_iterator(begin()); }
 	/* -------------------------------- Capacity ------------------------------- */
 	bool      empty() const {};
 	size_type size() const {};
