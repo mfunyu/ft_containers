@@ -100,7 +100,7 @@ void _set_compare_maps(
 		int index = std::rand() % patterns;
 
 		val = strs[index] + strs[std::max(index - 1, 0)];
-		ft_data.insert(std::pair<int, std::string>(i, val));
+		ft_data.insert(ft::pair<int, std::string>(i, val));
 		std_data.insert(std::pair<int, std::string>(i, val));
 	}
 }

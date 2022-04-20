@@ -2,18 +2,19 @@
 #define MAP_HPP
 
 #include "iterators.hpp"
+#include "pair.hpp"
 #include "rbtree.hpp"
 
 namespace ft {
 
 template <class Key, class T, class Compare = std::less<Key>,
-    class Allocator = std::allocator<std::pair<const Key, T> > >
+    class Allocator = std::allocator<pair<const Key, T> > >
 class map
 {
   public:
 	typedef Key                               key_type;
 	typedef T                                 mapped_type;
-	typedef std::pair<const Key, T>           value_type;
+	typedef pair<const Key, T>                value_type;
 	typedef std::size_t                       size_type;
 	typedef std::ptrdiff_t                    difference_type;
 	typedef Compare                           key_compare;
@@ -93,15 +94,15 @@ class map
 	// swap
 	void swap(map& other){};
 	/* --------------------------------- Lookup -------------------------------- */
-	size_type                                 count(const Key& key) const {};
-	iterator                                  find(const Key& key){};
-	const_iterator                            find(const Key& key) const {};
-	std::pair<iterator, iterator>             equal_range(const Key& key){};
-	std::pair<const_iterator, const_iterator> equal_range(const Key& key) const {};
-	iterator                                  lower_bound(const Key& key){};
-	const_iterator                            lower_bound(const Key& key) const {};
-	iterator                                  upper_bound(const Key& key){};
-	const_iterator                            upper_bound(const Key& key) const {};
+	size_type                            count(const Key& key) const {};
+	iterator                             find(const Key& key){};
+	const_iterator                       find(const Key& key) const {};
+	pair<iterator, iterator>             equal_range(const Key& key){};
+	pair<const_iterator, const_iterator> equal_range(const Key& key) const {};
+	iterator                             lower_bound(const Key& key){};
+	const_iterator                       lower_bound(const Key& key) const {};
+	iterator                             upper_bound(const Key& key){};
+	const_iterator                       upper_bound(const Key& key) const {};
 	/* ------------------------------- Observers ------------------------------- */
 	key_compare   key_comp() const {};
 	value_compare value_comp() const {};
