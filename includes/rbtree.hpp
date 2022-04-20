@@ -102,24 +102,24 @@ template <class _NodePtr>
 _NodePtr _tree_next_(_NodePtr ptr, _NodePtr _nil_node)
 {
 	if (ptr->_right != _nil_node) {
-		return _tree_min(ptr->_right, _nil_node);
+		return _tree_min_(ptr->_right, _nil_node);
 	}
-	while (!_is_left_child(ptr)) {
+	while (!_is_left_child_(ptr)) {
 		ptr = ptr->_parent;
 	}
-	return ptr->_pearent;
+	return ptr->_parent;
 }
 
 template <class _NodePtr>
 _NodePtr _tree_prev_(_NodePtr ptr, _NodePtr _nil_node)
 {
 	if (ptr->_left != _nil_node) {
-		return _tree_max(ptr->_left, _nil_node);
+		return _tree_max_(ptr->_left, _nil_node);
 	}
-	while (!_is_right_child(ptr)) {
+	while (!_is_right_child_(ptr)) {
 		ptr = ptr->_parent;
 	}
-	return ptr->_pearent;
+	return ptr->_parent;
 }
 
 } // namespace
@@ -146,7 +146,7 @@ class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T
 
 	/* -------------------------- Access operators -------------------------- */
 	reference operator*() const { return _current_->_value; }
-	pointer   operator->() const { return _current_; }
+	pointer   operator->() const { return &_current_->_value; }
 	/* ------------------------ Arithmetic operators ------------------------ */
 	_rbtree_iterator& operator++()
 	{
@@ -173,7 +173,7 @@ class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T
 	/* ------------------------ Non-member functions ------------------------ */
 	friend bool operator==(const _rbtree_iterator& _x, const _rbtree_iterator& _y)
 	{
-		return _x._curret_ == _y._curret_;
+		return _x._current_ == _y._current_;
 	}
 	friend bool operator!=(const _rbtree_iterator& _x, const _rbtree_iterator& _y)
 	{
