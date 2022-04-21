@@ -196,13 +196,18 @@ class _rbtree
 	typedef _rbtree_iterator<value_type, node_pointer>       iterator;
 	typedef _rbtree_iterator<const value_type, node_pointer> const_iterator;
 
+	typedef std::size_t    size_type;
+	typedef std::ptrdiff_t difference_type;
+
 	typedef typename Allocator::template rebind<node_type>::other node_allocator;
+	typedef std::allocator_traits<node_allocator>                 node_traits;
 
   private:
 	node_pointer   _begin_node;
 	node_pointer   _nil_node;
 	value_compare  _comp;
 	allocator_type _alloc;
+	size_type      _size;
 
   public:
 	_rbtree(const Comp& comp, const Allocator& alloc);
@@ -219,6 +224,15 @@ class _rbtree
 	const_iterator begin() const { return iterator(_begin_node, _nil_node); }
 	iterator       end() { return iterator(_tree_max_(_begin_node, _nil_node), _nil_node); }
 	const_iterator end() const { return iterator(_tree_max_(_begin_node, _nil_node), _nil_node); }
+
+	/* ------------------------------ Capacity ------------------------------ */
+	bool      empty() const { return _begin_node == _nil_node; }
+	size_type size() const { return _size; };
+	size_type max_size() const
+	{
+		return std::min<size_type>(
+		    node_traits::max_size(node_allocator()), std::numeric_limits<difference_type>::max());
+	}
 
 	iterator _insert(const value_type& value);
 
@@ -246,7 +260,7 @@ class _rbtree
 
 template <class T, class Comp, class Allocator>
 _rbtree<T, Comp, Allocator>::_rbtree(const Comp& comp, const Allocator& alloc) :
-    _comp(comp), _alloc(alloc)
+    _comp(comp), _alloc(alloc), _size(0)
 {
 	node_allocator node_alloc;
 	_nil_node            = node_alloc.allocate(1);
@@ -259,7 +273,7 @@ _rbtree<T, Comp, Allocator>::_rbtree(const Comp& comp, const Allocator& alloc) :
 
 template <class T, class Comp, class Allocator>
 _rbtree<T, Comp, Allocator>::_rbtree(_rbtree<T, Comp, Allocator> const& other) :
-    _comp(other._comp), _alloc(other._alloc)
+    _comp(other._comp), _alloc(other._alloc), _size(0)
 {
 	node_allocator node_alloc;
 	_nil_node   = node_alloc.allocate(1);
@@ -278,6 +292,7 @@ _rbtree<T, Comp, Allocator>::operator=(_rbtree<T, Comp, Allocator> const& other)
 		_begin_node = other._begin_node;
 		_alloc      = other._alloc;
 		_comp       = other._comp;
+		_size       = other._size;
 	}
 	return *this;
 }
@@ -307,7 +322,7 @@ _rbtree<T, Comp, Allocator>::_insert(const _rbtree<T, Comp, Allocator>::value_ty
 	new_->_parent = parent;
 	_display(__FUNCTION__, __LINE__);
 	_insert_fixup_(new_);
-	return new_;
+	++_size;
 }
 
 template <class T, class Comp, class Allocator>
@@ -352,6 +367,7 @@ _rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::value_ty
 	if (_is_black_(original_color)) {
 		_delete_fixup_(child_to_recolor);
 	}
+	--_size;
 	return ptr;
 }
 
