@@ -65,6 +65,7 @@ void map_std_swap();
 extern t_unit_tests func_test_table[TABLE_SIZE];
 
 ft::map<int, int>         _set_map(int size = 6, bool accend = false);
+std::map<int, int>        _set_map_std(int size = 6, bool accend = false);
 ft::map<int, char>        _set_map_char(int size = 6, bool accend = false);
 ft::map<int, std::string> _set_map_string(int size = 6, bool accend = false);
 void                      _set_compare_maps(
