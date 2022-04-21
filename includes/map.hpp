@@ -31,16 +31,17 @@ class map
 		typedef value_type first_argument_type;
 		typedef value_type second_argument_type;
 
-	  protected:
-		Compare comp;
-		value_compare(Compare c){};
+		key_compare comp;
+		value_compare(key_compare c) : comp(c){};
 
-	  public:
-		bool operator()(const value_type& lhs, const value_type& rhs) const {};
+		bool operator()(const value_type& lhs, const value_type& rhs) const
+		{
+			return comp(lhs.first, rhs.first);
+		};
 	};
 
   private:
-	typedef _rbtree<value_type, key_compare, allocator_type> _base;
+	typedef _rbtree<value_type, value_compare, allocator_type> _base;
 
 	_base _tree;
 
