@@ -8,8 +8,8 @@ struct pair {
 	typedef T1 first_type;
 	typedef T2 second_type;
 
-	first_type  first;
-	second_type second;
+	T1 first;
+	T2 second;
 
 	/* (constructors) */
 	pair() {}
@@ -29,8 +29,8 @@ struct pair {
 	template <class U, class V>
 	pair& operator=(const pair<U, V>& p)
 	{
-		first  = p.first;
-		second = p.second;
+		first  = static_cast<first_type>(p.first);
+		second = static_cast<second_type>(p.second);
 		return *this;
 	}
 	/* swap */
