@@ -80,7 +80,8 @@ void _compare_maps(ft::map<Key, T>& ft, std::map<Key, T>& std)
 	typename std::map<Key, T>::iterator its = std.begin();
 
 	for (; it != ft.end(); ++it, ++its) {
-		UnitTester::assert_(*it == *its);
+		UnitTester::assert_(it->first == its->first);
+		UnitTester::assert_(it->second == its->second);
 	}
 }
 
