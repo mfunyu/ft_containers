@@ -236,6 +236,52 @@ class _rbtree
 
 	iterator _insert(const value_type& value);
 
+	/* ------------------------------- Lookup ------------------------------- */
+	template <class _Key>
+	size_type count(const _Key& key) const {};
+	template <class _Key>
+	iterator find(const _Key& key)
+	{
+		return iterator(__equal_range_unique(key), _nil_node);
+	};
+	template <class _Key>
+	const_iterator find(const _Key& key) const
+	{
+		return const_iterator(__equal_range_unique(key), _nil_node);
+	};
+	template <class _Key>
+	pair<iterator, iterator> equal_range(const _Key& key)
+	{
+		iterator itr = iterator(__equal_range_unique(key), _nil_node);
+		return ft::make_pair(itr, itr);
+	}
+	template <class _Key>
+	pair<const_iterator, const_iterator> equal_range(const _Key& key) const
+	{
+		const_iterator c_itr = const_iterator(__equal_range_unique(key), _nil_node);
+		return ft::make_pair(c_itr, c_itr);
+	}
+	template <class _Key>
+	iterator lower_bound(const _Key& key)
+	{
+		return iterator(__lower_bound(key), _nil_node);
+	}
+	template <class _Key>
+	const_iterator lower_bound(const _Key& key) const
+	{
+		return const_iterator(__lower_bound(key), _nil_node);
+	}
+	template <class _Key>
+	iterator upper_bound(const _Key& key)
+	{
+		return iterator(__upper_bound(key), _nil_node);
+	}
+	template <class _Key>
+	const_iterator upper_bound(const _Key& key) const
+	{
+		return const_iterator(__upper_bound(key), _nil_node);
+	}
+
   private:
 	node_pointer _init_tree_node_(const value_type& value);
 

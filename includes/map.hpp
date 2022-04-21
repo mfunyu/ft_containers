@@ -106,15 +106,18 @@ class map
 	// swap
 	void swap(map& other){};
 	/* --------------------------------- Lookup -------------------------------- */
-	size_type                            count(const Key& key) const {};
-	iterator                             find(const Key& key){};
-	const_iterator                       find(const Key& key) const {};
-	pair<iterator, iterator>             equal_range(const Key& key){};
-	pair<const_iterator, const_iterator> equal_range(const Key& key) const {};
-	iterator                             lower_bound(const Key& key){};
-	const_iterator                       lower_bound(const Key& key) const {};
-	iterator                             upper_bound(const Key& key){};
-	const_iterator                       upper_bound(const Key& key) const {};
+	size_type                count(const Key& key) const {};
+	iterator                 find(const Key& key) { return _tree.find(key); };
+	const_iterator           find(const Key& key) const { return _tree.find(key); };
+	pair<iterator, iterator> equal_range(const Key& key) { return _tree.equal_range(key); }
+	pair<const_iterator, const_iterator> equal_range(const Key& key) const
+	{
+		return _tree.equal_range(key);
+	}
+	iterator       lower_bound(const Key& key) { return _tree.lower_bound(key); };
+	const_iterator lower_bound(const Key& key) const { return _tree.lower_bound(key); };
+	iterator       upper_bound(const Key& key) { return _tree.upper_bound(key); };
+	const_iterator upper_bound(const Key& key) const { return _tree.upper_bound(key); };
 	/* ------------------------------- Observers ------------------------------- */
 	key_compare   key_comp() const {};
 	value_compare value_comp() const {};
