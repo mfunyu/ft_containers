@@ -62,17 +62,16 @@ class map
 	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 	// (constructor)
-	explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator()) :
-	    _key_comp(comp), _value_comp(value_compare(comp)), _tree(_value_comp, alloc){};
-
+	explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator());
 	template <class InputIt>
 	map(InputIt first, InputIt last, const Compare& comp = Compare(),
-	map(map const& other) :
-	    _key_comp(other._key_comp), _value_comp(other._value_comp), _tree(other._tree){};
+	    const Allocator& alloc                                  = Allocator(),
+	    typename enable_if<!is_integral<InputIt>::value>::type* = 0);
+	map(map const& other);
 	// (destructor)
 	~map(){};
-	map&           operator=(map const& other){};
-	allocator_type get_allocator() const {};
+	map&           operator=(map const& other);
+	allocator_type get_allocator() const { return _tree.get_allocator(); }
 	// ---------------------------- Elements access ---------------------------- //
 	// at
 	T&       at(const Key& key){};
@@ -122,6 +121,37 @@ class map
 	key_compare   key_comp() const { return _key_comp; }
 	value_compare value_comp() const { return _value_comp; }
 };
+
+template <class Key, class T, class Comp, class Alloc>
+map<Key, T, Comp, Alloc>::map(const Comp& comp, const Alloc& alloc) :
+    _key_comp(comp), _value_comp(comp), _tree(_value_comp, alloc)
+{}
+
+template <class Key, class T, class Comp, class Alloc>
+template <class InputIt>
+map<Key, T, Comp, Alloc>::map(InputIt first, InputIt last, const Comp& comp, const Alloc& alloc,
+    typename enable_if<!is_integral<InputIt>::value>::type*) :
+    _key_comp(comp),
+    _value_comp(comp), _tree(_value_comp, alloc)
+{
+	insert(first, last);
+}
+
+template <class Key, class T, class Comp, class Alloc>
+map<Key, T, Comp, Alloc>::map(map<Key, T, Comp, Alloc> const& other) :
+    _key_comp(other._key_comp), _value_comp(other._value_comp), _tree(other._tree)
+{}
+
+template <class Key, class T, class Comp, class Alloc>
+map<Key, T, Comp, Alloc>& map<Key, T, Comp, Alloc>::operator=(map<Key, T, Comp, Alloc> const& other)
+{
+	if (this != &other) {
+		_key_comp   = other._key_comp;
+		_value_comp = other._value_comp;
+		_tree       = other._tree;
+	}
+	return *this;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                            Non-member functions                            */

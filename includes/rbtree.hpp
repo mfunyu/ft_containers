@@ -213,7 +213,8 @@ class _rbtree
 	_rbtree(const Comp& comp, const Allocator& alloc);
 	~_rbtree(){};
 	_rbtree(_rbtree const& other);
-	_rbtree& operator=(_rbtree const& other);
+	_rbtree&       operator=(_rbtree const& other);
+	allocator_type get_allocator() const { return _alloc; }
 
 	node_pointer _find(const value_type& value) const;
 	node_pointer _delete(const value_type& value);
