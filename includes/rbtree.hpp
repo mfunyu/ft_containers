@@ -25,6 +25,8 @@ class _tree_node
 	bool        _is_black;
 
 	_tree_node() : _parent(NULL), _right(NULL), _left(NULL), _is_black(false){};
+	_tree_node(const T& value) :
+	    _parent(NULL), _right(NULL), _left(NULL), _value(value), _is_black(false){};
 	_tree_node& operator=(_tree_node const& other)
 	{
 		if (*this != other) {
@@ -209,7 +211,6 @@ class _rbtree
 	_rbtree& operator=(_rbtree const& other);
 
 	node_pointer _find(const value_type& value) const;
-	node_pointer _insert(const value_type& value);
 	node_pointer _delete(const value_type& value);
 	void         _display(std::string func_name = "", int line = -1) const;
 
@@ -219,8 +220,10 @@ class _rbtree
 	iterator       end() { return iterator(_tree_max_(_begin_node, _nil_node), _nil_node); }
 	const_iterator end() const { return iterator(_tree_max_(_begin_node, _nil_node), _nil_node); }
 
+	iterator _insert(const value_type& value);
+
   private:
-	node_pointer _init_tree_node_(value_type value);
+	node_pointer _init_tree_node_(const value_type& value);
 
 	/* ----------------------------- algorithms ----------------------------- */
 	node_pointer _find_recursive_(const node_pointer ptr, const value_type& value) const;
@@ -358,15 +361,15 @@ _rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::value_ty
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_init_tree_node_(_rbtree<T, Comp, Allocator>::value_type value)
+_rbtree<T, Comp, Allocator>::_init_tree_node_(const _rbtree<T, Comp, Allocator>::value_type& value)
 {
 	node_allocator node_alloc;
 	node_pointer   ptr = node_alloc.allocate(1);
-	ptr->_parent       = _nil_node;
-	ptr->_right        = _nil_node;
-	ptr->_left         = _nil_node;
-	ptr->_value        = value;
-	ptr->_is_black     = false;
+	node_alloc.construct(ptr, value);
+	ptr->_parent   = _nil_node;
+	ptr->_right    = _nil_node;
+	ptr->_left     = _nil_node;
+	ptr->_is_black = false;
 
 	return ptr;
 }
