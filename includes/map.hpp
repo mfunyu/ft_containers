@@ -119,8 +119,8 @@ class map
 	iterator       upper_bound(const Key& key) { return _tree.upper_bound(key); };
 	const_iterator upper_bound(const Key& key) const { return _tree.upper_bound(key); };
 	/* ------------------------------- Observers ------------------------------- */
-	key_compare   key_comp() const {};
-	value_compare value_comp() const {};
+	key_compare   key_comp() const { return _key_comp; }
+	value_compare value_comp() const { return _value_comp; }
 };
 
 /* -------------------------------------------------------------------------- */
