@@ -205,7 +205,7 @@ class _rbtree
 	allocator_type _alloc;
 
   public:
-	_rbtree();
+	_rbtree(const Comp& comp, const Allocator& alloc);
 	~_rbtree(){};
 	_rbtree(_rbtree const& other);
 	_rbtree& operator=(_rbtree const& other);
@@ -245,7 +245,8 @@ class _rbtree
 /* -------------------------------------------------------------------------- */
 
 template <class T, class Comp, class Allocator>
-_rbtree<T, Comp, Allocator>::_rbtree()
+_rbtree<T, Comp, Allocator>::_rbtree(const Comp& comp, const Allocator& alloc) :
+    _comp(comp), _alloc(alloc)
 {
 	node_allocator node_alloc;
 	_nil_node            = node_alloc.allocate(1);
@@ -257,14 +258,13 @@ _rbtree<T, Comp, Allocator>::_rbtree()
 }
 
 template <class T, class Comp, class Allocator>
-_rbtree<T, Comp, Allocator>::_rbtree(_rbtree<T, Comp, Allocator> const& other)
+_rbtree<T, Comp, Allocator>::_rbtree(_rbtree<T, Comp, Allocator> const& other) :
+    _comp(other._comp), _alloc(other._alloc)
 {
 	node_allocator node_alloc;
 	_nil_node   = node_alloc.allocate(1);
 	_nil_node   = other._nil_node;
 	_begin_node = other._begin_node;
-	_alloc      = other._alloc;
-	_comp       = other._comp;
 }
 
 template <class T, class Comp, class Allocator>
