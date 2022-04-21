@@ -38,6 +38,14 @@ class map
 		{
 			return comp(lhs.first, rhs.first);
 		};
+		bool operator()(const value_type& lhs, const key_type& rhs) const
+		{
+			return comp(lhs.first, rhs);
+		};
+		bool operator()(const key_type& lhs, const value_type& rhs) const
+		{
+			return comp(lhs, rhs.first);
+		};
 	};
 
   private:
