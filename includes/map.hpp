@@ -89,9 +89,9 @@ class map
 	reverse_iterator       rend() { return reverse_iterator(begin()); }
 	const_reverse_iterator rend() const { return reverse_iterator(begin()); }
 	/* -------------------------------- Capacity ------------------------------- */
-	bool      empty() const {};
-	size_type size() const {};
-	size_type max_size() const {};
+	bool      empty() const { return _tree.empty(); }
+	size_type size() const { return _tree.size(); }
+	size_type max_size() const { return _tree.max_size(); }
 	/* ------------------------------- Modifiers ------------------------------- */
 	void clear(){};
 	// insert
