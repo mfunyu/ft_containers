@@ -43,7 +43,9 @@ class map
   private:
 	typedef _rbtree<value_type, value_compare, allocator_type> _base;
 
-	_base _tree;
+	key_compare   _key_comp;
+	value_compare _value_comp;
+	_base         _tree;
 
   public:
 	typedef typename _base::iterator             iterator;
@@ -52,12 +54,13 @@ class map
 	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 	// (constructor)
-	map(){};
-	explicit map(const Compare& comp, const Allocator& alloc = Allocator()){};
+	explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator()) :
+	    _key_comp(comp), _value_comp(value_compare(comp)), _tree(_value_comp, alloc){};
+
 	template <class InputIt>
 	map(InputIt first, InputIt last, const Compare& comp = Compare(),
-	    const Allocator& alloc = Allocator()){};
-	map(map const& other){};
+	map(map const& other) :
+	    _key_comp(other._key_comp), _value_comp(other._value_comp), _tree(other._tree){};
 	// (destructor)
 	~map(){};
 	map&           operator=(map const& other){};
