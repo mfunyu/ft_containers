@@ -247,6 +247,14 @@ class _rbtree
 	void         _insert_fixup_(node_pointer ptr);
 	void         _delete_fixup_(node_pointer ptr);
 
+	/* ------------------------------- Lookup ------------------------------- */
+	template <class _Key>
+	node_pointer __equal_range_unique(const _Key& key) const;
+	template <class _Key>
+	node_pointer __lower_bound(const _Key& key) const;
+	template <class _Key>
+	node_pointer __upper_bound(const _Key& key) const;
+
 	/* -------------------------------- debug ------------------------------- */
 	int  _check_tree_recursive_(node_pointer ptr, int black_count, int& invalid) const;
 	void _check_tree_validity_() const;
@@ -575,6 +583,67 @@ void _rbtree<T, Comp, Allocator>::_delete_fixup_(
 		}
 	}
 	ptr->_is_black = true;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   Lookups                                  */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Comp, class Allocator>
+template <class _Key>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::__equal_range_unique(const _Key& key) const
+{
+	node_pointer ptr;
+
+	while (ptr != _nil_node) {
+		if (_comp(key, ptr->_value)) {
+			ptr = ptr->_left;
+		} else if (_comp(ptr->_value, key)) {
+			ptr = ptr->_right;
+		} else {
+			return ptr;
+		}
+	}
+	return ptr;
+}
+
+template <class T, class Comp, class Allocator>
+template <class _Key>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::__lower_bound(const _Key& key) const
+{
+	node_pointer ptr;
+	node_pointer result;
+
+	while (ptr != _nil_node) {
+		if (!_comp(ptr->_value, key)) {
+			result = ptr;
+			ptr    = ptr->_left;
+		} else {
+			ptr = ptr->_right;
+		}
+	}
+	return result;
+}
+
+template <class T, class Comp, class Allocator>
+template <class _Key>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::__upper_bound(const _Key& key) const
+{
+	node_pointer ptr;
+	node_pointer result;
+
+	while (ptr != _nil_node) {
+		if (_comp(ptr->_value, key)) {
+			result = ptr;
+			ptr    = ptr->_right;
+		} else {
+			ptr = ptr->_left;
+		}
+	}
+	return result;
 }
 
 /* -------------------------------------------------------------------------- */
