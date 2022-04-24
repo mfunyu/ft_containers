@@ -31,18 +31,29 @@ class map
 		typedef value_type first_argument_type;
 		typedef value_type second_argument_type;
 
-	  protected:
-		Compare comp;
-		value_compare(Compare c){};
+		key_compare comp;
+		value_compare(key_compare c) : comp(c){};
 
-	  public:
-		bool operator()(const value_type& lhs, const value_type& rhs) const {};
+		bool operator()(const value_type& lhs, const value_type& rhs) const
+		{
+			return comp(lhs.first, rhs.first);
+		};
+		bool operator()(const value_type& lhs, const key_type& rhs) const
+		{
+			return comp(lhs.first, rhs);
+		};
+		bool operator()(const key_type& lhs, const value_type& rhs) const
+		{
+			return comp(lhs, rhs.first);
+		};
 	};
 
   private:
-	typedef _rbtree<value_type, key_compare, allocator_type> _base;
+	typedef _rbtree<value_type, value_compare, allocator_type> _base;
 
-	_base _tree;
+	key_compare   _key_comp;
+	value_compare _value_comp;
+	_base         _tree;
 
   public:
 	typedef typename _base::iterator             iterator;
@@ -51,16 +62,16 @@ class map
 	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 	// (constructor)
-	map(){};
-	explicit map(const Compare& comp, const Allocator& alloc = Allocator()){};
+	explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator());
 	template <class InputIt>
 	map(InputIt first, InputIt last, const Compare& comp = Compare(),
-	    const Allocator& alloc = Allocator()){};
-	map(map const& other){};
+	    const Allocator& alloc                                  = Allocator(),
+	    typename enable_if<!is_integral<InputIt>::value>::type* = 0);
+	map(map const& other);
 	// (destructor)
 	~map(){};
-	map&           operator=(map const& other){};
-	allocator_type get_allocator() const {};
+	map&           operator=(map const& other);
+	allocator_type get_allocator() const { return _tree.get_allocator(); }
 	// ---------------------------- Elements access ---------------------------- //
 	// at
 	T&       at(const Key& key){};
@@ -77,14 +88,14 @@ class map
 	reverse_iterator       rend() { return reverse_iterator(begin()); }
 	const_reverse_iterator rend() const { return reverse_iterator(begin()); }
 	/* -------------------------------- Capacity ------------------------------- */
-	bool      empty() const {};
-	size_type size() const {};
-	size_type max_size() const {};
+	bool      empty() const { return _tree.empty(); }
+	size_type size() const { return _tree.size(); }
+	size_type max_size() const { return _tree.max_size(); }
 	/* ------------------------------- Modifiers ------------------------------- */
 	void clear(){};
 	// insert
-	std::pair<iterator, bool> insert(const value_type& value){};
-	iterator                  insert(iterator hint, const value_type& value){};
+	ft::pair<iterator, bool> insert(const value_type& value){};
+	iterator                 insert(iterator hint, const value_type& value){};
 	template <class InputIt>
 	void insert(InputIt first, InputIt last){};
 	// erase
@@ -94,19 +105,53 @@ class map
 	// swap
 	void swap(map& other){};
 	/* --------------------------------- Lookup -------------------------------- */
-	size_type                            count(const Key& key) const {};
-	iterator                             find(const Key& key){};
-	const_iterator                       find(const Key& key) const {};
-	pair<iterator, iterator>             equal_range(const Key& key){};
-	pair<const_iterator, const_iterator> equal_range(const Key& key) const {};
-	iterator                             lower_bound(const Key& key){};
-	const_iterator                       lower_bound(const Key& key) const {};
-	iterator                             upper_bound(const Key& key){};
-	const_iterator                       upper_bound(const Key& key) const {};
+	size_type                count(const Key& key) const {};
+	iterator                 find(const Key& key) { return _tree.find(key); };
+	const_iterator           find(const Key& key) const { return _tree.find(key); };
+	pair<iterator, iterator> equal_range(const Key& key) { return _tree.equal_range(key); }
+	pair<const_iterator, const_iterator> equal_range(const Key& key) const
+	{
+		return _tree.equal_range(key);
+	}
+	iterator       lower_bound(const Key& key) { return _tree.lower_bound(key); };
+	const_iterator lower_bound(const Key& key) const { return _tree.lower_bound(key); };
+	iterator       upper_bound(const Key& key) { return _tree.upper_bound(key); };
+	const_iterator upper_bound(const Key& key) const { return _tree.upper_bound(key); };
 	/* ------------------------------- Observers ------------------------------- */
-	key_compare   key_comp() const {};
-	value_compare value_comp() const {};
+	key_compare   key_comp() const { return _key_comp; }
+	value_compare value_comp() const { return _value_comp; }
 };
+
+template <class Key, class T, class Comp, class Alloc>
+map<Key, T, Comp, Alloc>::map(const Comp& comp, const Alloc& alloc) :
+    _key_comp(comp), _value_comp(comp), _tree(_value_comp, alloc)
+{}
+
+template <class Key, class T, class Comp, class Alloc>
+template <class InputIt>
+map<Key, T, Comp, Alloc>::map(InputIt first, InputIt last, const Comp& comp, const Alloc& alloc,
+    typename enable_if<!is_integral<InputIt>::value>::type*) :
+    _key_comp(comp),
+    _value_comp(comp), _tree(_value_comp, alloc)
+{
+	insert(first, last);
+}
+
+template <class Key, class T, class Comp, class Alloc>
+map<Key, T, Comp, Alloc>::map(map<Key, T, Comp, Alloc> const& other) :
+    _key_comp(other._key_comp), _value_comp(other._value_comp), _tree(other._tree)
+{}
+
+template <class Key, class T, class Comp, class Alloc>
+map<Key, T, Comp, Alloc>& map<Key, T, Comp, Alloc>::operator=(map<Key, T, Comp, Alloc> const& other)
+{
+	if (this != &other) {
+		_key_comp   = other._key_comp;
+		_value_comp = other._value_comp;
+		_tree       = other._tree;
+	}
+	return *this;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                            Non-member functions                            */

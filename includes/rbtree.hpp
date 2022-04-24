@@ -25,6 +25,8 @@ class _tree_node
 	bool        _is_black;
 
 	_tree_node() : _parent(NULL), _right(NULL), _left(NULL), _is_black(false){};
+	_tree_node(const T& value) :
+	    _parent(NULL), _right(NULL), _left(NULL), _value(value), _is_black(false){};
 	_tree_node& operator=(_tree_node const& other)
 	{
 		if (*this != other) {
@@ -140,6 +142,14 @@ class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T
   public:
 	_rbtree_iterator() : _current_(NULL), _nil_(NULL) {}
 	_rbtree_iterator(_NodePtr current, _NodePtr nil) : _current_(current), _nil_(nil) {}
+	_rbtree_iterator operator=(_rbtree_iterator const& other)
+	{
+		if (this != &other) {
+			_current_ = other._current_;
+			_nil_     = other._nil_;
+		}
+		return *this;
+	}
 
 	/* -------------------------- Access operators -------------------------- */
 	reference operator*() const { return _current_->_value; }
@@ -186,6 +196,7 @@ class _rbtree
 {
   public:
 	typedef T                       value_type;
+	typedef typename T::first_type  key_type;
 	typedef Comp                    value_compare;
 	typedef Allocator               allocator_type;
 	typedef _tree_node<value_type>  node_type;
@@ -194,41 +205,94 @@ class _rbtree
 	typedef _rbtree_iterator<value_type, node_pointer>       iterator;
 	typedef _rbtree_iterator<const value_type, node_pointer> const_iterator;
 
+	typedef std::size_t    size_type;
+	typedef std::ptrdiff_t difference_type;
+
 	typedef typename Allocator::template rebind<node_type>::other node_allocator;
+	typedef std::allocator_traits<node_allocator>                 node_traits;
 
   private:
 	node_pointer   _begin_node;
 	node_pointer   _nil_node;
 	value_compare  _comp;
 	allocator_type _alloc;
+	size_type      _size;
 
   public:
-	_rbtree();
+	_rbtree(const Comp& comp, const Allocator& alloc);
 	~_rbtree(){};
 	_rbtree(_rbtree const& other);
-	_rbtree& operator=(_rbtree const& other);
+	_rbtree&       operator=(_rbtree const& other);
+	allocator_type get_allocator() const { return _alloc; }
 
-	node_pointer _find(const value_type& value) const;
-	node_pointer _insert(const value_type& value);
+	iterator     _find(const key_type& value) const;
 	node_pointer _delete(const value_type& value);
 	void         _display(std::string func_name = "", int line = -1) const;
 
 	/* ------------------------------ Iterators ----------------------------- */
 	iterator       begin() { return iterator(_begin_node, _nil_node); }
-	const_iterator begin() const { return iterator(_begin_node, _nil_node); }
+	const_iterator begin() const { return const_iterator(_begin_node, _nil_node); }
 	iterator       end() { return iterator(_tree_max_(_begin_node, _nil_node), _nil_node); }
-	const_iterator end() const { return iterator(_tree_max_(_begin_node, _nil_node), _nil_node); }
+	const_iterator end() const
+	{
+		return const_iterator(_tree_max_(_begin_node, _nil_node), _nil_node);
+	}
+
+	/* ------------------------------ Capacity ------------------------------ */
+	bool      empty() const { return _begin_node == _nil_node; }
+	size_type size() const { return _size; };
+	size_type max_size() const
+	{
+		return std::min<size_type>(
+		    node_traits::max_size(node_allocator()), std::numeric_limits<difference_type>::max());
+	}
+
+	/* ------------------------------ Modifiers ----------------------------- */
+	void     clear() {}
+	iterator _insert(const value_type& value);
+
+	/* ------------------------------- Lookup ------------------------------- */
+	size_type count(const key_type& key) const {};
+	iterator  find(const key_type& key) { return iterator(__equal_range_unique(key), _nil_node); };
+	const_iterator find(const key_type& key) const
+	{
+		return const_iterator(__equal_range_unique(key), _nil_node);
+	};
+	pair<iterator, iterator> equal_range(const key_type& key)
+	{
+		iterator itr = iterator(__equal_range_unique(key), _nil_node);
+		return ft::make_pair(itr, itr);
+	}
+	pair<const_iterator, const_iterator> equal_range(const key_type& key) const
+	{
+		const_iterator c_itr = const_iterator(__equal_range_unique(key), _nil_node);
+		return ft::make_pair(c_itr, c_itr);
+	}
+	iterator lower_bound(const key_type& key) { return iterator(__lower_bound(key), _nil_node); }
+	const_iterator lower_bound(const key_type& key) const
+	{
+		return const_iterator(__lower_bound(key), _nil_node);
+	}
+	iterator upper_bound(const key_type& key) { return iterator(__upper_bound(key), _nil_node); }
+	const_iterator upper_bound(const key_type& key) const
+	{
+		return const_iterator(__upper_bound(key), _nil_node);
+	}
 
   private:
-	node_pointer _init_tree_node_(value_type value);
+	node_pointer _init_tree_node_(const value_type& value);
 
 	/* ----------------------------- algorithms ----------------------------- */
-	node_pointer _find_recursive_(const node_pointer ptr, const value_type& value) const;
-	void         _transplant_(node_pointer old_ptr, node_pointer new_ptr);
-	void         _rotate_left_(node_pointer ptr);
-	void         _rotate_right_(node_pointer ptr);
-	void         _insert_fixup_(node_pointer ptr);
-	void         _delete_fixup_(node_pointer ptr);
+	void _transplant_(node_pointer old_ptr, node_pointer new_ptr);
+	void _rotate_left_(node_pointer ptr);
+	void _rotate_right_(node_pointer ptr);
+	void _insert_fixup_(node_pointer ptr);
+	void _delete_fixup_(node_pointer ptr);
+
+	/* ------------------------------- Lookup ------------------------------- */
+	node_pointer __equal_range_unique(const key_type& key) const;
+	node_pointer __lower_bound(const key_type& key) const;
+	node_pointer __upper_bound(const key_type& key) const;
 
 	/* -------------------------------- debug ------------------------------- */
 	int  _check_tree_recursive_(node_pointer ptr, int black_count, int& invalid) const;
@@ -242,7 +306,8 @@ class _rbtree
 /* -------------------------------------------------------------------------- */
 
 template <class T, class Comp, class Allocator>
-_rbtree<T, Comp, Allocator>::_rbtree()
+_rbtree<T, Comp, Allocator>::_rbtree(const Comp& comp, const Allocator& alloc) :
+    _comp(comp), _alloc(alloc), _size(0)
 {
 	node_allocator node_alloc;
 	_nil_node            = node_alloc.allocate(1);
@@ -254,14 +319,13 @@ _rbtree<T, Comp, Allocator>::_rbtree()
 }
 
 template <class T, class Comp, class Allocator>
-_rbtree<T, Comp, Allocator>::_rbtree(_rbtree<T, Comp, Allocator> const& other)
+_rbtree<T, Comp, Allocator>::_rbtree(_rbtree<T, Comp, Allocator> const& other) :
+    _comp(other._comp), _alloc(other._alloc), _size(0)
 {
 	node_allocator node_alloc;
 	_nil_node   = node_alloc.allocate(1);
 	_nil_node   = other._nil_node;
 	_begin_node = other._begin_node;
-	_alloc      = other._alloc;
-	_comp       = other._comp;
 }
 
 template <class T, class Comp, class Allocator>
@@ -275,12 +339,13 @@ _rbtree<T, Comp, Allocator>::operator=(_rbtree<T, Comp, Allocator> const& other)
 		_begin_node = other._begin_node;
 		_alloc      = other._alloc;
 		_comp       = other._comp;
+		_size       = other._size;
 	}
 	return *this;
 }
 
 template <class T, class Comp, class Allocator>
-typename _rbtree<T, Comp, Allocator>::node_pointer
+typename _rbtree<T, Comp, Allocator>::iterator
 _rbtree<T, Comp, Allocator>::_insert(const _rbtree<T, Comp, Allocator>::value_type& value)
 {
 	node_pointer new_   = _init_tree_node_(value);
@@ -304,14 +369,15 @@ _rbtree<T, Comp, Allocator>::_insert(const _rbtree<T, Comp, Allocator>::value_ty
 	new_->_parent = parent;
 	_display(__FUNCTION__, __LINE__);
 	_insert_fixup_(new_);
-	return new_;
+	++_size;
+	return iterator(new_, _nil_node);
 }
 
 template <class T, class Comp, class Allocator>
-typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_find(const _rbtree<T, Comp, Allocator>::value_type& value) const
+typename _rbtree<T, Comp, Allocator>::iterator
+_rbtree<T, Comp, Allocator>::_find(const key_type& key) const
 {
-	return _find_recursive_(_begin_node, value);
+	return iterator(__equal_range_unique(key), _nil_node);
 }
 
 template <class T, class Comp, class Allocator>
@@ -349,6 +415,7 @@ _rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::value_ty
 	if (_is_black_(original_color)) {
 		_delete_fixup_(child_to_recolor);
 	}
+	--_size;
 	return ptr;
 }
 
@@ -358,15 +425,15 @@ _rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::value_ty
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_init_tree_node_(_rbtree<T, Comp, Allocator>::value_type value)
+_rbtree<T, Comp, Allocator>::_init_tree_node_(const _rbtree<T, Comp, Allocator>::value_type& value)
 {
 	node_allocator node_alloc;
 	node_pointer   ptr = node_alloc.allocate(1);
-	ptr->_parent       = _nil_node;
-	ptr->_right        = _nil_node;
-	ptr->_left         = _nil_node;
-	ptr->_value        = value;
-	ptr->_is_black     = false;
+	node_alloc.construct(ptr, value);
+	ptr->_parent   = _nil_node;
+	ptr->_right    = _nil_node;
+	ptr->_left     = _nil_node;
+	ptr->_is_black = false;
 
 	return ptr;
 }
@@ -374,27 +441,6 @@ _rbtree<T, Comp, Allocator>::_init_tree_node_(_rbtree<T, Comp, Allocator>::value
 /* -------------------------------------------------------------------------- */
 /*                                 algorithms                                 */
 /* -------------------------------------------------------------------------- */
-
-template <class T, class Comp, class Allocator>
-typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_find_recursive_(const _rbtree<T, Comp, Allocator>::node_pointer ptr,
-    const _rbtree<T, Comp, Allocator>::value_type& value) const
-{
-	node_pointer found;
-
-	if (ptr == _nil_node) {
-		return NULL;
-	} else if (ptr->_value == value) {
-		return ptr;
-	}
-
-	found = _find_recursive_(ptr->_right, value);
-	if (found) {
-		return found;
-	}
-	found = _find_recursive_(ptr->_left, value);
-	return found;
-}
 
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_transplant_(_rbtree<T, Comp, Allocator>::node_pointer old_ptr,
@@ -559,6 +605,64 @@ void _rbtree<T, Comp, Allocator>::_delete_fixup_(
 }
 
 /* -------------------------------------------------------------------------- */
+/*                                   Lookups                                  */
+/* -------------------------------------------------------------------------- */
+
+template <class T, class Comp, class Allocator>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::__equal_range_unique(const key_type& key) const
+{
+	node_pointer ptr = _begin_node;
+
+	while (ptr != _nil_node) {
+		if (_comp(key, ptr->_value)) {
+			ptr = ptr->_left;
+		} else if (_comp(ptr->_value, key)) {
+			ptr = ptr->_right;
+		} else {
+			return ptr;
+		}
+	}
+	return ptr;
+}
+
+template <class T, class Comp, class Allocator>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::__lower_bound(const key_type& key) const
+{
+	node_pointer ptr = _begin_node;
+	node_pointer result;
+
+	while (ptr != _nil_node) {
+		if (!_comp(ptr->_value, key)) {
+			result = ptr;
+			ptr    = ptr->_left;
+		} else {
+			ptr = ptr->_right;
+		}
+	}
+	return result;
+}
+
+template <class T, class Comp, class Allocator>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::__upper_bound(const key_type& key) const
+{
+	node_pointer ptr = _begin_node;
+	node_pointer result;
+
+	while (ptr != _nil_node) {
+		if (_comp(ptr->_value, key)) {
+			result = ptr;
+			ptr    = ptr->_right;
+		} else {
+			ptr = ptr->_left;
+		}
+	}
+	return result;
+}
+
+/* -------------------------------------------------------------------------- */
 /*                                    debug                                   */
 /* -------------------------------------------------------------------------- */
 
@@ -615,7 +719,7 @@ std::string _rbtree<T, Comp, Allocator>::_node_to_dir_(
 		return "";
 
 	std::stringstream current_dirname;
-	current_dirname << dirprefix << (is_right ? "-R_" : "_L_") << v->_value;
+	current_dirname << dirprefix << (is_right ? "-R_" : "_L_") << v->_value.first;
 
 	/* delete all before creating the root directory */
 	if (dirprefix == "./") {
@@ -637,6 +741,7 @@ std::string _rbtree<T, Comp, Allocator>::_node_to_dir_(
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_display(std::string func_name, int line) const
 {
+#ifdef DEBUG
 	std::string dirpath;
 	std::string cmd;
 	dirpath = _node_to_dir_(_begin_node, "./", true);
@@ -653,6 +758,7 @@ void _rbtree<T, Comp, Allocator>::_display(std::string func_name, int line) cons
 	cmd = "rm -Rf " + dirpath;
 	system(cmd.c_str());
 	_check_tree_validity_();
+#endif
 }
 
 } // namespace ft
