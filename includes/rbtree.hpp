@@ -730,7 +730,7 @@ std::string _rbtree<T, Comp, Allocator>::_node_to_dir_(
 		return "";
 
 	std::stringstream current_dirname;
-	current_dirname << dirprefix << (is_right ? "-R_" : "_L_") << v->_value;
+	current_dirname << dirprefix << (is_right ? "-R_" : "_L_") << v->_value.first;
 
 	/* delete all before creating the root directory */
 	if (dirprefix == "./") {
@@ -752,6 +752,7 @@ std::string _rbtree<T, Comp, Allocator>::_node_to_dir_(
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_display(std::string func_name, int line) const
 {
+#ifdef DEBUG
 	std::string dirpath;
 	std::string cmd;
 	dirpath = _node_to_dir_(_begin_node, "./", true);
@@ -768,6 +769,7 @@ void _rbtree<T, Comp, Allocator>::_display(std::string func_name, int line) cons
 	cmd = "rm -Rf " + dirpath;
 	system(cmd.c_str());
 	_check_tree_validity_();
+#endif
 }
 
 } // namespace ft
