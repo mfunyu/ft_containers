@@ -188,6 +188,7 @@ class _rbtree
 {
   public:
 	typedef T                       value_type;
+	typedef typename T::first_type  key_type;
 	typedef Comp                    value_compare;
 	typedef Allocator               allocator_type;
 	typedef _tree_node<value_type>  node_type;
@@ -241,47 +242,29 @@ class _rbtree
 	iterator _insert(const value_type& value);
 
 	/* ------------------------------- Lookup ------------------------------- */
-	template <class _Key>
-	size_type count(const _Key& key) const {};
-	template <class _Key>
-	iterator find(const _Key& key)
-	{
-		return iterator(__equal_range_unique(key), _nil_node);
-	};
-	template <class _Key>
-	const_iterator find(const _Key& key) const
+	size_type count(const key_type& key) const {};
+	iterator  find(const key_type& key) { return iterator(__equal_range_unique(key), _nil_node); };
+	const_iterator find(const key_type& key) const
 	{
 		return const_iterator(__equal_range_unique(key), _nil_node);
 	};
-	template <class _Key>
-	pair<iterator, iterator> equal_range(const _Key& key)
+	pair<iterator, iterator> equal_range(const key_type& key)
 	{
 		iterator itr = iterator(__equal_range_unique(key), _nil_node);
 		return ft::make_pair(itr, itr);
 	}
-	template <class _Key>
-	pair<const_iterator, const_iterator> equal_range(const _Key& key) const
+	pair<const_iterator, const_iterator> equal_range(const key_type& key) const
 	{
 		const_iterator c_itr = const_iterator(__equal_range_unique(key), _nil_node);
 		return ft::make_pair(c_itr, c_itr);
 	}
-	template <class _Key>
-	iterator lower_bound(const _Key& key)
-	{
-		return iterator(__lower_bound(key), _nil_node);
-	}
-	template <class _Key>
-	const_iterator lower_bound(const _Key& key) const
+	iterator lower_bound(const key_type& key) { return iterator(__lower_bound(key), _nil_node); }
+	const_iterator lower_bound(const key_type& key) const
 	{
 		return const_iterator(__lower_bound(key), _nil_node);
 	}
-	template <class _Key>
-	iterator upper_bound(const _Key& key)
-	{
-		return iterator(__upper_bound(key), _nil_node);
-	}
-	template <class _Key>
-	const_iterator upper_bound(const _Key& key) const
+	iterator upper_bound(const key_type& key) { return iterator(__upper_bound(key), _nil_node); }
+	const_iterator upper_bound(const key_type& key) const
 	{
 		return const_iterator(__upper_bound(key), _nil_node);
 	}
@@ -298,12 +281,9 @@ class _rbtree
 	void         _delete_fixup_(node_pointer ptr);
 
 	/* ------------------------------- Lookup ------------------------------- */
-	template <class _Key>
-	node_pointer __equal_range_unique(const _Key& key) const;
-	template <class _Key>
-	node_pointer __lower_bound(const _Key& key) const;
-	template <class _Key>
-	node_pointer __upper_bound(const _Key& key) const;
+	node_pointer __equal_range_unique(const key_type& key) const;
+	node_pointer __lower_bound(const key_type& key) const;
+	node_pointer __upper_bound(const key_type& key) const;
 
 	/* -------------------------------- debug ------------------------------- */
 	int  _check_tree_recursive_(node_pointer ptr, int black_count, int& invalid) const;
@@ -640,9 +620,8 @@ void _rbtree<T, Comp, Allocator>::_delete_fixup_(
 /* -------------------------------------------------------------------------- */
 
 template <class T, class Comp, class Allocator>
-template <class _Key>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::__equal_range_unique(const _Key& key) const
+_rbtree<T, Comp, Allocator>::__equal_range_unique(const key_type& key) const
 {
 	node_pointer ptr = _begin_node;
 
@@ -659,9 +638,8 @@ _rbtree<T, Comp, Allocator>::__equal_range_unique(const _Key& key) const
 }
 
 template <class T, class Comp, class Allocator>
-template <class _Key>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::__lower_bound(const _Key& key) const
+_rbtree<T, Comp, Allocator>::__lower_bound(const key_type& key) const
 {
 	node_pointer ptr = _begin_node;
 	node_pointer result;
@@ -678,9 +656,8 @@ _rbtree<T, Comp, Allocator>::__lower_bound(const _Key& key) const
 }
 
 template <class T, class Comp, class Allocator>
-template <class _Key>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::__upper_bound(const _Key& key) const
+_rbtree<T, Comp, Allocator>::__upper_bound(const key_type& key) const
 {
 	node_pointer ptr = _begin_node;
 	node_pointer result;
