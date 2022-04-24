@@ -94,8 +94,8 @@ class map
 	/* ------------------------------- Modifiers ------------------------------- */
 	void clear(){};
 	// insert
-	std::pair<iterator, bool> insert(const value_type& value){};
-	iterator                  insert(iterator hint, const value_type& value){};
+	ft::pair<iterator, bool> insert(const value_type& value){};
+	iterator                 insert(iterator hint, const value_type& value){};
 	template <class InputIt>
 	void insert(InputIt first, InputIt last){};
 	// erase
