@@ -644,7 +644,7 @@ template <class _Key>
 typename _rbtree<T, Comp, Allocator>::node_pointer
 _rbtree<T, Comp, Allocator>::__equal_range_unique(const _Key& key) const
 {
-	node_pointer ptr;
+	node_pointer ptr = _begin_node;
 
 	while (ptr != _nil_node) {
 		if (_comp(key, ptr->_value)) {
@@ -663,7 +663,7 @@ template <class _Key>
 typename _rbtree<T, Comp, Allocator>::node_pointer
 _rbtree<T, Comp, Allocator>::__lower_bound(const _Key& key) const
 {
-	node_pointer ptr;
+	node_pointer ptr = _begin_node;
 	node_pointer result;
 
 	while (ptr != _nil_node) {
@@ -682,7 +682,7 @@ template <class _Key>
 typename _rbtree<T, Comp, Allocator>::node_pointer
 _rbtree<T, Comp, Allocator>::__upper_bound(const _Key& key) const
 {
-	node_pointer ptr;
+	node_pointer ptr = _begin_node;
 	node_pointer result;
 
 	while (ptr != _nil_node) {
