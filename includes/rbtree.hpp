@@ -225,7 +225,6 @@ class _rbtree
 	_rbtree&       operator=(_rbtree const& other);
 	allocator_type get_allocator() const { return _alloc; }
 
-	iterator     _find(const value_type& value) const;
 	iterator     _find(const key_type& value) const;
 	node_pointer _delete(const value_type& value);
 	void         _display(std::string func_name = "", int line = -1) const;
@@ -284,13 +283,11 @@ class _rbtree
 	node_pointer _init_tree_node_(const value_type& value);
 
 	/* ----------------------------- algorithms ----------------------------- */
-	node_pointer _find_recursive_(const node_pointer ptr, const value_type& value) const;
-	node_pointer _find_recursive_(const node_pointer current, const node_pointer ptr) const;
-	void         _transplant_(node_pointer old_ptr, node_pointer new_ptr);
-	void         _rotate_left_(node_pointer ptr);
-	void         _rotate_right_(node_pointer ptr);
-	void         _insert_fixup_(node_pointer ptr);
-	void         _delete_fixup_(node_pointer ptr);
+	void _transplant_(node_pointer old_ptr, node_pointer new_ptr);
+	void _rotate_left_(node_pointer ptr);
+	void _rotate_right_(node_pointer ptr);
+	void _insert_fixup_(node_pointer ptr);
+	void _delete_fixup_(node_pointer ptr);
 
 	/* ------------------------------- Lookup ------------------------------- */
 	node_pointer __equal_range_unique(const key_type& key) const;
@@ -378,13 +375,6 @@ _rbtree<T, Comp, Allocator>::_insert(const _rbtree<T, Comp, Allocator>::value_ty
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::iterator
-_rbtree<T, Comp, Allocator>::_find(const _rbtree<T, Comp, Allocator>::value_type& value) const
-{
-	return iterator(_find_recursive_(_begin_node, value), _nil_node);
-}
-
-template <class T, class Comp, class Allocator>
-typename _rbtree<T, Comp, Allocator>::iterator
 _rbtree<T, Comp, Allocator>::_find(const key_type& key) const
 {
 	return iterator(__equal_range_unique(key), _nil_node);
@@ -451,47 +441,6 @@ _rbtree<T, Comp, Allocator>::_init_tree_node_(const _rbtree<T, Comp, Allocator>:
 /* -------------------------------------------------------------------------- */
 /*                                 algorithms                                 */
 /* -------------------------------------------------------------------------- */
-
-template <class T, class Comp, class Allocator>
-typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_find_recursive_(const _rbtree<T, Comp, Allocator>::node_pointer ptr,
-    const _rbtree<T, Comp, Allocator>::value_type& value) const
-{
-	node_pointer found;
-
-	if (ptr == _nil_node) {
-		return NULL;
-	} else if (ptr->_value == value) {
-		return ptr;
-	}
-
-	found = _find_recursive_(ptr->_right, value);
-	if (found) {
-		return found;
-	}
-	found = _find_recursive_(ptr->_left, value);
-	return found;
-}
-
-template <class T, class Comp, class Allocator>
-typename _rbtree<T, Comp, Allocator>::node_pointer _rbtree<T, Comp, Allocator>::_find_recursive_(
-    const _rbtree<T, Comp, Allocator>::node_pointer current,
-    const _rbtree<T, Comp, Allocator>::node_pointer ptr) const
-{
-	node_pointer found;
-
-	if (current == _nil_node) {
-		return NULL;
-	} else if (current == ptr) {
-		return current;
-	}
-	if (_comp(current->_value, ptr->_value)) {
-		found = _find_recursive_(current->_right, ptr);
-	} else {
-		found = _find_recursive_(current->_left, ptr);
-	}
-	return found;
-}
 
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_transplant_(_rbtree<T, Comp, Allocator>::node_pointer old_ptr,
