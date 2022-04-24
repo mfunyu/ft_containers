@@ -12,7 +12,7 @@ struct pair {
 	T2 second;
 
 	/* (constructors) */
-	pair() {}
+	pair() : first(), second() {}
 	pair(pair const& other) : first(other.first), second(other.second) {}
 	pair(const T1& x, const T2& y) : first(x), second(y) {}
 	template <class U, class V>
@@ -25,19 +25,6 @@ struct pair {
 		first  = p.first;
 		second = p.second;
 		return *this;
-	}
-	template <class U, class V>
-	pair& operator=(const pair<U, V>& p)
-	{
-		first  = static_cast<first_type>(p.first);
-		second = static_cast<second_type>(p.second);
-		return *this;
-	}
-	/* swap */
-	void swap(pair& p)
-	{
-		swap(this->first, p.first);
-		swap(this->second, p.second);
 	}
 };
 
@@ -71,13 +58,6 @@ template <class T1, class T2>
 bool operator>=(const pair<T1, T2>& x, const pair<T1, T2>& y)
 {
 	return !(x < y);
-}
-
-/* swap */
-template <class T1, class T2>
-void swap(pair<T1, T2>& x, pair<T1, T2>& y)
-{
-	x.swap(y);
 }
 
 template <class T1, class T2>
