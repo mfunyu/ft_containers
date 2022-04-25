@@ -225,7 +225,8 @@ class _rbtree
 	_rbtree&       operator=(_rbtree const& other);
 	allocator_type get_allocator() const { return _alloc; }
 
-	iterator     _find(const key_type& value) const;
+	template <class _Key>
+	iterator     _find(const _Key& value) const;
 	node_pointer _delete(const value_type& value);
 	void         _display(std::string func_name = "", int line = -1) const;
 
@@ -287,7 +288,8 @@ class _rbtree
 	void _delete_fixup_(node_pointer ptr);
 
 	/* ------------------------------- Lookup ------------------------------- */
-	node_pointer __equal_range_unique(const key_type& key) const;
+	template <class _Key>
+	node_pointer __equal_range_unique(const _Key& key) const;
 	node_pointer __lower_bound(const key_type& key) const;
 	node_pointer __upper_bound(const key_type& key) const;
 
@@ -370,8 +372,9 @@ _rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 }
 
 template <class T, class Comp, class Allocator>
+template <class _Key>
 typename _rbtree<T, Comp, Allocator>::iterator
-_rbtree<T, Comp, Allocator>::_find(const key_type& key) const
+_rbtree<T, Comp, Allocator>::_find(const _Key& key) const
 {
 	return iterator(__equal_range_unique(key), _nil_node);
 }
@@ -602,8 +605,9 @@ void _rbtree<T, Comp, Allocator>::_delete_fixup_(const node_pointer ptr)
 /* -------------------------------------------------------------------------- */
 
 template <class T, class Comp, class Allocator>
+template <class _Key>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::__equal_range_unique(const key_type& key) const
+_rbtree<T, Comp, Allocator>::__equal_range_unique(const _Key& key) const
 {
 	node_pointer ptr = _begin_node;
 
