@@ -1,6 +1,7 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
+#include "algorithm.hpp"
 #include "iterators.hpp"
 #include "pair.hpp"
 #include "rbtree.hpp"
@@ -183,32 +184,44 @@ const T& map<Key, T, Comp, Alloc>::at(const Key& key) const
 template <class Key, class T, class Compare, class Alloc>
 bool operator==(
     const ft::map<Key, T, Compare, Alloc>& lhs, const ft::map<Key, T, Compare, Alloc>& rhs)
-{}
+{
+	return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+}
 
 template <class Key, class T, class Compare, class Alloc>
 bool operator!=(
     const ft::map<Key, T, Compare, Alloc>& lhs, const ft::map<Key, T, Compare, Alloc>& rhs)
-{}
+{
+	return !(lhs == rhs);
+}
 
 template <class Key, class T, class Compare, class Alloc>
 bool operator<(
     const ft::map<Key, T, Compare, Alloc>& lhs, const ft::map<Key, T, Compare, Alloc>& rhs)
-{}
+{
+	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+}
 
 template <class Key, class T, class Compare, class Alloc>
 bool operator<=(
     const ft::map<Key, T, Compare, Alloc>& lhs, const ft::map<Key, T, Compare, Alloc>& rhs)
-{}
+{
+	return !(rhs < lhs);
+}
 
 template <class Key, class T, class Compare, class Alloc>
 bool operator>(
     const ft::map<Key, T, Compare, Alloc>& lhs, const ft::map<Key, T, Compare, Alloc>& rhs)
-{}
+{
+	return rhs < lhs;
+}
 
 template <class Key, class T, class Compare, class Alloc>
 bool operator>=(
     const ft::map<Key, T, Compare, Alloc>& lhs, const ft::map<Key, T, Compare, Alloc>& rhs)
-{}
+{
+	return !(lhs < rhs);
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                  std::swap                                 */
