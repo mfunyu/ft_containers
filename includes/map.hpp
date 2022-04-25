@@ -78,7 +78,7 @@ class map
 	T&       at(const Key& key);
 	const T& at(const Key& key) const;
 	// operator[]
-	T& operator[](const Key& key){};
+	T& operator[](const Key& key) { return insert(ft::make_pair(key, T())).first->second; };
 	// ------------------------------- Iterators ------------------------------- //
 	iterator               begin() { return _tree.begin(); }
 	const_iterator         begin() const { return _tree.begin(); }
