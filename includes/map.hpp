@@ -105,7 +105,7 @@ class map
 	// swap
 	void swap(map& other){};
 	/* --------------------------------- Lookup -------------------------------- */
-	size_type                count(const Key& key) const {};
+	size_type                count(const Key& key) const { return (find(key) == end() ? 0 : 1); }
 	iterator                 find(const Key& key) { return _tree.find(key); };
 	const_iterator           find(const Key& key) const { return _tree.find(key); };
 	pair<iterator, iterator> equal_range(const Key& key) { return _tree.equal_range(key); }
