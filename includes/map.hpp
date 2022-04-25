@@ -98,7 +98,12 @@ class map
 	ft::pair<iterator, bool> insert(const value_type& value) { return _tree._insert(value); };
 	iterator                 insert(iterator hint, const value_type& value){};
 	template <class InputIt>
-	void insert(InputIt first, InputIt last){};
+	void insert(InputIt first, InputIt last)
+	{
+		for (; first != last; ++first) {
+			_tree._insert(*first);
+		}
+	};
 	// erase
 	void      erase(iterator pos){};
 	void      erase(iterator first, iterator last){};
