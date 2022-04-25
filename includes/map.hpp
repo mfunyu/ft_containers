@@ -94,7 +94,7 @@ class map
 	/* ------------------------------- Modifiers ------------------------------- */
 	void clear(){};
 	// insert
-	ft::pair<iterator, bool> insert(const value_type& value){};
+	ft::pair<iterator, bool> insert(const value_type& value) { return _tree._insert(value); };
 	iterator                 insert(iterator hint, const value_type& value){};
 	template <class InputIt>
 	void insert(InputIt first, InputIt last){};

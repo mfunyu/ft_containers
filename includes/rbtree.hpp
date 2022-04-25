@@ -246,8 +246,8 @@ class _rbtree
 	}
 
 	/* ------------------------------ Modifiers ----------------------------- */
-	void     clear() {}
-	iterator _insert(const value_type& value);
+	void                     clear() {}
+	ft::pair<iterator, bool> _insert(const value_type& value);
 
 	/* ------------------------------- Lookup ------------------------------- */
 	size_type count(const key_type& key) const {};
@@ -343,9 +343,13 @@ _rbtree<T, Comp, Allocator>& _rbtree<T, Comp, Allocator>::operator=(_rbtree cons
 }
 
 template <class T, class Comp, class Allocator>
-typename _rbtree<T, Comp, Allocator>::iterator
+typename ft::pair<typename _rbtree<T, Comp, Allocator>::iterator, bool>
 _rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 {
+	iterator ptr = _find(value);
+	if (ptr != end()) {
+		return ft::make_pair(ptr, false);
+	}
 	node_pointer new_   = _init_tree_node_(value);
 	node_pointer parent = _nil_node;
 
@@ -368,7 +372,7 @@ _rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 	_display(__FUNCTION__, __LINE__);
 	_insert_fixup_(new_);
 	++_size;
-	return iterator(new_, _nil_node);
+	return ft::make_pair(iterator(new_, _nil_node), true);
 }
 
 template <class T, class Comp, class Allocator>
