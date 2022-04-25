@@ -143,7 +143,7 @@ map<Key, T, Comp, Alloc>::map(map<Key, T, Comp, Alloc> const& other) :
 {}
 
 template <class Key, class T, class Comp, class Alloc>
-map<Key, T, Comp, Alloc>& map<Key, T, Comp, Alloc>::operator=(map<Key, T, Comp, Alloc> const& other)
+map<Key, T, Comp, Alloc>& map<Key, T, Comp, Alloc>::operator=(map const& other)
 {
 	if (this != &other) {
 		_key_comp   = other._key_comp;

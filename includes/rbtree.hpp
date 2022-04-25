@@ -319,7 +319,7 @@ _rbtree<T, Comp, Allocator>::_rbtree(const Comp& comp, const Allocator& alloc) :
 }
 
 template <class T, class Comp, class Allocator>
-_rbtree<T, Comp, Allocator>::_rbtree(_rbtree<T, Comp, Allocator> const& other) :
+_rbtree<T, Comp, Allocator>::_rbtree(_rbtree const& other) :
     _comp(other._comp), _alloc(other._alloc), _size(0)
 {
 	node_allocator node_alloc;
@@ -329,8 +329,7 @@ _rbtree<T, Comp, Allocator>::_rbtree(_rbtree<T, Comp, Allocator> const& other) :
 }
 
 template <class T, class Comp, class Allocator>
-_rbtree<T, Comp, Allocator>&
-_rbtree<T, Comp, Allocator>::operator=(_rbtree<T, Comp, Allocator> const& other)
+_rbtree<T, Comp, Allocator>& _rbtree<T, Comp, Allocator>::operator=(_rbtree const& other)
 {
 	if (this != &other) {
 		node_allocator node_alloc;
@@ -346,7 +345,7 @@ _rbtree<T, Comp, Allocator>::operator=(_rbtree<T, Comp, Allocator> const& other)
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::iterator
-_rbtree<T, Comp, Allocator>::_insert(const _rbtree<T, Comp, Allocator>::value_type& value)
+_rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 {
 	node_pointer new_   = _init_tree_node_(value);
 	node_pointer parent = _nil_node;
@@ -382,7 +381,7 @@ _rbtree<T, Comp, Allocator>::_find(const key_type& key) const
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::value_type& value)
+_rbtree<T, Comp, Allocator>::_delete(const value_type& value)
 {
 	node_pointer ptr              = _find(value);
 	node_pointer fix_trigger_node = ptr;
@@ -425,7 +424,7 @@ _rbtree<T, Comp, Allocator>::_delete(const _rbtree<T, Comp, Allocator>::value_ty
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_init_tree_node_(const _rbtree<T, Comp, Allocator>::value_type& value)
+_rbtree<T, Comp, Allocator>::_init_tree_node_(const value_type& value)
 {
 	node_allocator node_alloc;
 	node_pointer   ptr = node_alloc.allocate(1);
@@ -443,8 +442,7 @@ _rbtree<T, Comp, Allocator>::_init_tree_node_(const _rbtree<T, Comp, Allocator>:
 /* -------------------------------------------------------------------------- */
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_transplant_(_rbtree<T, Comp, Allocator>::node_pointer old_ptr,
-    _rbtree<T, Comp, Allocator>::node_pointer                                            new_ptr)
+void _rbtree<T, Comp, Allocator>::_transplant_(node_pointer old_ptr, node_pointer new_ptr)
 {
 	if (old_ptr->_parent == _nil_node) {
 		_begin_node = new_ptr;
@@ -457,7 +455,7 @@ void _rbtree<T, Comp, Allocator>::_transplant_(_rbtree<T, Comp, Allocator>::node
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_rotate_left_(const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+void _rbtree<T, Comp, Allocator>::_rotate_left_(const node_pointer ptr)
 {
 	node_pointer child = ptr->_right;
 	ptr->_right        = child->_left;
@@ -480,8 +478,7 @@ void _rbtree<T, Comp, Allocator>::_rotate_left_(const _rbtree<T, Comp, Allocator
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_rotate_right_(
-    const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+void _rbtree<T, Comp, Allocator>::_rotate_right_(const node_pointer ptr)
 {
 	_display(__FUNCTION__, __LINE__);
 	node_pointer child = ptr->_left;
@@ -504,7 +501,7 @@ void _rbtree<T, Comp, Allocator>::_rotate_right_(
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_insert_fixup_(_rbtree<T, Comp, Allocator>::node_pointer ptr)
+void _rbtree<T, Comp, Allocator>::_insert_fixup_(node_pointer ptr)
 {
 	node_pointer uncle;
 	while (_is_red_(ptr->_parent)) {
@@ -549,8 +546,7 @@ void _rbtree<T, Comp, Allocator>::_insert_fixup_(_rbtree<T, Comp, Allocator>::no
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_delete_fixup_(
-    const _rbtree<T, Comp, Allocator>::node_pointer ptr)
+void _rbtree<T, Comp, Allocator>::_delete_fixup_(const node_pointer ptr)
 {
 	node_pointer cousin;
 
@@ -668,7 +664,7 @@ _rbtree<T, Comp, Allocator>::__upper_bound(const key_type& key) const
 
 template <class T, class Comp, class Allocator>
 int _rbtree<T, Comp, Allocator>::_check_tree_recursive_(
-    _rbtree<T, Comp, Allocator>::node_pointer ptr, int black_counts, int& invalid) const
+    node_pointer ptr, int black_counts, int& invalid) const
 {
 	if (ptr == _nil_node) {
 		return black_counts;
@@ -713,7 +709,7 @@ void _rbtree<T, Comp, Allocator>::_check_tree_validity_() const
 
 template <class T, class Comp, class Allocator>
 std::string _rbtree<T, Comp, Allocator>::_node_to_dir_(
-    const _rbtree<T, Comp, Allocator>::node_pointer& v, std::string dirprefix, bool is_right) const
+    const node_pointer& v, std::string dirprefix, bool is_right) const
 {
 	if (v == _nil_node)
 		return "";
