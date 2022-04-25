@@ -74,8 +74,8 @@ class map
 	allocator_type get_allocator() const { return _tree.get_allocator(); }
 	// ---------------------------- Elements access ---------------------------- //
 	// at
-	T&       at(const Key& key){};
-	const T& at(const Key& key) const {};
+	T&       at(const Key& key);
+	const T& at(const Key& key) const;
 	// operator[]
 	T& operator[](const Key& key){};
 	// ------------------------------- Iterators ------------------------------- //
@@ -151,6 +151,30 @@ map<Key, T, Comp, Alloc>& map<Key, T, Comp, Alloc>::operator=(map const& other)
 		_tree       = other._tree;
 	}
 	return *this;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                     at                                     */
+/* -------------------------------------------------------------------------- */
+
+template <class Key, class T, class Comp, class Alloc>
+T& map<Key, T, Comp, Alloc>::at(const Key& key)
+{
+	iterator itr = find(key);
+	if (itr == end()) {
+		throw std::out_of_range("map::at:  key not found");
+	}
+	return itr->second;
+}
+
+template <class Key, class T, class Comp, class Alloc>
+const T& map<Key, T, Comp, Alloc>::at(const Key& key) const
+{
+	const_iterator itr = find(key);
+	if (itr == end()) {
+		throw std::out_of_range("map::at:  key not found");
+	}
+	return itr->second;
 }
 
 /* -------------------------------------------------------------------------- */
