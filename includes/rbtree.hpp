@@ -231,8 +231,11 @@ class _rbtree
 	void         _display(std::string func_name = "", int line = -1) const;
 
 	/* ------------------------------ Iterators ----------------------------- */
-	iterator       begin() { return iterator(_begin_node, _nil_node); }
-	const_iterator begin() const { return const_iterator(_begin_node, _nil_node); }
+	iterator       begin() { return iterator(_tree_min_(_begin_node, _nil_node), _nil_node); }
+	const_iterator begin() const
+	{
+		return const_iterator(_tree_min_(_begin_node, _nil_node), _nil_node);
+	}
 	iterator       end() { return iterator(_nil_node, _nil_node); }
 	const_iterator end() const { return const_iterator(_nil_node, _nil_node); }
 
@@ -437,7 +440,6 @@ _rbtree<T, Comp, Allocator>::_init_tree_node_(const value_type& value)
 	ptr->_right    = _nil_node;
 	ptr->_left     = _nil_node;
 	ptr->_is_black = false;
-
 	return ptr;
 }
 
