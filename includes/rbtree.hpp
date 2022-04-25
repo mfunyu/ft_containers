@@ -232,11 +232,8 @@ class _rbtree
 	/* ------------------------------ Iterators ----------------------------- */
 	iterator       begin() { return iterator(_begin_node, _nil_node); }
 	const_iterator begin() const { return const_iterator(_begin_node, _nil_node); }
-	iterator       end() { return iterator(_tree_max_(_begin_node, _nil_node), _nil_node); }
-	const_iterator end() const
-	{
-		return const_iterator(_tree_max_(_begin_node, _nil_node), _nil_node);
-	}
+	iterator       end() { return iterator(_nil_node, _nil_node); }
+	const_iterator end() const { return const_iterator(_nil_node, _nil_node); }
 
 	/* ------------------------------ Capacity ------------------------------ */
 	bool      empty() const { return _begin_node == _nil_node; }
