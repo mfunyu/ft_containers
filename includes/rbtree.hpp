@@ -215,7 +215,7 @@ class _rbtree
 	node_pointer   _root;
 	node_pointer   _nil;
 	value_compare  _comp;
-	allocator_type _alloc;
+	node_allocator _alloc;
 	size_type      _size;
 
   public:
@@ -223,7 +223,7 @@ class _rbtree
 	~_rbtree(){};
 	_rbtree(_rbtree const& other);
 	_rbtree&       operator=(_rbtree const& other);
-	allocator_type get_allocator() const { return _alloc; }
+	allocator_type get_allocator() const { return allocator_type(_alloc); }
 
 	template <class _Key>
 	iterator     _find(const _Key& value) const;
@@ -306,10 +306,9 @@ class _rbtree
 
 template <class T, class Comp, class Allocator>
 _rbtree<T, Comp, Allocator>::_rbtree(const Comp& comp, const Allocator& alloc) :
-    _comp(comp), _alloc(alloc), _size(0)
+    _comp(comp), _alloc(node_allocator(alloc)), _size(0)
 {
-	node_allocator node_alloc;
-	_nil            = node_alloc.allocate(1);
+	_nil            = _alloc.allocate(1);
 	_nil->_is_black = true;
 	_nil->_parent   = _nil;
 	_nil->_left     = _nil;
@@ -321,8 +320,7 @@ template <class T, class Comp, class Allocator>
 _rbtree<T, Comp, Allocator>::_rbtree(_rbtree const& other) :
     _comp(other._comp), _alloc(other._alloc), _size(0)
 {
-	node_allocator node_alloc;
-	_nil  = node_alloc.allocate(1);
+	_nil  = _alloc.allocate(1);
 	_nil  = other._nil;
 	_root = other._root;
 }
@@ -331,8 +329,7 @@ template <class T, class Comp, class Allocator>
 _rbtree<T, Comp, Allocator>& _rbtree<T, Comp, Allocator>::operator=(_rbtree const& other)
 {
 	if (this != &other) {
-		node_allocator node_alloc;
-		_nil   = node_alloc.allocate(1);
+		_nil   = _alloc.allocate(1);
 		_nil   = other._nil;
 		_root  = other._root;
 		_alloc = other._alloc;
@@ -430,9 +427,8 @@ template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
 _rbtree<T, Comp, Allocator>::_init_tree_node_(const value_type& value)
 {
-	node_allocator node_alloc;
-	node_pointer   ptr = node_alloc.allocate(1);
-	node_alloc.construct(ptr, value);
+	node_pointer ptr = _alloc.allocate(1);
+	_alloc.construct(ptr, value);
 	ptr->_parent   = _nil;
 	ptr->_right    = _nil;
 	ptr->_left     = _nil;

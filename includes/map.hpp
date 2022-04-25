@@ -72,7 +72,7 @@ class map
 	// (destructor)
 	~map(){};
 	map&           operator=(map const& other);
-	allocator_type get_allocator() const { return _tree.get_allocator(); }
+	allocator_type get_allocator() const { return allocator_type(_tree.get_allocator()); }
 	// ---------------------------- Elements access ---------------------------- //
 	// at
 	T&       at(const Key& key);
