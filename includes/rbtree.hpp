@@ -279,6 +279,7 @@ class _rbtree
 
   private:
 	node_pointer _init_tree_node_(const value_type& value);
+	void         _set_root(const node_pointer ptr);
 
 	/* ----------------------------- algorithms ----------------------------- */
 	void _transplant_(node_pointer old_ptr, node_pointer new_ptr);
@@ -359,7 +360,7 @@ _rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 		}
 	}
 	if (parent == _nil) {
-		_root = new_;
+		_set_root(new_);
 	} else if (_comp(value, parent->_value)) {
 		parent->_left = new_;
 	} else {
@@ -436,6 +437,12 @@ _rbtree<T, Comp, Allocator>::_init_tree_node_(const value_type& value)
 	return ptr;
 }
 
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_set_root(const node_pointer ptr)
+{
+	_root = ptr;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                 algorithms                                 */
 /* -------------------------------------------------------------------------- */
@@ -444,7 +451,7 @@ template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_transplant_(node_pointer old_ptr, node_pointer new_ptr)
 {
 	if (old_ptr->_parent == _nil) {
-		_root = new_ptr;
+		_set_root(new_ptr);
 	} else if (_is_left_child_(old_ptr)) {
 		old_ptr->_parent->_left = new_ptr;
 	} else {
@@ -465,7 +472,7 @@ void _rbtree<T, Comp, Allocator>::_rotate_left_(const node_pointer ptr)
 	node_pointer parent = ptr->_parent;
 	child->_parent      = parent;
 	if (parent == _nil) {
-		_root = child;
+		_set_root(child);
 	} else if (_is_left_child_(ptr)) {
 		parent->_left = child;
 	} else {
@@ -488,7 +495,7 @@ void _rbtree<T, Comp, Allocator>::_rotate_right_(const node_pointer ptr)
 	node_pointer parent = ptr->_parent;
 	child->_parent      = parent;
 	if (parent == _nil) {
-		_root = child;
+		_set_root(child);
 	} else if (_is_left_child_(ptr)) {
 		parent->_left = child;
 	} else {
