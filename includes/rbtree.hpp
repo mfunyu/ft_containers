@@ -215,6 +215,7 @@ class _rbtree
 	node_pointer   _root;
 	node_pointer   _nil;
 	node_pointer   _begin;
+	node_pointer   _end;
 	value_compare  _comp;
 	node_allocator _alloc;
 	size_type      _size;
@@ -234,8 +235,8 @@ class _rbtree
 	/* ------------------------------ Iterators ----------------------------- */
 	iterator       begin() { return iterator(_begin, _nil); }
 	const_iterator begin() const { return const_iterator(_begin, _nil); }
-	iterator       end() { return iterator(_nil, _nil); }
-	const_iterator end() const { return const_iterator(_nil, _nil); }
+	iterator       end() { return iterator(_end, _nil); }
+	const_iterator end() const { return const_iterator(_end, _nil); }
 
 	/* ------------------------------ Capacity ------------------------------ */
 	bool      empty() const { return _root == _nil; }
@@ -317,7 +318,8 @@ _rbtree<T, Comp, Allocator>::_rbtree(const Comp& comp, const Allocator& alloc) :
 	_nil->_left     = _nil;
 	_nil->_right    = _nil;
 	_root           = _nil;
-	_begin          = _nil;
+	_end            = _init_tree_node_(T());
+	_begin          = _end;
 }
 
 template <class T, class Comp, class Allocator>
@@ -328,6 +330,7 @@ _rbtree<T, Comp, Allocator>::_rbtree(_rbtree const& other) :
 	_nil   = other._nil;
 	_root  = other._root;
 	_begin = other._begin;
+	_end   = other._end;
 }
 
 template <class T, class Comp, class Allocator>
@@ -338,6 +341,7 @@ _rbtree<T, Comp, Allocator>& _rbtree<T, Comp, Allocator>::operator=(_rbtree cons
 		_nil   = other._nil;
 		_root  = other._root;
 		_begin = other._begin;
+		_end   = other._end;
 		_alloc = other._alloc;
 		_comp  = other._comp;
 		_size  = other._size;
@@ -445,7 +449,7 @@ _rbtree<T, Comp, Allocator>::_init_tree_node_(const value_type& value)
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_insert_update(const node_pointer new_)
 {
-	if (_begin == _nil || _comp(new_->_value, _begin->_value)) {
+	if (_begin == _end || _comp(new_->_value, _begin->_value)) {
 		_begin = new_;
 	}
 	++_size;
@@ -454,7 +458,9 @@ void _rbtree<T, Comp, Allocator>::_insert_update(const node_pointer new_)
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_set_root(const node_pointer ptr)
 {
-	_root = ptr;
+	_root          = ptr;
+	_root->_parent = _end;
+	_end->_left    = _root;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -640,7 +646,7 @@ _rbtree<T, Comp, Allocator>::__equal_range_unique(const _Key& key) const
 			return ptr;
 		}
 	}
-	return ptr;
+	return _end;
 }
 
 template <class T, class Comp, class Allocator>
@@ -658,7 +664,7 @@ _rbtree<T, Comp, Allocator>::__lower_bound(const key_type& key) const
 			ptr = ptr->_right;
 		}
 	}
-	return result;
+	return _end;
 }
 
 template <class T, class Comp, class Allocator>
@@ -676,7 +682,7 @@ _rbtree<T, Comp, Allocator>::__upper_bound(const key_type& key) const
 			ptr = ptr->_left;
 		}
 	}
-	return result;
+	return _end;
 }
 
 /* -------------------------------------------------------------------------- */
