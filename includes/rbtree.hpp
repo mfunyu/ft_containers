@@ -214,6 +214,7 @@ class _rbtree
   private:
 	node_pointer   _root;
 	node_pointer   _nil;
+	node_pointer   _begin;
 	value_compare  _comp;
 	node_allocator _alloc;
 	size_type      _size;
@@ -231,8 +232,8 @@ class _rbtree
 	void         _display(std::string func_name = "", int line = -1) const;
 
 	/* ------------------------------ Iterators ----------------------------- */
-	iterator       begin() { return iterator(_tree_min_(_root, _nil), _nil); }
-	const_iterator begin() const { return const_iterator(_tree_min_(_root, _nil), _nil); }
+	iterator       begin() { return iterator(_begin, _nil); }
+	const_iterator begin() const { return const_iterator(_begin, _nil); }
 	iterator       end() { return iterator(_nil, _nil); }
 	const_iterator end() const { return const_iterator(_nil, _nil); }
 
@@ -316,15 +317,17 @@ _rbtree<T, Comp, Allocator>::_rbtree(const Comp& comp, const Allocator& alloc) :
 	_nil->_left     = _nil;
 	_nil->_right    = _nil;
 	_root           = _nil;
+	_begin          = _nil;
 }
 
 template <class T, class Comp, class Allocator>
 _rbtree<T, Comp, Allocator>::_rbtree(_rbtree const& other) :
     _comp(other._comp), _alloc(other._alloc), _size(0)
 {
-	_nil  = _alloc.allocate(1);
-	_nil  = other._nil;
-	_root = other._root;
+	_nil   = _alloc.allocate(1);
+	_nil   = other._nil;
+	_root  = other._root;
+	_begin = other._begin;
 }
 
 template <class T, class Comp, class Allocator>
@@ -334,6 +337,7 @@ _rbtree<T, Comp, Allocator>& _rbtree<T, Comp, Allocator>::operator=(_rbtree cons
 		_nil   = _alloc.allocate(1);
 		_nil   = other._nil;
 		_root  = other._root;
+		_begin = other._begin;
 		_alloc = other._alloc;
 		_comp  = other._comp;
 		_size  = other._size;
@@ -441,6 +445,9 @@ _rbtree<T, Comp, Allocator>::_init_tree_node_(const value_type& value)
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_insert_update(const node_pointer new_)
 {
+	if (_begin == _nil || _comp(new_->_value, _begin->_value)) {
+		_begin = new_;
+	}
 	++_size;
 }
 
