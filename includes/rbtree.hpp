@@ -368,7 +368,7 @@ _rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 			current = current->_right;
 		}
 	}
-	if (parent == _nil) {
+	if (parent == _end) {
 		_set_root(new_);
 	} else if (_comp(value, parent->_value)) {
 		parent->_left = new_;
@@ -470,7 +470,7 @@ void _rbtree<T, Comp, Allocator>::_set_root(const node_pointer ptr)
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_transplant_(node_pointer old_ptr, node_pointer new_ptr)
 {
-	if (old_ptr->_parent == _nil) {
+	if (old_ptr->_parent == _end) {
 		_set_root(new_ptr);
 	} else if (_is_left_child_(old_ptr)) {
 		old_ptr->_parent->_left = new_ptr;
@@ -491,7 +491,7 @@ void _rbtree<T, Comp, Allocator>::_rotate_left_(const node_pointer ptr)
 
 	node_pointer parent = ptr->_parent;
 	child->_parent      = parent;
-	if (parent == _nil) {
+	if (parent == _end) {
 		_set_root(child);
 	} else if (_is_left_child_(ptr)) {
 		parent->_left = child;
@@ -514,7 +514,7 @@ void _rbtree<T, Comp, Allocator>::_rotate_right_(const node_pointer ptr)
 	}
 	node_pointer parent = ptr->_parent;
 	child->_parent      = parent;
-	if (parent == _nil) {
+	if (parent == _end) {
 		_set_root(child);
 	} else if (_is_left_child_(ptr)) {
 		parent->_left = child;
