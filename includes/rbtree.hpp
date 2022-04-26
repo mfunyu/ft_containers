@@ -279,6 +279,7 @@ class _rbtree
 
   private:
 	node_pointer _init_tree_node_(const value_type& value);
+	void         _insert_update(const node_pointer new_);
 	void         _set_root(const node_pointer ptr);
 
 	/* ----------------------------- algorithms ----------------------------- */
@@ -369,7 +370,7 @@ _rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 	new_->_parent = parent;
 	_display(__FUNCTION__, __LINE__);
 	_insert_fixup_(new_);
-	++_size;
+	_insert_update(new_);
 	return ft::make_pair(iterator(new_, _nil), true);
 }
 
@@ -435,6 +436,12 @@ _rbtree<T, Comp, Allocator>::_init_tree_node_(const value_type& value)
 	ptr->_left     = _nil;
 	ptr->_is_black = false;
 	return ptr;
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_insert_update(const node_pointer new_)
+{
+	++_size;
 }
 
 template <class T, class Comp, class Allocator>
