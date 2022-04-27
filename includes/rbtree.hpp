@@ -358,7 +358,7 @@ _rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 		return ft::make_pair(ptr, false);
 	}
 	node_pointer new_   = _init_tree_node_(value);
-	node_pointer parent = _nil;
+	node_pointer parent = _end;
 
 	for (node_pointer current = _root; current != _nil;) {
 		parent = current;
