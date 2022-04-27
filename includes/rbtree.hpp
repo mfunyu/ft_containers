@@ -222,7 +222,7 @@ class _rbtree
 
   public:
 	_rbtree(const Comp& comp, const Allocator& alloc);
-	~_rbtree(){};
+	~_rbtree();
 	_rbtree(_rbtree const& other);
 	_rbtree&       operator=(_rbtree const& other);
 	allocator_type get_allocator() const { return allocator_type(_alloc); }
@@ -285,6 +285,9 @@ class _rbtree
 	node_pointer _find_insert_position(const value_type& value);
 	void         _set_root(const node_pointer ptr);
 
+	void _destroy_recursive(node_pointer ptr);
+	void _destroy_one(node_pointer ptr);
+
 	/* ----------------------------- algorithms ----------------------------- */
 	void _transplant_(node_pointer old_ptr, node_pointer new_ptr);
 	void _rotate_left_(node_pointer ptr);
@@ -322,6 +325,14 @@ _rbtree<T, Comp, Allocator>::_rbtree(const Comp& comp, const Allocator& alloc) :
 	_end            = _init_tree_node_(T());
 	_end->_is_black = true;
 	_begin          = _end;
+}
+
+template <class T, class Comp, class Allocator>
+_rbtree<T, Comp, Allocator>::~_rbtree()
+{
+	_destroy_recursive(_root);
+	_destroy_one(_end);
+	_destroy_one(_nil);
 }
 
 template <class T, class Comp, class Allocator>
@@ -472,6 +483,23 @@ void _rbtree<T, Comp, Allocator>::_set_root(const node_pointer ptr)
 	_root          = ptr;
 	_root->_parent = _end;
 	_end->_left    = _root;
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_destroy_recursive(node_pointer ptr)
+{
+	if (ptr == _nil)
+		return;
+	_destroy_recursive(ptr->_left);
+	_destroy_recursive(ptr->_right);
+	_destroy_one(ptr);
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_destroy_one(node_pointer ptr)
+{
+	_alloc.destroy(ptr);
+	_alloc.deallocate(ptr, 1);
 }
 
 /* -------------------------------------------------------------------------- */
