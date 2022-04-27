@@ -282,6 +282,7 @@ class _rbtree
   private:
 	node_pointer _init_tree_node_(const value_type& value);
 	void         _insert_update(const node_pointer new_);
+	node_pointer _find_insert_position(const value_type& value);
 	void         _set_root(const node_pointer ptr);
 
 	/* ----------------------------- algorithms ----------------------------- */
@@ -358,16 +359,8 @@ _rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 		return ft::make_pair(ptr, false);
 	}
 	node_pointer new_   = _init_tree_node_(value);
-	node_pointer parent = _end;
+	node_pointer parent = _find_insert_position(value);
 
-	for (node_pointer current = _root; current != _nil;) {
-		parent = current;
-		if (_comp(value, current->_value)) {
-			current = current->_left;
-		} else {
-			current = current->_right;
-		}
-	}
 	if (parent == _end) {
 		_set_root(new_);
 	} else if (_comp(value, parent->_value)) {
@@ -453,6 +446,23 @@ void _rbtree<T, Comp, Allocator>::_insert_update(const node_pointer new_)
 		_begin = new_;
 	}
 	++_size;
+}
+
+template <class T, class Comp, class Allocator>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::_find_insert_position(const value_type& value)
+{
+	node_pointer prev = _end;
+
+	for (node_pointer current = _root; current != _nil;) {
+		prev = current;
+		if (_comp(value, current->_value)) {
+			current = current->_left;
+		} else {
+			current = current->_right;
+		}
+	}
+	return prev;
 }
 
 template <class T, class Comp, class Allocator>
