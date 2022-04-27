@@ -21,8 +21,8 @@ void _map_constructor_range()
 {
 	set_explanation_("result differs from std behavior");
 	size_t             size         = 14;
-	ft::map<int, int>  map_base     = _set_map(size);
-	std::map<int, int> map_base_std = _set_map_std(size);
+	ft::map<int, int>  map_base     = _set_map(size, true);
+	std::map<int, int> map_base_std = _set_map_std(size, true);
 
 	ft::map<int, int>  ft(map_base.begin(), map_base.end());
 	std::map<int, int> std(map_base_std.begin(), map_base_std.end());
