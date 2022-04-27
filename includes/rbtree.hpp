@@ -320,6 +320,7 @@ _rbtree<T, Comp, Allocator>::_rbtree(const Comp& comp, const Allocator& alloc) :
 	_nil->_right    = _nil;
 	_root           = _nil;
 	_end            = _init_tree_node_(T());
+	_end->_is_black = true;
 	_begin          = _end;
 }
 
