@@ -745,15 +745,16 @@ void _rbtree<T, Comp, Allocator>::_display(std::string func_name, int line) cons
 	std::string dirpath;
 	std::string cmd;
 	dirpath = _node_to_dir_(_begin_node, "./", true);
+	std::cerr << "size: " << _size << std::endl;
 
-	std::cout << __FILE__ << ":" << line << " (" << func_name << ")" << std::endl;
+	std::cerr << __FILE__ << ":" << line << " (" << func_name << ")" << std::endl;
 	if (dirpath == "") {
 		std::cerr << "Error: root deleted" << std::endl;
 		exit(1);
 	}
 
 	setenv("LS_COLORS", "di=00;91:ow=30;107", 1); /* set Red & Black color */
-	cmd = "tree -C --noreport " + dirpath;
+	cmd = "tree -C --noreport " + dirpath + " 1>&2";
 	system(cmd.c_str());
 	cmd = "rm -Rf " + dirpath;
 	system(cmd.c_str());
