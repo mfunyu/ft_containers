@@ -250,6 +250,7 @@ class _rbtree
 	/* ------------------------------ Modifiers ----------------------------- */
 	void                     clear() {}
 	ft::pair<iterator, bool> _insert(const value_type& value);
+	void                     swap(_rbtree& other);
 
 	/* ------------------------------- Lookup ------------------------------- */
 	size_type      count(const key_type& key) const {};
@@ -385,6 +386,18 @@ _rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 	_insert_fixup_(new_);
 	_insert_update(new_);
 	return ft::make_pair(iterator(new_, _nil), true);
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::swap(_rbtree& other)
+{
+	std::swap(_root, other._root);
+	std::swap(_nil, other._nil);
+	std::swap(_begin, other._begin);
+	std::swap(_end, other._end);
+	std::swap(_comp, other._comp);
+	std::swap(_alloc, other._alloc);
+	std::swap(_size, other._size);
 }
 
 template <class T, class Comp, class Allocator>

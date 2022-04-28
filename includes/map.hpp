@@ -109,7 +109,7 @@ class map
 	void      erase(iterator first, iterator last){};
 	size_type erase(const Key& key){};
 	// swap
-	void swap(map& other){};
+	void swap(map& other) { _tree.swap(other._tree); };
 	/* --------------------------------- Lookup -------------------------------- */
 	size_type                count(const Key& key) const { return (find(key) == end() ? 0 : 1); }
 	iterator                 find(const Key& key) { return _tree.find(key); };
