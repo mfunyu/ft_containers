@@ -319,11 +319,13 @@ template <class T, class Comp, class Allocator>
 _rbtree<T, Comp, Allocator>::_rbtree(const Comp& comp, const Allocator& alloc) :
     _comp(comp), _alloc(node_allocator(alloc)), _size(0)
 {
-	_nil            = _alloc.allocate(1);
+	_nil = _alloc.allocate(1);
+	_alloc.construct(_nil, T());
 	_nil->_is_black = true;
 	_nil->_parent   = _nil;
 	_nil->_left     = _nil;
 	_nil->_right    = _nil;
+
 	_root           = _nil;
 	_end            = _init_tree_node_(T());
 	_end->_is_black = true;
@@ -342,25 +344,21 @@ template <class T, class Comp, class Allocator>
 _rbtree<T, Comp, Allocator>::_rbtree(_rbtree const& other) :
     _comp(other._comp), _alloc(other._alloc), _size(other._size)
 {
-	_nil   = _alloc.allocate(1);
-	_nil   = other._nil;
-	_root  = other._root;
-	_begin = other._begin;
-	_end   = other._end;
+	_nil = _alloc.allocate(1);
+	_alloc.construct(_nil, *other._nil);
+	_end = _alloc.allocate(1);
+	_alloc.construct(_end, *other._end);
+	_root  = _nil;
+	_begin = _end;
+	_insert(other.begin(), other.end());
 }
 
 template <class T, class Comp, class Allocator>
 _rbtree<T, Comp, Allocator>& _rbtree<T, Comp, Allocator>::operator=(_rbtree const& other)
 {
 	if (this != &other) {
-		_nil   = _alloc.allocate(1);
-		_nil   = other._nil;
-		_root  = other._root;
-		_begin = other._begin;
-		_end   = other._end;
-		_alloc = other._alloc;
-		_comp  = other._comp;
-		_size  = other._size;
+		_rbtree new_(other);
+		swap(new_);
 	}
 	return *this;
 }
