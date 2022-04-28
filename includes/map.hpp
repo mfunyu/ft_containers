@@ -93,7 +93,7 @@ class map
 	size_type size() const { return _tree.size(); }
 	size_type max_size() const { return _tree.max_size(); }
 	/* ------------------------------- Modifiers ------------------------------- */
-	void clear(){};
+	void clear() { _tree.clear(); }
 	// insert
 	ft::pair<iterator, bool> insert(const value_type& value) { return _tree._insert(value); };
 	iterator                 insert(iterator hint, const value_type& value){};
