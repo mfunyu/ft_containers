@@ -256,10 +256,10 @@ class _rbtree
 
 	/* ------------------------------- Lookup ------------------------------- */
 	size_type      count(const key_type& key) const {};
-	iterator       find(const key_type& key) { return iterator(__equal_range_unique(key), _nil); };
+	iterator       find(const key_type& key) { return iterator(__find_equal(key), _nil); };
 	const_iterator find(const key_type& key) const
 	{
-		return const_iterator(__equal_range_unique(key), _nil);
+		return const_iterator(__find_equal(key), _nil);
 	};
 	pair<iterator, iterator> equal_range(const key_type& key)
 	{
@@ -301,6 +301,8 @@ class _rbtree
 	/* ------------------------------- Lookup ------------------------------- */
 	template <class _Key>
 	node_pointer __equal_range_unique(const _Key& key) const;
+	template <class _Key>
+	node_pointer __find_equal(const _Key& key) const;
 	node_pointer __lower_bound(const key_type& key) const;
 	node_pointer __upper_bound(const key_type& key) const;
 
@@ -421,7 +423,7 @@ template <class _Key>
 typename _rbtree<T, Comp, Allocator>::iterator
 _rbtree<T, Comp, Allocator>::_find(const _Key& key) const
 {
-	return iterator(__equal_range_unique(key), _nil);
+	return iterator(__find_equal(key), _nil);
 }
 
 template <class T, class Comp, class Allocator>
@@ -697,6 +699,25 @@ void _rbtree<T, Comp, Allocator>::_delete_fixup_(const node_pointer ptr)
 /* -------------------------------------------------------------------------- */
 /*                                   Lookups                                  */
 /* -------------------------------------------------------------------------- */
+
+template <class T, class Comp, class Allocator>
+template <class _Key>
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::__find_equal(const _Key& key) const
+{
+	node_pointer ptr = _root;
+
+	while (ptr != _nil) {
+		if (_comp(key, ptr->_value)) {
+			ptr = ptr->_left;
+		} else if (_comp(ptr->_value, key)) {
+			ptr = ptr->_right;
+		} else {
+			return ptr;
+		}
+	}
+	return _end;
+}
 
 template <class T, class Comp, class Allocator>
 template <class _Key>
