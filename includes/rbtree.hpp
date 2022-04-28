@@ -739,18 +739,18 @@ template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
 _rbtree<T, Comp, Allocator>::__upper_bound(const key_type& key) const
 {
-	node_pointer ptr = _root;
-	node_pointer result;
+	node_pointer ptr    = _root;
+	node_pointer result = _end;
 
 	while (ptr != _nil) {
-		if (_comp(ptr->_value, key)) {
+		if (_comp(key, ptr->_value)) {
 			result = ptr;
-			ptr    = ptr->_right;
+			ptr    = ptr->_left;
 		} else {
-			ptr = ptr->_left;
+			ptr = ptr->_right;
 		}
 	}
-	return _end;
+	return result;
 }
 
 /* -------------------------------------------------------------------------- */
