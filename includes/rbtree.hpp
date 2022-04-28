@@ -342,7 +342,7 @@ _rbtree<T, Comp, Allocator>::~_rbtree()
 
 template <class T, class Comp, class Allocator>
 _rbtree<T, Comp, Allocator>::_rbtree(_rbtree const& other) :
-    _comp(other._comp), _alloc(other._alloc), _size(other._size)
+    _comp(other._comp), _alloc(other._alloc), _size(0)
 {
 	_nil = _alloc.allocate(1);
 	_alloc.construct(_nil, *other._nil);
