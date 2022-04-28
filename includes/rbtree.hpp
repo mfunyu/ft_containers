@@ -261,15 +261,10 @@ class _rbtree
 	{
 		return const_iterator(__find_equal(key), _nil);
 	};
-	pair<iterator, iterator> equal_range(const key_type& key)
-	{
-		iterator itr = iterator(__equal_range_unique(key), _nil);
-		return ft::make_pair(itr, itr);
-	}
+	pair<iterator, iterator> equal_range(const key_type& key) { return __equal_range_unique(key); }
 	pair<const_iterator, const_iterator> equal_range(const key_type& key) const
 	{
-		const_iterator c_itr = const_iterator(__equal_range_unique(key), _nil);
-		return ft::make_pair(c_itr, c_itr);
+		return __equal_range_unique(key);
 	}
 	iterator       lower_bound(const key_type& key) { return iterator(__lower_bound(key), _nil); }
 	const_iterator lower_bound(const key_type& key) const
@@ -300,7 +295,9 @@ class _rbtree
 
 	/* ------------------------------- Lookup ------------------------------- */
 	template <class _Key>
-	node_pointer __equal_range_unique(const _Key& key) const;
+	pair<iterator, iterator> __equal_range_unique(const _Key& key);
+	template <class _Key>
+	pair<const_iterator, const_iterator> __equal_range_unique(const _Key& key) const;
 	template <class _Key>
 	node_pointer __find_equal(const _Key& key) const;
 	node_pointer __lower_bound(const key_type& key) const;
@@ -721,21 +718,52 @@ _rbtree<T, Comp, Allocator>::__find_equal(const _Key& key) const
 
 template <class T, class Comp, class Allocator>
 template <class _Key>
-typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::__equal_range_unique(const _Key& key) const
+ft::pair<typename _rbtree<T, Comp, Allocator>::iterator,
+    typename _rbtree<T, Comp, Allocator>::iterator>
+_rbtree<T, Comp, Allocator>::__equal_range_unique(const _Key& key)
 {
-	node_pointer ptr = _root;
+	node_pointer ptr    = _root;
+	node_pointer result = _end;
 
 	while (ptr != _nil) {
 		if (_comp(key, ptr->_value)) {
-			ptr = ptr->_left;
+			result = ptr;
+			ptr    = ptr->_left;
 		} else if (_comp(ptr->_value, key)) {
 			ptr = ptr->_right;
 		} else {
-			return ptr;
+			if (ptr->_right != _nil) {
+				result = _tree_min_(ptr->_right, _nil);
+			}
+			return ft::make_pair(iterator(ptr, _nil), iterator(result, _nil));
 		}
 	}
-	return _end;
+	return ft::make_pair(iterator(result, _nil), iterator(result, _nil));
+}
+
+template <class T, class Comp, class Allocator>
+template <class _Key>
+ft::pair<typename _rbtree<T, Comp, Allocator>::const_iterator,
+    typename _rbtree<T, Comp, Allocator>::const_iterator>
+_rbtree<T, Comp, Allocator>::__equal_range_unique(const _Key& key) const
+{
+	node_pointer ptr    = _root;
+	node_pointer result = _end;
+
+	while (ptr != _nil) {
+		if (_comp(key, ptr->_value)) {
+			result = ptr;
+			ptr    = ptr->_left;
+		} else if (_comp(ptr->_value, key)) {
+			ptr = ptr->_right;
+		} else {
+			if (ptr->_right != _nil) {
+				result = _tree_min_(ptr->_right, _nil);
+			}
+			return ft::make_pair(const_iterator(ptr, _nil), const_iterator(result, _nil));
+		}
+	}
+	return ft::make_pair(const_iterator(result, _nil), const_iterator(result, _nil));
 }
 
 template <class T, class Comp, class Allocator>
