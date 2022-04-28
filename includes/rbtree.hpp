@@ -27,6 +27,9 @@ class _tree_node
 	_tree_node() : _parent(NULL), _right(NULL), _left(NULL), _is_black(false){};
 	_tree_node(const T& value) :
 	    _parent(NULL), _right(NULL), _left(NULL), _value(value), _is_black(false){};
+	_tree_node(_tree_node const& other) :
+	    _parent(other._parent), _right(other._right), _left(other._left), _value(other._value),
+	    _is_black(other._is_black){};
 	_tree_node& operator=(_tree_node const& other)
 	{
 		if (*this != other) {
@@ -38,9 +41,6 @@ class _tree_node
 		}
 		return *this;
 	};
-
-  private:
-	_tree_node(_tree_node const& other);
 };
 
 namespace {
