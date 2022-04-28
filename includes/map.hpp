@@ -100,10 +100,8 @@ class map
 	template <class InputIt>
 	void insert(InputIt first, InputIt last)
 	{
-		for (; first != last; ++first) {
-			_tree._insert(*first);
-		}
-	};
+		_tree._insert(first, last);
+	}
 	// erase
 	void      erase(iterator pos){};
 	void      erase(iterator first, iterator last){};

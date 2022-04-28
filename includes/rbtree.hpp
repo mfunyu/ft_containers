@@ -250,7 +250,9 @@ class _rbtree
 	/* ------------------------------ Modifiers ----------------------------- */
 	void                     clear() {}
 	ft::pair<iterator, bool> _insert(const value_type& value);
-	void                     swap(_rbtree& other);
+	template <class InputIt>
+	void _insert(InputIt first, InputIt last);
+	void swap(_rbtree& other);
 
 	/* ------------------------------- Lookup ------------------------------- */
 	size_type      count(const key_type& key) const {};
@@ -386,6 +388,15 @@ _rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 	_insert_fixup_(new_);
 	_insert_update(new_);
 	return ft::make_pair(iterator(new_, _nil), true);
+}
+
+template <class T, class Comp, class Allocator>
+template <class InputIt>
+void _rbtree<T, Comp, Allocator>::_insert(InputIt first, InputIt last)
+{
+	for (; first != last; ++first) {
+		_insert(*first);
+	}
 }
 
 template <class T, class Comp, class Allocator>
