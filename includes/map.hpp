@@ -103,9 +103,9 @@ class map
 		_tree._insert(first, last);
 	}
 	// erase
-	void      erase(iterator pos){};
-	void      erase(iterator first, iterator last){};
-	size_type erase(const Key& key){};
+	void      erase(iterator pos) { _tree.erase(pos); };
+	void      erase(iterator first, iterator last) { _tree.erase(first, last); };
+	size_type erase(const Key& key) { _tree.erase(key); };
 	// swap
 	void swap(map& other) { _tree.swap(other._tree); };
 	/* --------------------------------- Lookup -------------------------------- */

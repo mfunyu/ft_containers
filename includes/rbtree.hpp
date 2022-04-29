@@ -152,6 +152,7 @@ class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T
 	}
 
 	/* -------------------------- Access operators -------------------------- */
+	_NodePtr  base() const { return _current_; }
 	reference operator*() const { return _current_->_value; }
 	pointer   operator->() const { return &_current_->_value; }
 	/* ------------------------ Arithmetic operators ------------------------ */
@@ -228,9 +229,12 @@ class _rbtree
 	allocator_type get_allocator() const { return allocator_type(_alloc); }
 
 	template <class _Key>
-	iterator     _find(const _Key& value) const;
-	node_pointer _delete(const value_type& value);
-	void         _display(std::string func_name = "", int line = -1) const;
+	iterator _find(const _Key& value) const;
+	void     erase(iterator pos);
+	void     erase(iterator first, iterator last);
+	template <class _Key>
+	size_type erase(const _Key& value);
+	void      _display(std::string func_name = "", int line = -1) const;
 
 	/* ------------------------------ Iterators ----------------------------- */
 	iterator       begin() { return iterator(_begin, _nil); }
@@ -291,7 +295,7 @@ class _rbtree
 	void _rotate_left_(node_pointer ptr);
 	void _rotate_right_(node_pointer ptr);
 	void _insert_fixup_(node_pointer ptr);
-	void _delete_fixup_(node_pointer ptr);
+	void _erase_fixup_(node_pointer ptr);
 
 	/* ------------------------------- Lookup ------------------------------- */
 	template <class _Key>
@@ -424,10 +428,14 @@ _rbtree<T, Comp, Allocator>::_find(const _Key& key) const
 }
 
 template <class T, class Comp, class Allocator>
-typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_delete(const value_type& value)
+template <class _Key>
+typename _rbtree<T, Comp, Allocator>::size_type
+_rbtree<T, Comp, Allocator>::erase(const _Key& value)
 {
-	node_pointer ptr              = _find(value);
+	node_pointer ptr = _find(value).base();
+	if (ptr == _end) {
+		return 0;
+	}
 	node_pointer fix_trigger_node = ptr;
 	node_pointer child_to_recolor;
 	bool         original_color = _is_black_(fix_trigger_node);
@@ -456,10 +464,24 @@ _rbtree<T, Comp, Allocator>::_delete(const value_type& value)
 	}
 
 	if (_is_black_(original_color)) {
-		_delete_fixup_(child_to_recolor);
+		_erase_fixup_(child_to_recolor);
 	}
 	--_size;
-	return ptr;
+	return 1;
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::erase(iterator pos)
+{
+	erase(*pos);
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::erase(iterator first, iterator last)
+{
+	for (; first != last; ++first) {
+		erase(*first);
+	}
 }
 
 /* -------------------------------------------------------------------------- */
@@ -639,7 +661,7 @@ void _rbtree<T, Comp, Allocator>::_insert_fixup_(node_pointer ptr)
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_delete_fixup_(const node_pointer ptr)
+void _rbtree<T, Comp, Allocator>::_erase_fixup_(const node_pointer ptr)
 {
 	node_pointer cousin;
 
