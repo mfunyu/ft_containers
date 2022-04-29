@@ -256,7 +256,7 @@ void UnitTester::load_tests(int ac, char** av)
 	std::string              argv;
 	std::vector<std::string> lst;
 
-	for (size_t i = 1; i < ac; ++i) {
+	for (int i = 1; i < ac; ++i) {
 		argv = av[i];
 		if (argv == "vector") {
 			stl = VECTOR;

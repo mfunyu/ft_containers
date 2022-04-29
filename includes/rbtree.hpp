@@ -922,6 +922,8 @@ std::string _rbtree<T, Comp, Allocator>::_node_to_dir_(
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_display(std::string func_name, int line) const
 {
+	(void)func_name;
+	(void)line;
 #ifdef DEBUG
 	std::string dirpath;
 	std::string cmd;
