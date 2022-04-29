@@ -4,6 +4,7 @@
 #include <iostream>
 #include <signal.h>
 #include <unistd.h>
+#include <vector>
 
 std::list<t_unit_subtests> UnitTester::_func_subtest_table;
 const char*                UnitTester::_current_func_name;
@@ -11,16 +12,26 @@ t_stl_types                UnitTester::_current_func_type;
 
 volatile int g_pid = 0;
 
+std::string _stl_type_to_string(t_stl_types type);
+
 UnitTester::UnitTester() : _cnt_success(0), _cnt_total(0) {}
 
 UnitTester::~UnitTester() {}
 
-void UnitTester::_load_test(t_unit_tests* func_test_table)
+void UnitTester::_load_test(t_unit_tests* func_test_table, const std::vector<std::string>& lst)
 {
+	std::string test_name;
+
 	for (size_t i = 0; func_test_table[i].func_name[0]; ++i) {
 		_current_func_name = func_test_table[i].func_name;
 		_current_func_type = func_test_table[i].type;
-		func_test_table[i].func_test_ptr();
+
+		test_name = _current_func_name;
+		test_name = test_name.substr((_stl_type_to_string(_current_func_type) + '_').length());
+
+		if (lst.empty() || std::find(lst.begin(), lst.end(), test_name) != lst.end()) {
+			func_test_table[i].func_test_ptr();
+		}
 	}
 }
 
@@ -206,6 +217,10 @@ void UnitTester::_display_result(t_unit_subtests& current_test)
 
 void UnitTester::_display_total()
 {
+	if (_cnt_total == 0) {
+		std::cerr << "ERROR: No tests found" << std::endl;
+		return;
+	}
 	std::cout << COLOR_BORD << "\n\n[RESULT] ";
 	if (_cnt_success == _cnt_total)
 		std::cout << COLOR_SUCCESS;
@@ -237,8 +252,9 @@ int UnitTester::run_tests(void)
 
 void UnitTester::load_tests(int ac, char** av)
 {
-	t_stl_types stl = NONE;
-	std::string argv;
+	t_stl_types              stl = NONE;
+	std::string              argv;
+	std::vector<std::string> lst;
 
 	for (size_t i = 1; i < ac; ++i) {
 		argv = av[i];
@@ -246,17 +262,19 @@ void UnitTester::load_tests(int ac, char** av)
 			stl = VECTOR;
 		} else if (argv == "map") {
 			stl = MAP;
+		} else {
+			lst.push_back(argv);
 		}
 	}
 	switch (stl) {
 	case VECTOR:
-		_load_test(VectorTest::func_test_table);
+		_load_test(VectorTest::func_test_table, lst);
 		break;
 	case MAP:
-		_load_test(MapTest::func_test_table);
+		_load_test(MapTest::func_test_table, lst);
 		break;
 	default:
-		_load_test(VectorTest::func_test_table);
-		_load_test(MapTest::func_test_table);
+		_load_test(VectorTest::func_test_table, lst);
+		_load_test(MapTest::func_test_table, lst);
 	}
 }

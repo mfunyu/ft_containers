@@ -61,6 +61,20 @@ ft::map<int, int> _set_map(int size, bool accend)
 	return data;
 }
 
+std::map<int, int> _set_map_std(int size, bool accend)
+{
+	std::map<int, int> data;
+
+	for (int i = 0; i < size; ++i) {
+		if (accend) {
+			data[i] = i;
+		} else {
+			data[i] = std::rand();
+		}
+	}
+	return data;
+}
+
 ft::map<int, char> _set_map_char(int size, bool accend)
 {
 	ft::map<int, char> data;
@@ -100,7 +114,7 @@ void _set_compare_maps(
 		int index = std::rand() % patterns;
 
 		val = strs[index] + strs[std::max(index - 1, 0)];
-		ft_data.insert(std::pair<int, std::string>(i, val));
+		ft_data.insert(ft::pair<int, std::string>(i, val));
 		std_data.insert(std::pair<int, std::string>(i, val));
 	}
 }

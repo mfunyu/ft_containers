@@ -76,7 +76,7 @@ void _map_equal_range()
 
 	typedef ft::map<int, int>::iterator iterator;
 	int                                 val = 1;
-	std::pair<iterator, iterator>       it  = ft.equal_range(val);
+	ft::pair<iterator, iterator>        it  = ft.equal_range(val);
 
 	set_explanation_("unexpected; it.first expected to be equal to val");
 	UnitTester::assert_(it.first == ft.find(val));
@@ -91,7 +91,7 @@ void _map_equal_range_no_not_less()
 
 	typedef ft::map<int, int>::iterator iterator;
 	int                                 val = -1;
-	std::pair<iterator, iterator>       it  = ft.equal_range(val);
+	ft::pair<iterator, iterator>        it  = ft.equal_range(val);
 
 	set_explanation_("unexpected; it.first expected to be equal to val");
 	UnitTester::assert_(it.first == ft.begin());
@@ -106,7 +106,7 @@ void _map_equal_range_no_greater()
 
 	typedef ft::map<int, int>::iterator iterator;
 	int                                 val = size - 1;
-	std::pair<iterator, iterator>       it  = ft.equal_range(val);
+	ft::pair<iterator, iterator>        it  = ft.equal_range(val);
 
 	set_explanation_("unexpected; it.first expected to be equal to val");
 	UnitTester::assert_(it.first == ft.find(val));

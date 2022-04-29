@@ -49,7 +49,7 @@ void _map_insert_single()
 
 	int key   = 24;
 	int value = 42;
-	ft.insert(std::make_pair(key, value));
+	ft.insert(ft::make_pair(key, value));
 	UnitTester::assert_(ft[key] == value);
 }
 
@@ -59,12 +59,12 @@ void _map_insert_return_value()
 	int               size = 10;
 	ft::map<int, int> ft   = _set_map(size);
 
-	std::pair<ft::map<int, int>::iterator, bool> ret;
-	ft::map<int, int>::iterator                  it;
+	ft::pair<ft::map<int, int>::iterator, bool> ret;
+	ft::map<int, int>::iterator                 it;
 
 	int key   = 24;
 	int value = 42;
-	ret       = ft.insert(std::make_pair(key, value));
+	ret       = ft.insert(ft::make_pair(key, value));
 	it        = ret.first;
 
 	UnitTester::assert_(ret.second == true);
@@ -79,12 +79,12 @@ void _map_insert_return_value_false()
 	int               size = 7;
 	ft::map<int, int> ft   = _set_map(size, true);
 
-	std::pair<ft::map<int, int>::iterator, bool> ret;
-	ft::map<int, int>::iterator                  it;
+	ft::pair<ft::map<int, int>::iterator, bool> ret;
+	ft::map<int, int>::iterator                 it;
 
 	int key   = size - 1;
 	int value = 42;
-	ret       = ft.insert(std::make_pair(key, value));
+	ret       = ft.insert(ft::make_pair(key, value));
 	it        = ret.first;
 
 	set_explanation_("duplicate keys succedded in insertion");

@@ -46,12 +46,13 @@ void _map_value_comp()
 	ft::map<int, char, ModCmp>::value_compare  ft_comp  = ft.value_comp();
 	std::map<int, char, ModCmp>::value_compare std_comp = std.value_comp();
 
-	const std::pair<int, char> val(std::make_pair(100, 'a'));
+	const ft::pair<int, char>  val(ft::make_pair(100, 'a'));
+	const std::pair<int, char> val_std(std::make_pair(100, 'a'));
 
 	ft::map<int, char, ModCmp>::iterator  it  = ft.begin();
 	std::map<int, char, ModCmp>::iterator its = std.begin();
 	for (; it != ft.end(); ++it, ++its) {
-		UnitTester::assert_(ft_comp(*it, val) == std_comp(*its, val));
+		UnitTester::assert_(ft_comp(*it, val) == std_comp(*its, val_std));
 	}
 }
 
