@@ -288,6 +288,7 @@ class _rbtree
 	void         _insert_update(const node_pointer new_);
 	node_pointer _find_insert_position(const value_type& value);
 	void         _set_root(const node_pointer ptr);
+	void         _remove(node_pointer ptr);
 
 	void _destroy_recursive(node_pointer ptr);
 	void _destroy_one(node_pointer ptr);
@@ -297,7 +298,7 @@ class _rbtree
 	void _rotate_left_(node_pointer ptr);
 	void _rotate_right_(node_pointer ptr);
 	void _insert_fixup_(node_pointer ptr);
-	void _erase_fixup_(node_pointer ptr);
+	void _remove_fixup_(node_pointer ptr);
 
 	/* ------------------------------- Lookup ------------------------------- */
 	template <class _Key>
@@ -430,14 +431,8 @@ _rbtree<T, Comp, Allocator>::_find(const _Key& key) const
 }
 
 template <class T, class Comp, class Allocator>
-template <class _Key>
-typename _rbtree<T, Comp, Allocator>::size_type
-_rbtree<T, Comp, Allocator>::erase(const _Key& value)
+void _rbtree<T, Comp, Allocator>::_remove(node_pointer ptr)
 {
-	node_pointer ptr = _find(value).base();
-	if (ptr == _end) {
-		return 0;
-	}
 	node_pointer fix_trigger_node = ptr;
 	node_pointer child_to_recolor;
 	bool         original_color = _is_black_(fix_trigger_node);
@@ -466,9 +461,25 @@ _rbtree<T, Comp, Allocator>::erase(const _Key& value)
 	}
 
 	if (_is_black_(original_color)) {
-		_erase_fixup_(child_to_recolor);
+		_remove_fixup_(child_to_recolor);
+	}
+}
+
+template <class T, class Comp, class Allocator>
+template <class _Key>
+typename _rbtree<T, Comp, Allocator>::size_type
+_rbtree<T, Comp, Allocator>::erase(const _Key& value)
+{
+	iterator ite = _find(value);
+	if (ite == end()) {
+		return 0;
+	}
+	if (begin() == ite) {
+		iterator next(ite);
+		_begin = ++next.base();
 	}
 	--_size;
+	_remove(ite.base());
 	return 1;
 }
 
@@ -672,7 +683,7 @@ void _rbtree<T, Comp, Allocator>::_insert_fixup_(node_pointer ptr)
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_erase_fixup_(const node_pointer ptr)
+void _rbtree<T, Comp, Allocator>::_remove_fixup_(const node_pointer ptr)
 {
 	node_pointer cousin;
 
