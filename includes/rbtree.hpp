@@ -232,7 +232,7 @@ class _rbtree
 
 	template <class _Key>
 	iterator _find(const _Key& value) const;
-	void     erase(iterator pos);
+	iterator erase(iterator pos);
 	void     erase(iterator first, iterator last);
 	template <class _Key>
 	size_type erase(const _Key& value);
@@ -473,16 +473,25 @@ _rbtree<T, Comp, Allocator>::erase(const _Key& value)
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::erase(iterator pos)
+typename _rbtree<T, Comp, Allocator>::iterator _rbtree<T, Comp, Allocator>::erase(iterator pos)
 {
-	erase(*pos);
+	iterator next(pos);
+	++next;
+	if (begin() == pos) {
+		_begin = next.base();
+	}
+	--_size;
+	_remove(pos.base());
+	return next;
 }
 
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::erase(iterator first, iterator last)
 {
-	for (; first != last; ++first) {
-		erase(*first);
+	int i = 0;
+	while (first != last && i < 5000) {
+		++i;
+		first = erase(first);
 	}
 }
 
