@@ -62,15 +62,9 @@ bool _is_right_child_(const _NodePtr ptr)
 }
 
 template <class _NodePtr>
-bool _is_black_(
-    const _NodePtr ptr, typename ft::enable_if<!ft::is_integral<_NodePtr>::value>::type* = 0)
+bool _is_black_(const _NodePtr ptr)
 {
 	return (ptr->_is_black);
-}
-
-bool _is_black_(bool _is_black_)
-{
-	return (_is_black_);
 }
 
 template <class _NodePtr>
@@ -460,7 +454,7 @@ void _rbtree<T, Comp, Allocator>::_remove(node_pointer ptr)
 		fix_trigger_node->_is_black      = ptr->_is_black;
 	}
 
-	if (_is_black_(original_color)) {
+	if (original_color) {
 		_remove_fixup_(child_to_recolor);
 	}
 }
