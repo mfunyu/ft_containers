@@ -230,7 +230,7 @@ bool operator>=(
 /*                                  std::swap                                 */
 /* -------------------------------------------------------------------------- */
 template <class Key, class T, class Compare, class Alloc>
-void swap(std::map<Key, T, Compare, Alloc>& lhs, std::map<Key, T, Compare, Alloc>& rhs)
+void swap(ft::map<Key, T, Compare, Alloc>& lhs, ft::map<Key, T, Compare, Alloc>& rhs)
 {
 	lhs.swap(rhs);
 }
