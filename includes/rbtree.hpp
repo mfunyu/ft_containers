@@ -255,7 +255,6 @@ class _rbtree
 	void swap(_rbtree& other);
 
 	/* ------------------------------- Lookup ------------------------------- */
-	size_type      count(const key_type& key) const {};
 	iterator       find(const key_type& key) { return iterator(__find_equal(key), _nil); };
 	const_iterator find(const key_type& key) const
 	{
