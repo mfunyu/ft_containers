@@ -415,6 +415,8 @@ void _map_std_swap_basic()
 	ft::map<int, int> ft_b   = _set_map(size_b, true);
 
 	ft::swap(ft_a, ft_b);
+	UnitTester::assert_(ft_a.size() == size_b);
+	UnitTester::assert_(ft_b.size() == size_a);
 }
 
 void _map_std_swap_compare()
