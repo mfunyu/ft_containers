@@ -705,11 +705,13 @@ void _rbtree<T, Comp, Allocator>::_remove_fixup_(const node_pointer ptr)
 				_rotate_right_(cousin);
 				cousin = ptr->_parent->_right;
 			}
-			cousin->_is_black         = ptr->_parent->_is_black;
-			ptr->_parent->_is_black   = true;
-			cousin->_right->_is_black = true;
-			_rotate_left_(ptr->_parent);
-			ptr = _root;
+			if (_is_red_(cousin->_right)) {
+				cousin->_is_black         = ptr->_parent->_is_black;
+				ptr->_parent->_is_black   = true;
+				cousin->_right->_is_black = true;
+				_rotate_left_(ptr->_parent);
+				ptr = _root;
+			}
 		} else {
 			cousin = ptr->_parent->_left;
 			if (_is_red_(cousin)) {
@@ -727,11 +729,13 @@ void _rbtree<T, Comp, Allocator>::_remove_fixup_(const node_pointer ptr)
 				_rotate_left_(cousin);
 				cousin = ptr->_parent->_left;
 			}
-			cousin->_is_black        = ptr->_parent->_is_black;
-			ptr->_parent->_is_black  = true;
-			cousin->_left->_is_black = true;
-			_rotate_right_(ptr->_parent);
-			ptr = _root;
+			if (_is_red_(cousin->_left)) {
+				cousin->_is_black        = ptr->_parent->_is_black;
+				ptr->_parent->_is_black  = true;
+				cousin->_left->_is_black = true;
+				_rotate_right_(ptr->_parent);
+				ptr = _root;
+			}
 		}
 	}
 	ptr->_is_black = true;
