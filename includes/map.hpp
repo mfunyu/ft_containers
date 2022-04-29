@@ -105,7 +105,7 @@ class map
 	// erase
 	void      erase(iterator pos) { _tree.erase(pos); };
 	void      erase(iterator first, iterator last) { _tree.erase(first, last); };
-	size_type erase(const Key& key) { _tree.erase(key); };
+	size_type erase(const Key& key) { return _tree.erase(key); };
 	// swap
 	void swap(map& other) { _tree.swap(other._tree); };
 	/* --------------------------------- Lookup -------------------------------- */
