@@ -250,6 +250,8 @@ class _rbtree
 	/* ------------------------------ Modifiers ----------------------------- */
 	void                     clear();
 	ft::pair<iterator, bool> _insert(const value_type& value);
+	iterator                 _insert(iterator hint, const value_type& value);
+	node_pointer             _insert_unique(const value_type& value, node_pointer parent);
 	template <class InputIt>
 	void _insert(InputIt first, InputIt last);
 	void swap(_rbtree& other);
@@ -279,7 +281,7 @@ class _rbtree
   private:
 	node_pointer _init_tree_node_(const value_type& value);
 	void         _insert_update(const node_pointer new_);
-	node_pointer _find_insert_position(const value_type& value);
+	node_pointer _find_insert_position(const value_type& value, node_pointer hint = NULL);
 	void         _set_root(const node_pointer ptr);
 	void         _remove(node_pointer ptr);
 
@@ -368,15 +370,10 @@ _rbtree<T, Comp, Allocator>& _rbtree<T, Comp, Allocator>::operator=(_rbtree cons
 }
 
 template <class T, class Comp, class Allocator>
-typename ft::pair<typename _rbtree<T, Comp, Allocator>::iterator, bool>
-_rbtree<T, Comp, Allocator>::_insert(const value_type& value)
+typename _rbtree<T, Comp, Allocator>::node_pointer
+_rbtree<T, Comp, Allocator>::_insert_unique(const value_type& value, node_pointer parent)
 {
-	iterator ptr = _find(value);
-	if (ptr != end()) {
-		return ft::make_pair(ptr, false);
-	}
-	node_pointer new_   = _init_tree_node_(value);
-	node_pointer parent = _find_insert_position(value);
+	node_pointer new_ = _init_tree_node_(value);
 
 	if (parent == _end) {
 		_set_root(new_);
@@ -386,10 +383,9 @@ _rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 		parent->_right = new_;
 	}
 	new_->_parent = parent;
-	_display(__FUNCTION__, __LINE__);
 	_insert_fixup_(new_);
 	_insert_update(new_);
-	return ft::make_pair(iterator(new_, _nil), true);
+	return new_;
 }
 
 template <class T, class Comp, class Allocator>
@@ -397,6 +393,28 @@ void _rbtree<T, Comp, Allocator>::clear()
 {
 	_rbtree new_(_comp, _alloc);
 	swap(new_);
+}
+
+template <class T, class Comp, class Allocator>
+typename ft::pair<typename _rbtree<T, Comp, Allocator>::iterator, bool>
+_rbtree<T, Comp, Allocator>::_insert(const value_type& value)
+{
+	node_pointer ptr = _find_insert_position(value);
+	if (ptr != _end && !_comp(ptr->_value, value) && !_comp(value, ptr->_value)) {
+		return ft::make_pair(iterator(ptr, _nil), false);
+	}
+	return ft::make_pair(iterator(_insert_unique(value, ptr), _nil), true);
+}
+
+template <class T, class Comp, class Allocator>
+typename _rbtree<T, Comp, Allocator>::iterator
+_rbtree<T, Comp, Allocator>::_insert(iterator hint, const value_type& value)
+{
+	node_pointer ptr = _find_insert_position(value, hint.base());
+	if (ptr != _end && !_comp(ptr->_value, value) && !_comp(value, ptr->_value)) {
+		return iterator(ptr, _nil);
+	}
+	return iterator(_insert_unique(value, ptr), _nil);
 }
 
 template <class T, class Comp, class Allocator>
@@ -531,16 +549,19 @@ void _rbtree<T, Comp, Allocator>::_insert_update(const node_pointer new_)
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
-_rbtree<T, Comp, Allocator>::_find_insert_position(const value_type& value)
+_rbtree<T, Comp, Allocator>::_find_insert_position(const value_type& value, node_pointer hint)
 {
 	node_pointer prev = _end;
 
+	if (hint) {}
 	for (node_pointer current = _root; current != _nil;) {
 		prev = current;
 		if (_comp(value, current->_value)) {
 			current = current->_left;
-		} else {
+		} else if (_comp(current->_value, value)) {
 			current = current->_right;
+		} else {
+			return current;
 		}
 	}
 	return prev;
@@ -939,7 +960,6 @@ void _rbtree<T, Comp, Allocator>::_display(std::string func_name, int line) cons
 	cmd = "rm -Rf " + dirpath;
 	system(cmd.c_str());
 	_check_tree_validity_();
-#endif
 }
 
 } // namespace ft
