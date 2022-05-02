@@ -498,9 +498,7 @@ typename _rbtree<T, Comp, Allocator>::iterator _rbtree<T, Comp, Allocator>::eras
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::erase(iterator first, iterator last)
 {
-	int i = 0;
-	while (first != last && i < 5000) {
-		++i;
+	while (first != last) {
 		first = erase(first);
 	}
 }
