@@ -344,7 +344,12 @@ _rbtree<T, Comp, Allocator>::_rbtree(_rbtree const& other) :
     _comp(other._comp), _alloc(other._alloc), _size(0)
 {
 	_nil = _alloc.allocate(1);
-	_alloc.construct(_nil, *other._nil);
+	_alloc.construct(_nil, T());
+	_nil->_is_black = true;
+	_nil->_parent   = _nil;
+	_nil->_left     = _nil;
+	_nil->_right    = _nil;
+
 	_end = _alloc.allocate(1);
 	_alloc.construct(_end, *other._end);
 	_root  = _nil;
