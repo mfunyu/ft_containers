@@ -190,6 +190,12 @@ class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T
 	{
 		return !(*this == other);
 	}
+
+	operator _rbtree_iterator<const T, node_type>(void) const
+	{
+		return _rbtree_iterator<const T, node_type>(_current_, _nil_);
+	}
+
 	/* ------------------------ Non-member functions ------------------------ */
 	friend bool operator==(const _rbtree_iterator& _x, const _rbtree_iterator& _y)
 	{
