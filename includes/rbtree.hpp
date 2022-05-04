@@ -722,54 +722,54 @@ void _rbtree<T, Comp, Allocator>::_insert_fixup_(node_pointer ptr)
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_remove_fixup_(const node_pointer ptr)
 {
-	node_pointer cousin;
+	node_pointer brother;
 
 	while (ptr != _root && _is_black_(ptr)) {
 		if (_is_left_child_(ptr)) {
-			cousin = ptr->_parent->_right;
-			if (_is_red_(cousin)) {
-				cousin->_is_black       = true;
+			brother = ptr->_parent->_right;
+			if (_is_red_(brother)) {
+				brother->_is_black      = true;
 				ptr->_parent->_is_black = false;
 				_rotate_left_(ptr->_parent);
-				cousin = ptr->_parent->_right;
+				brother = ptr->_parent->_right;
 			}
-			if (_is_black_(cousin->_left) && _is_black_(cousin->_right)) {
-				cousin->_is_black = false;
-				ptr               = ptr->_parent;
-			} else if (_is_black_(cousin->_right)) {
-				cousin->_left->_is_black = true;
-				cousin->_is_black        = false;
-				_rotate_right_(cousin);
-				cousin = ptr->_parent->_right;
+			if (_is_black_(brother->_left) && _is_black_(brother->_right)) {
+				brother->_is_black = false;
+				ptr                = ptr->_parent;
+			} else if (_is_black_(brother->_right)) {
+				brother->_left->_is_black = true;
+				brother->_is_black        = false;
+				_rotate_right_(brother);
+				brother = ptr->_parent->_right;
 			}
-			if (_is_red_(cousin->_right)) {
-				cousin->_is_black         = ptr->_parent->_is_black;
-				ptr->_parent->_is_black   = true;
-				cousin->_right->_is_black = true;
+			if (_is_red_(brother->_right)) {
+				brother->_is_black         = ptr->_parent->_is_black;
+				ptr->_parent->_is_black    = true;
+				brother->_right->_is_black = true;
 				_rotate_left_(ptr->_parent);
 				ptr = _root;
 			}
 		} else {
-			cousin = ptr->_parent->_left;
-			if (_is_red_(cousin)) {
-				cousin->_is_black       = true;
+			brother = ptr->_parent->_left;
+			if (_is_red_(brother)) {
+				brother->_is_black      = true;
 				ptr->_parent->_is_black = false;
 				_rotate_left_(ptr->_parent);
-				cousin = ptr->_parent->_left;
+				brother = ptr->_parent->_left;
 			}
-			if (_is_black_(cousin->_right) && _is_black_(cousin->_left)) {
-				cousin->_is_black = false;
-				ptr               = ptr->_parent;
-			} else if (_is_black_(cousin->_left)) {
-				cousin->_right->_is_black = true;
-				cousin->_is_black         = false;
-				_rotate_left_(cousin);
-				cousin = ptr->_parent->_left;
+			if (_is_black_(brother->_right) && _is_black_(brother->_left)) {
+				brother->_is_black = false;
+				ptr                = ptr->_parent;
+			} else if (_is_black_(brother->_left)) {
+				brother->_right->_is_black = true;
+				brother->_is_black         = false;
+				_rotate_left_(brother);
+				brother = ptr->_parent->_left;
 			}
-			if (_is_red_(cousin->_left)) {
-				cousin->_is_black        = ptr->_parent->_is_black;
-				ptr->_parent->_is_black  = true;
-				cousin->_left->_is_black = true;
+			if (_is_red_(brother->_left)) {
+				brother->_is_black        = ptr->_parent->_is_black;
+				ptr->_parent->_is_black   = true;
+				brother->_left->_is_black = true;
 				_rotate_right_(ptr->_parent);
 				ptr = _root;
 			}
