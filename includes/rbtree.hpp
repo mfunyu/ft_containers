@@ -180,6 +180,16 @@ class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T
 		--(*this);
 		return _tmp;
 	}
+	template <class U>
+	bool operator==(const _rbtree_iterator<U, NodeType>& other) const
+	{
+		return _current_ == other.base();
+	}
+	template <class U>
+	bool operator!=(const _rbtree_iterator<U, NodeType>& other) const
+	{
+		return !(*this == other);
+	}
 	/* ------------------------ Non-member functions ------------------------ */
 	friend bool operator==(const _rbtree_iterator& _x, const _rbtree_iterator& _y)
 	{
