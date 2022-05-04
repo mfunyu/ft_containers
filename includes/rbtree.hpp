@@ -138,7 +138,7 @@ class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T
 	_rbtree_iterator(_NodePtr current, _NodePtr nil) : _current_(current), _nil_(nil) {}
 	_rbtree_iterator(_rbtree_iterator const& other) : _current_(other._current_), _nil_(other._nil_)
 	{}
-	_rbtree_iterator operator=(_rbtree_iterator const& other)
+	_rbtree_iterator& operator=(_rbtree_iterator const& other)
 	{
 		if (this != &other) {
 			_current_ = other._current_;
