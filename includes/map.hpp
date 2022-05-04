@@ -96,7 +96,7 @@ class map
 	void clear() { _tree.clear(); }
 	// insert
 	ft::pair<iterator, bool> insert(const value_type& value) { return _tree._insert(value); };
-	iterator                 insert(iterator hint, const value_type& value){};
+	iterator insert(iterator hint, const value_type& value) { return _tree._insert(hint, value); };
 	template <class InputIt>
 	void insert(InputIt first, InputIt last)
 	{
@@ -105,7 +105,7 @@ class map
 	// erase
 	void      erase(iterator pos) { _tree.erase(pos); };
 	void      erase(iterator first, iterator last) { _tree.erase(first, last); };
-	size_type erase(const Key& key) { _tree.erase(key); };
+	size_type erase(const Key& key) { return _tree.erase(key); };
 	// swap
 	void swap(map& other) { _tree.swap(other._tree); };
 	/* --------------------------------- Lookup -------------------------------- */
@@ -230,8 +230,10 @@ bool operator>=(
 /*                                  std::swap                                 */
 /* -------------------------------------------------------------------------- */
 template <class Key, class T, class Compare, class Alloc>
-void swap(std::map<Key, T, Compare, Alloc>& lhs, std::map<Key, T, Compare, Alloc>& rhs)
-{}
+void swap(ft::map<Key, T, Compare, Alloc>& lhs, ft::map<Key, T, Compare, Alloc>& rhs)
+{
+	lhs.swap(rhs);
+}
 
 } // namespace ft
 
