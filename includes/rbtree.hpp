@@ -120,22 +120,28 @@ _NodePtr _tree_prev_(_NodePtr ptr, _NodePtr _nil)
 /* -------------------------------------------------------------------------- */
 /*                               RBtree Iterator                              */
 /* -------------------------------------------------------------------------- */
-template <class T, class _NodePtr>
+template <class T, class NodeType>
 class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
 {
   public:
-	typedef std::bidirectional_iterator_tag iterator_category;
-	typedef T                               value_type;
-	typedef value_type&                     reference;
-	typedef value_type*                     pointer;
+	typedef NodeType*                                                  iterator_type;
+	typedef typename iterator_traits<iterator_type>::difference_type   difference_type;
+	typedef typename iterator_traits<iterator_type>::value_type        node_type;
+	typedef typename iterator_traits<iterator_type>::pointer           node_ptr;
+	typedef typename iterator_traits<iterator_type>::reference         node_ref;
+	typedef typename iterator_traits<iterator_type>::iterator_category iterator_category;
+
+	typedef T           value_type;
+	typedef value_type& reference;
+	typedef value_type* pointer;
 
   private:
-	_NodePtr _current_;
-	_NodePtr _nil_;
+	node_ptr _current_;
+	node_ptr _nil_;
 
   public:
 	_rbtree_iterator() : _current_(NULL), _nil_(NULL) {}
-	_rbtree_iterator(_NodePtr current, _NodePtr nil) : _current_(current), _nil_(nil) {}
+	_rbtree_iterator(node_ptr current, node_ptr nil) : _current_(current), _nil_(nil) {}
 	_rbtree_iterator(_rbtree_iterator const& other) : _current_(other._current_), _nil_(other._nil_)
 	{}
 	_rbtree_iterator& operator=(_rbtree_iterator const& other)
@@ -148,7 +154,7 @@ class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T
 	}
 
 	/* -------------------------- Access operators -------------------------- */
-	_NodePtr  base() const { return _current_; }
+	node_ptr  base() const { return _current_; }
 	reference operator*() const { return _current_->_value; }
 	pointer   operator->() const { return &_current_->_value; }
 	/* ------------------------ Arithmetic operators ------------------------ */
@@ -199,8 +205,8 @@ class _rbtree
 	typedef _tree_node<value_type>  node_type;
 	typedef _tree_node<value_type>* node_pointer;
 
-	typedef _rbtree_iterator<value_type, node_pointer>       iterator;
-	typedef _rbtree_iterator<const value_type, node_pointer> const_iterator;
+	typedef _rbtree_iterator<value_type, node_type>       iterator;
+	typedef _rbtree_iterator<const value_type, node_type> const_iterator;
 
 	typedef std::size_t    size_type;
 	typedef std::ptrdiff_t difference_type;
