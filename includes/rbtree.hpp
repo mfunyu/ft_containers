@@ -658,9 +658,10 @@ void _rbtree<T, Comp, Allocator>::_rotate_right_(const node_pointer ptr)
 {
 	node_pointer child = ptr->_left;
 	ptr->_left         = child->_right;
-	if (ptr->_right != _nil) {
-		ptr->_right->_parent = ptr;
+	if (ptr->_left != _nil) {
+		ptr->_left->_parent = ptr;
 	}
+
 	node_pointer parent = ptr->_parent;
 	child->_parent      = parent;
 	if (parent == _end) {
