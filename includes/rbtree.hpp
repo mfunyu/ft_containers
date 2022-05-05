@@ -15,9 +15,7 @@ namespace ft {
 /*                                  Tree Node                                 */
 /* -------------------------------------------------------------------------- */
 template <class T>
-class _tree_node
-{
-  public:
+struct _tree_node {
 	_tree_node* _parent;
 	_tree_node* _right;
 	_tree_node* _left;
@@ -34,7 +32,7 @@ class _tree_node
 	{}
 	_tree_node& operator=(_tree_node const& other)
 	{
-		if (*this != other) {
+		if (this != &other) {
 			_left     = other._left;
 			_right    = other._right;
 			_parent   = other._parent;
