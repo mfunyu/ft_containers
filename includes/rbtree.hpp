@@ -372,8 +372,7 @@ _rbtree<T, Comp, Allocator>::_rbtree(_rbtree const& other) :
 	_nil->_left     = _nil;
 	_nil->_right    = _nil;
 
-	_end = _alloc.allocate(1);
-	_alloc.construct(_end, *other._end);
+	_end   = _init_tree_node_(T());
 	_begin = _end;
 	_insert(other.begin(), other.end());
 }
@@ -577,8 +576,7 @@ _rbtree<T, Comp, Allocator>::_find_insert_position(const value_type& value, node
 {
 	node_pointer prev = _end;
 
-
-  if (hint) {}
+	if (hint) {}
 	for (node_pointer current = _root(); current != _nil;) {
 		prev = current;
 		if (_comp(value, current->_value)) {
