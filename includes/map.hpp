@@ -98,12 +98,12 @@ class map
 	// ------------------------------- Modifiers ------------------------------- //
 	void clear() { _tree.clear(); }
 	// insert
-	ft::pair<iterator, bool> insert(const value_type& value) { return _tree._insert(value); }
-	iterator insert(iterator hint, const value_type& value) { return _tree._insert(hint, value); }
+	ft::pair<iterator, bool> insert(const value_type& value) { return _tree.insert(value); }
+	iterator insert(iterator hint, const value_type& value) { return _tree.insert(hint, value); }
 	template <class InputIt>
 	void insert(InputIt first, InputIt last)
 	{
-		_tree._insert(first, last);
+		_tree.insert(first, last);
 	}
 	// erase
 	void      erase(iterator pos) { _tree.erase(pos); }

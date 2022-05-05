@@ -264,10 +264,10 @@ class _rbtree
 	// ------------------------------ Modifiers ----------------------------- //
 	void clear();
 	// insert
-	ft::pair<iterator, bool> _insert(const value_type& value);
-	iterator                 _insert(iterator hint, const value_type& value);
+	ft::pair<iterator, bool> insert(const value_type& value);
+	iterator                 insert(iterator hint, const value_type& value);
 	template <class InputIt>
-	void _insert(InputIt first, InputIt last);
+	void insert(InputIt first, InputIt last);
 	// erase
 	iterator erase(iterator pos);
 	void     erase(iterator first, iterator last);
@@ -380,7 +380,7 @@ _rbtree<T, Comp, Allocator>::_rbtree(_rbtree const& other) :
 
 	_end   = _init_tree_node_(T());
 	_begin = _end;
-	_insert(other.begin(), other.end());
+	insert(other.begin(), other.end());
 }
 
 template <class T, class Comp, class Allocator>
@@ -408,7 +408,7 @@ void _rbtree<T, Comp, Allocator>::clear()
 /* --------------------------------- Insert --------------------------------- */
 template <class T, class Comp, class Allocator>
 typename ft::pair<typename _rbtree<T, Comp, Allocator>::iterator, bool>
-_rbtree<T, Comp, Allocator>::_insert(const value_type& value)
+_rbtree<T, Comp, Allocator>::insert(const value_type& value)
 {
 	node_ptr ptr = _find_insert_position(value);
 	if (ptr != _end && !_comp(ptr->_value, value) && !_comp(value, ptr->_value)) {
@@ -419,7 +419,7 @@ _rbtree<T, Comp, Allocator>::_insert(const value_type& value)
 
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::iterator
-_rbtree<T, Comp, Allocator>::_insert(iterator hint, const value_type& value)
+_rbtree<T, Comp, Allocator>::insert(iterator hint, const value_type& value)
 {
 	node_ptr ptr = _find_insert_position(value, hint.base());
 	if (ptr != _end && !_comp(ptr->_value, value) && !_comp(value, ptr->_value)) {
@@ -430,10 +430,10 @@ _rbtree<T, Comp, Allocator>::_insert(iterator hint, const value_type& value)
 
 template <class T, class Comp, class Allocator>
 template <class InputIt>
-void _rbtree<T, Comp, Allocator>::_insert(InputIt first, InputIt last)
+void _rbtree<T, Comp, Allocator>::insert(InputIt first, InputIt last)
 {
 	for (; first != last; ++first) {
-		_insert(*first);
+		insert(*first);
 	}
 }
 
