@@ -17,26 +17,32 @@ class stack
 
 	Container c;
 
-	explicit stack(const Container& cont = Container()){};
-	stack(const stack& other){};
-	~stack(){};
-	stack& operator=(const stack& other){};
+	explicit stack(const Container& cont = Container()) : c(cont) {}
+	stack(const stack& other) : c(other.c) {}
+	~stack() {}
+	stack& operator=(const stack& other)
+	{
+		if (this != &other) {
+			c = other.c;
+		}
+		return *this;
+	}
 
-	reference       top(){};
-	const_reference top() const {};
+	reference       top() { return *--c.end(); }
+	const_reference top() const { return *--c.end(); }
 
-	bool      empty() const {};
-	size_type size() const {};
+	bool      empty() const { return c.empty(); }
+	size_type size() const { return c.size(); }
 
-	void push(const value_type& value){};
-	void pop(){};
+	void push(const value_type& value) { c.push_back(value); }
+	void pop() { c.pop_back(); }
 
-	friend bool operator==(const stack& lhs, const stack& rhs){};
-	friend bool operator!=(const stack& lhs, const stack& rhs){};
-	friend bool operator<(const stack& lhs, const stack& rhs){};
-	friend bool operator<=(const stack& lhs, const stack& rhs){};
-	friend bool operator>(const stack& lhs, const stack& rhs){};
-	friend bool operator>=(const stack& lhs, const stack& rhs){};
+	friend bool operator==(const stack& lhs, const stack& rhs) { return lhs.c == rhs.c; };
+	friend bool operator!=(const stack& lhs, const stack& rhs) { return lhs.c != rhs.c; };
+	friend bool operator<(const stack& lhs, const stack& rhs) { return lhs.c < rhs.c; };
+	friend bool operator<=(const stack& lhs, const stack& rhs) { return lhs.c <= rhs.c; };
+	friend bool operator>(const stack& lhs, const stack& rhs) { return lhs.c > rhs.c; };
+	friend bool operator>=(const stack& lhs, const stack& rhs) { return lhs.c >= rhs.c; };
 };
 
 } // namespace ft
