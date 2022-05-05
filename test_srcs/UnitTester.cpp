@@ -1,5 +1,6 @@
 #include "UnitTester.hpp"
 #include "MapTest.hpp"
+#include "StackTest.hpp"
 #include "VectorTest.hpp"
 #include <iostream>
 #include <signal.h>
@@ -142,6 +143,8 @@ std::string _stl_type_to_string(t_stl_types type)
 		return "vector";
 	case MAP:
 		return "map";
+	case STACK:
+		return "stack";
 	default:
 		break;
 	}
@@ -262,6 +265,8 @@ void UnitTester::load_tests(int ac, char** av)
 			stl = VECTOR;
 		} else if (argv == "map") {
 			stl = MAP;
+		} else if (argv == "stack") {
+			stl = STACK;
 		} else {
 			lst.push_back(argv);
 		}
@@ -273,8 +278,12 @@ void UnitTester::load_tests(int ac, char** av)
 	case MAP:
 		_load_test(MapTest::func_test_table, lst);
 		break;
+	case STACK:
+		_load_test(StackTest::func_test_table, lst);
+		break;
 	default:
 		_load_test(VectorTest::func_test_table, lst);
 		_load_test(MapTest::func_test_table, lst);
+		_load_test(StackTest::func_test_table, lst);
 	}
 }
