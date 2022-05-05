@@ -320,6 +320,8 @@ class _rbtree
 	void     _insert_update(const node_ptr new_);
 	void     _remove(node_ptr ptr);
 	void     _remove_fixup(node_ptr ptr);
+	void     _remove_fixup_left(node_ptr& ptr);
+	void     _remove_fixup_right(node_ptr& ptr);
 
 	// ------------------------------- Lookup ------------------------------- //
 	template <class _Key>
@@ -744,60 +746,70 @@ void _rbtree<T, Comp, Allocator>::_remove(node_ptr ptr)
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_remove_fixup(node_ptr ptr)
 {
-	node_ptr brother;
-
 	while (ptr != _root() && _is_black_(ptr)) {
 		if (_is_left_child_(ptr)) {
-			brother = ptr->_parent->_right;
-			if (_is_red_(brother)) {
-				brother->_is_black      = true;
-				ptr->_parent->_is_black = false;
-				_rotate_left_(ptr->_parent);
-				brother = ptr->_parent->_right;
-			}
-			if (_is_black_(brother->_left) && _is_black_(brother->_right)) {
-				brother->_is_black = false;
-				ptr                = ptr->_parent;
-			} else if (_is_black_(brother->_right)) {
-				brother->_left->_is_black = true;
-				brother->_is_black        = false;
-				_rotate_right_(brother);
-				brother = ptr->_parent->_right;
-			}
-			if (_is_red_(brother->_right)) {
-				brother->_is_black         = ptr->_parent->_is_black;
-				ptr->_parent->_is_black    = true;
-				brother->_right->_is_black = true;
-				_rotate_left_(ptr->_parent);
-				ptr = _root();
-			}
+			_remove_fixup_left(ptr);
 		} else {
-			brother = ptr->_parent->_left;
-			if (_is_red_(brother)) {
-				brother->_is_black      = true;
-				ptr->_parent->_is_black = false;
-				_rotate_left_(ptr->_parent);
-				brother = ptr->_parent->_left;
-			}
-			if (_is_black_(brother->_right) && _is_black_(brother->_left)) {
-				brother->_is_black = false;
-				ptr                = ptr->_parent;
-			} else if (_is_black_(brother->_left)) {
-				brother->_right->_is_black = true;
-				brother->_is_black         = false;
-				_rotate_left_(brother);
-				brother = ptr->_parent->_left;
-			}
-			if (_is_red_(brother->_left)) {
-				brother->_is_black        = ptr->_parent->_is_black;
-				ptr->_parent->_is_black   = true;
-				brother->_left->_is_black = true;
-				_rotate_right_(ptr->_parent);
-				ptr = _root();
-			}
+			_remove_fixup_right(ptr);
 		}
 	}
 	ptr->_is_black = true;
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_remove_fixup_left(node_ptr& ptr)
+{
+	node_ptr brother = ptr->_parent->_right;
+	if (_is_red_(brother)) {
+		brother->_is_black      = true;
+		ptr->_parent->_is_black = false;
+		_rotate_left_(ptr->_parent);
+		brother = ptr->_parent->_right;
+	}
+	if (_is_black_(brother->_left) && _is_black_(brother->_right)) {
+		brother->_is_black = false;
+		ptr                = ptr->_parent;
+	} else if (_is_black_(brother->_right)) {
+		brother->_left->_is_black = true;
+		brother->_is_black        = false;
+		_rotate_right_(brother);
+		brother = ptr->_parent->_right;
+	}
+	if (_is_red_(brother->_right)) {
+		brother->_is_black         = ptr->_parent->_is_black;
+		ptr->_parent->_is_black    = true;
+		brother->_right->_is_black = true;
+		_rotate_left_(ptr->_parent);
+		ptr = _root();
+	}
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_remove_fixup_right(node_ptr& ptr)
+{
+	node_ptr brother = ptr->_parent->_left;
+	if (_is_red_(brother)) {
+		brother->_is_black      = true;
+		ptr->_parent->_is_black = false;
+		_rotate_left_(ptr->_parent);
+		brother = ptr->_parent->_left;
+	}
+	if (_is_black_(brother->_right) && _is_black_(brother->_left)) {
+		brother->_is_black = false;
+		ptr                = ptr->_parent;
+	} else if (_is_black_(brother->_left)) {
+		brother->_right->_is_black = true;
+		brother->_is_black         = false;
+		_rotate_left_(brother);
+		brother = ptr->_parent->_left;
+	}
+	if (_is_red_(brother->_left)) {
+		brother->_is_black        = ptr->_parent->_is_black;
+		ptr->_parent->_is_black   = true;
+		brother->_left->_is_black = true;
+		_rotate_right_(ptr->_parent);
+		ptr = _root();
+	}
 }
 
 /* -------------------------------------------------------------------------- */
