@@ -233,9 +233,10 @@ class _rbtree
 	typedef std::allocator_traits<node_allocator>                 node_traits;
 
   private:
-	node_ptr       _nil;
-	node_ptr       _begin;
-	node_ptr       _end;
+	node_ptr _nil;
+	node_ptr _begin;
+	node_ptr _end;
+
 	value_compare  _comp;
 	node_allocator _alloc;
 	size_type      _size;
@@ -246,14 +247,6 @@ class _rbtree
 	_rbtree(_rbtree const& other);
 	_rbtree&       operator=(_rbtree const& other);
 	allocator_type get_allocator() const { return allocator_type(_alloc); }
-
-	template <class _Key>
-	iterator _find(const _Key& value) const;
-	iterator erase(iterator pos);
-	void     erase(iterator first, iterator last);
-	template <class _Key>
-	size_type erase(const _Key& value);
-	void      _display(std::string func_name = "", int line = -1) const;
 
 	/* ------------------------------ Iterators ----------------------------- */
 	iterator       begin() { return iterator(_begin, _nil); }
@@ -271,12 +264,18 @@ class _rbtree
 	}
 
 	/* ------------------------------ Modifiers ----------------------------- */
-	void                     clear();
+	void clear();
+	// insert
 	ft::pair<iterator, bool> _insert(const value_type& value);
 	iterator                 _insert(iterator hint, const value_type& value);
-	node_ptr                 _insert_unique(const value_type& value, node_ptr parent);
 	template <class InputIt>
 	void _insert(InputIt first, InputIt last);
+	// erase
+	iterator erase(iterator pos);
+	void     erase(iterator first, iterator last);
+	template <class _Key>
+	size_type erase(const _Key& value);
+	// swap
 	void swap(_rbtree& other);
 
 	/* ------------------------------- Lookup ------------------------------- */
@@ -303,11 +302,8 @@ class _rbtree
 
   private:
 	node_ptr _root() const;
-	node_ptr _init_tree_node_(const value_type& value);
-	void     _insert_update(const node_ptr new_);
-	node_ptr _find_insert_position(const value_type& value, node_ptr hint = NULL);
 	void     _set_root(const node_ptr ptr);
-	void     _remove(node_ptr ptr);
+	node_ptr _init_tree_node_(const value_type& value);
 
 	void _destroy_recursive(node_ptr ptr);
 	void _destroy_one(node_ptr ptr);
@@ -316,10 +312,17 @@ class _rbtree
 	void _transplant_(node_ptr old_ptr, node_ptr new_ptr);
 	void _rotate_left_(node_ptr ptr);
 	void _rotate_right_(node_ptr ptr);
-	void _insert_fixup_(node_ptr ptr);
-	void _remove_fixup_(node_ptr ptr);
+
+	node_ptr _find_insert_position(const value_type& value, node_ptr hint = NULL);
+	node_ptr _insert_unique(const value_type& value, node_ptr parent);
+	void     _insert_fixup_(node_ptr ptr);
+	void     _insert_update(const node_ptr new_);
+	void     _remove(node_ptr ptr);
+	void     _remove_fixup_(node_ptr ptr);
 
 	/* ------------------------------- Lookup ------------------------------- */
+	template <class _Key>
+	iterator _find(const _Key& value) const;
 	template <class _Key>
 	pair<iterator, iterator> __equal_range_unique(const _Key& key);
 	template <class _Key>
@@ -330,6 +333,7 @@ class _rbtree
 	node_ptr __upper_bound(const key_type& key) const;
 
 	/* -------------------------------- debug ------------------------------- */
+	void        _display(std::string func_name = "", int line = -1) const;
 	int         _check_tree_recursive_(node_ptr ptr, int black_count, int& invalid) const;
 	void        _check_tree_validity_() const;
 	std::string _node_to_dir_(const node_ptr& value, std::string dirprefix, bool is_right) const;
