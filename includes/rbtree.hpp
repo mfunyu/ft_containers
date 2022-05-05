@@ -248,13 +248,13 @@ class _rbtree
 	_rbtree&       operator=(_rbtree const& other);
 	allocator_type get_allocator() const { return allocator_type(_alloc); }
 
-	/* ------------------------------ Iterators ----------------------------- */
+	// ------------------------------ Iterators ----------------------------- //
 	iterator       begin() { return iterator(_begin, _nil); }
 	const_iterator begin() const { return const_iterator(_begin, _nil); }
 	iterator       end() { return iterator(_end, _nil); }
 	const_iterator end() const { return const_iterator(_end, _nil); }
 
-	/* ------------------------------ Capacity ------------------------------ */
+	// ------------------------------ Capacity ------------------------------ //
 	bool      empty() const { return _root() == _nil; }
 	size_type size() const { return _size; }
 	size_type max_size() const
@@ -263,7 +263,7 @@ class _rbtree
 		    node_traits::max_size(node_allocator()), std::numeric_limits<difference_type>::max());
 	}
 
-	/* ------------------------------ Modifiers ----------------------------- */
+	// ------------------------------ Modifiers ----------------------------- //
 	void clear();
 	// insert
 	ft::pair<iterator, bool> _insert(const value_type& value);
@@ -278,7 +278,7 @@ class _rbtree
 	// swap
 	void swap(_rbtree& other);
 
-	/* ------------------------------- Lookup ------------------------------- */
+	// ------------------------------- Lookup ------------------------------- //
 	iterator       find(const key_type& key) { return iterator(__find_equal(key), _nil); }
 	const_iterator find(const key_type& key) const
 	{
@@ -308,7 +308,7 @@ class _rbtree
 	void _destroy_recursive(node_ptr ptr);
 	void _destroy_one(node_ptr ptr);
 
-	/* ----------------------------- algorithms ----------------------------- */
+	// ----------------------------- algorithms ----------------------------- //
 	void _transplant_(node_ptr old_ptr, node_ptr new_ptr);
 	void _rotate_left_(node_ptr ptr);
 	void _rotate_right_(node_ptr ptr);
@@ -320,7 +320,7 @@ class _rbtree
 	void     _remove(node_ptr ptr);
 	void     _remove_fixup_(node_ptr ptr);
 
-	/* ------------------------------- Lookup ------------------------------- */
+	// ------------------------------- Lookup ------------------------------- //
 	template <class _Key>
 	iterator _find(const _Key& value) const;
 	template <class _Key>
@@ -332,7 +332,7 @@ class _rbtree
 	node_ptr __lower_bound(const key_type& key) const;
 	node_ptr __upper_bound(const key_type& key) const;
 
-	/* -------------------------------- debug ------------------------------- */
+	// -------------------------------- debug ------------------------------- //
 	void        _display(std::string func_name = "", int line = -1) const;
 	int         _check_tree_recursive_(node_ptr ptr, int black_count, int& invalid) const;
 	void        _check_tree_validity_() const;

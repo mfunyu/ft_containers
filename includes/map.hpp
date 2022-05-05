@@ -79,6 +79,7 @@ class map
 	const T& at(const Key& key) const;
 	// operator[]
 	T& operator[](const Key& key) { return insert(ft::make_pair(key, T())).first->second; }
+
 	// ------------------------------- Iterators ------------------------------- //
 	iterator               begin() { return _tree.begin(); }
 	const_iterator         begin() const { return _tree.begin(); }
@@ -88,11 +89,13 @@ class map
 	const_reverse_iterator rbegin() const { return reverse_iterator(end()); }
 	reverse_iterator       rend() { return reverse_iterator(begin()); }
 	const_reverse_iterator rend() const { return reverse_iterator(begin()); }
-	/* -------------------------------- Capacity ------------------------------- */
+
+	// -------------------------------- Capacity ------------------------------- //
 	bool      empty() const { return _tree.empty(); }
 	size_type size() const { return _tree.size(); }
 	size_type max_size() const { return _tree.max_size(); }
-	/* ------------------------------- Modifiers ------------------------------- */
+
+	// ------------------------------- Modifiers ------------------------------- //
 	void clear() { _tree.clear(); }
 	// insert
 	ft::pair<iterator, bool> insert(const value_type& value) { return _tree._insert(value); }
@@ -108,7 +111,8 @@ class map
 	size_type erase(const Key& key) { return _tree.erase(key); }
 	// swap
 	void swap(map& other) { _tree.swap(other._tree); }
-	/* --------------------------------- Lookup -------------------------------- */
+
+	// --------------------------------- Lookup -------------------------------- //
 	size_type                count(const Key& key) const { return (find(key) == end() ? 0 : 1); }
 	iterator                 find(const Key& key) { return _tree.find(key); }
 	const_iterator           find(const Key& key) const { return _tree.find(key); }
@@ -121,7 +125,7 @@ class map
 	const_iterator lower_bound(const Key& key) const { return _tree.lower_bound(key); }
 	iterator       upper_bound(const Key& key) { return _tree.upper_bound(key); }
 	const_iterator upper_bound(const Key& key) const { return _tree.upper_bound(key); }
-	/* ------------------------------- Observers ------------------------------- */
+	// ------------------------------- Observers ------------------------------- //
 	key_compare   key_comp() const { return _key_comp; }
 	value_compare value_comp() const { return _value_comp; }
 };
