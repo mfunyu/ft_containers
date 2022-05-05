@@ -28,8 +28,8 @@ class stack
 		return *this;
 	}
 
-	reference       top() { return *--c.end(); }
-	const_reference top() const { return *--c.end(); }
+	reference       top() { return c.back(); }
+	const_reference top() const { return c.back(); }
 
 	bool      empty() const { return c.empty(); }
 	size_type size() const { return c.size(); }
