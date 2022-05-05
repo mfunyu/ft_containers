@@ -226,8 +226,8 @@ class _rbtree
 	typedef _rbtree_iterator<value_type, node_type>       iterator;
 	typedef _rbtree_iterator<const value_type, node_type> const_iterator;
 
-	typedef std::size_t    size_type;
-	typedef std::ptrdiff_t difference_type;
+	typedef size_t    size_type;
+	typedef ptrdiff_t difference_type;
 
 	typedef typename Allocator::template rebind<node_type>::other node_allocator;
 	typedef std::allocator_traits<node_allocator>                 node_traits;
