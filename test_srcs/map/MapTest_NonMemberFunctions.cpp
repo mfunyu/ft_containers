@@ -414,10 +414,9 @@ void _map_std_swap_basic()
 	ft::map<int, int> ft_a   = _set_map(size_a, false);
 	ft::map<int, int> ft_b   = _set_map(size_b, true);
 
-	std::swap(ft_a, ft_b);
-	for (size_t i = 0; i < size_b; ++i) {
-		ft_a[i] = i;
-	}
+	ft::swap(ft_a, ft_b);
+	UnitTester::assert_(ft_a.size() == size_b);
+	UnitTester::assert_(ft_b.size() == size_a);
 }
 
 void _map_std_swap_compare()
@@ -431,7 +430,7 @@ void _map_std_swap_compare()
 	std::map<int, std::string> std_b;
 	_set_compare_maps(ft_b, std_b);
 
-	std::swap(ft_a, ft_b);
+	ft::swap(ft_a, ft_b);
 	std::swap(std_a, std_b);
 	_compare_maps(ft_a, std_a);
 	_compare_maps(ft_b, std_b);
