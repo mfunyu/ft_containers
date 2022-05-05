@@ -574,10 +574,25 @@ template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_pointer
 _rbtree<T, Comp, Allocator>::_find_insert_position(const value_type& value, node_pointer hint)
 {
-	node_pointer prev = _end;
+	node_pointer prev    = _end;
+	node_pointer current = _root();
 
-	if (hint) {}
-	for (node_pointer current = _root(); current != _nil;) {
+	if (hint && hint != _end) {
+		if (_comp(value, hint->_value) && hint->_left == _nil) {
+			iterator prev = iterator(hint, _nil);
+			// prev < value < hint
+			if (prev == begin() || _comp(*--prev, value)) {
+				return hint;
+			}
+		} else if (hint->_right == _nil) {
+			iterator next = iterator(hint, _nil);
+			// hint < value < next
+			if (next == end() || _comp(value, *++next)) {
+				return hint;
+			}
+		}
+	}
+	for (; current != _nil;) {
 		prev = current;
 		if (_comp(value, current->_value)) {
 			current = current->_left;
