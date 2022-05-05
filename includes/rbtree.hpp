@@ -121,7 +121,7 @@ _NodePtr _tree_prev_(_NodePtr ptr, _NodePtr _nil)
 /*                               RBtree Iterator                              */
 /* -------------------------------------------------------------------------- */
 template <class T, class NodeType>
-class _rbtree_iterator : public std::iterator<std::bidirectional_iterator_tag, T>
+class _rbtree_iterator
 {
   public:
 	typedef NodeType*                                                  iterator_type;
