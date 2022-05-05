@@ -323,8 +323,6 @@ class _rbtree
 
 	// ------------------------------- Lookup ------------------------------- //
 	template <class _Key>
-	iterator _find(const _Key& value) const;
-	template <class _Key>
 	pair<iterator, iterator> __equal_range_unique(const _Key& key);
 	template <class _Key>
 	pair<const_iterator, const_iterator> __equal_range_unique(const _Key& key) const;
@@ -443,7 +441,7 @@ template <class _Key>
 typename _rbtree<T, Comp, Allocator>::size_type
 _rbtree<T, Comp, Allocator>::erase(const _Key& value)
 {
-	iterator ite = _find(value);
+	iterator ite(__find_equal(value), _nil);
 	if (ite == end()) {
 		return 0;
 	}
@@ -600,7 +598,6 @@ void _rbtree<T, Comp, Allocator>::_rotate_right_(const node_ptr ptr)
 }
 
 /* --------------------------------- _insert -------------------------------- */
-
 template <class T, class Comp, class Allocator>
 typename _rbtree<T, Comp, Allocator>::node_ptr
 _rbtree<T, Comp, Allocator>::_find_insert_position(const value_type& value, node_ptr hint)
@@ -709,7 +706,6 @@ void _rbtree<T, Comp, Allocator>::_insert_update(const node_ptr new_)
 }
 
 /* --------------------------------- _remove -------------------------------- */
-
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_remove(node_ptr ptr)
 {
@@ -807,13 +803,6 @@ void _rbtree<T, Comp, Allocator>::_remove_fixup_(const node_ptr ptr)
 /* -------------------------------------------------------------------------- */
 /*                                   Lookups                                  */
 /* -------------------------------------------------------------------------- */
-template <class T, class Comp, class Allocator>
-template <class _Key>
-typename _rbtree<T, Comp, Allocator>::iterator
-_rbtree<T, Comp, Allocator>::_find(const _Key& key) const
-{
-	return iterator(__find_equal(key), _nil);
-}
 
 template <class T, class Comp, class Allocator>
 template <class _Key>
