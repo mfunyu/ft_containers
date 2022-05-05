@@ -317,6 +317,8 @@ class _rbtree
 	node_ptr _find_insert_position(const value_type& value, node_ptr hint = NULL);
 	node_ptr _insert_unique(const value_type& value, node_ptr parent);
 	void     _insert_fixup(node_ptr ptr);
+	void     _insert_fixup_left(node_ptr& ptr);
+	void     _insert_fixup_right(node_ptr& ptr);
 	void     _insert_update(const node_ptr new_);
 	void     _remove(node_ptr ptr);
 	void     _remove_fixup(node_ptr ptr);
@@ -657,45 +659,56 @@ _rbtree<T, Comp, Allocator>::_insert_unique(const value_type& value, node_ptr pa
 template <class T, class Comp, class Allocator>
 void _rbtree<T, Comp, Allocator>::_insert_fixup(node_ptr ptr)
 {
-	node_ptr uncle;
 	while (_is_red_(ptr->_parent)) {
 		if (_is_left_child_(ptr->_parent)) {
-			uncle = ptr->_parent->_parent->_right;
-			if (_is_red_(uncle)) {
-				ptr->_parent->_is_black   = true;
-				uncle->_is_black          = true;
-				uncle->_parent->_is_black = false;
-
-				ptr = uncle->_parent;
-			} else {
-				if (_is_right_child_(ptr)) {
-					ptr = ptr->_parent;
-					_rotate_left_(ptr);
-				}
-				ptr->_parent->_is_black          = true;
-				ptr->_parent->_parent->_is_black = false;
-				_rotate_right_(ptr->_parent->_parent);
-			}
+			_insert_fixup_left(ptr);
 		} else {
-			uncle = ptr->_parent->_parent->_left;
-			if (_is_red_(uncle)) {
-				ptr->_parent->_is_black   = true;
-				uncle->_is_black          = true;
-				uncle->_parent->_is_black = false;
-
-				ptr = uncle->_parent;
-			} else {
-				if (_is_left_child_(ptr)) {
-					ptr = ptr->_parent;
-					_rotate_right_(ptr);
-				}
-				ptr->_parent->_is_black          = true;
-				ptr->_parent->_parent->_is_black = false;
-				_rotate_left_(ptr->_parent->_parent);
-			}
+			_insert_fixup_right(ptr);
 		}
 	}
 	_root()->_is_black = true;
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_insert_fixup_left(node_ptr& ptr)
+{
+	node_ptr uncle = ptr->_parent->_parent->_right;
+	if (_is_red_(uncle)) {
+		ptr->_parent->_is_black   = true;
+		uncle->_is_black          = true;
+		uncle->_parent->_is_black = false;
+
+		ptr = uncle->_parent;
+	} else {
+		if (_is_right_child_(ptr)) {
+			ptr = ptr->_parent;
+			_rotate_left_(ptr);
+		}
+		ptr->_parent->_is_black          = true;
+		ptr->_parent->_parent->_is_black = false;
+		_rotate_right_(ptr->_parent->_parent);
+	}
+}
+
+template <class T, class Comp, class Allocator>
+void _rbtree<T, Comp, Allocator>::_insert_fixup_right(node_ptr& ptr)
+{
+	node_ptr uncle = ptr->_parent->_parent->_left;
+	if (_is_red_(uncle)) {
+		ptr->_parent->_is_black   = true;
+		uncle->_is_black          = true;
+		uncle->_parent->_is_black = false;
+
+		ptr = uncle->_parent;
+	} else {
+		if (_is_left_child_(ptr)) {
+			ptr = ptr->_parent;
+			_rotate_right_(ptr);
+		}
+		ptr->_parent->_is_black          = true;
+		ptr->_parent->_parent->_is_black = false;
+		_rotate_left_(ptr->_parent->_parent);
+	}
 }
 
 template <class T, class Comp, class Allocator>
