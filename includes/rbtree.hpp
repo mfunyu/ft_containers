@@ -316,10 +316,10 @@ class _rbtree
 
 	node_ptr _find_insert_position(const value_type& value, node_ptr hint = NULL);
 	node_ptr _insert_unique(const value_type& value, node_ptr parent);
-	void     _insert_fixup_(node_ptr ptr);
+	void     _insert_fixup(node_ptr ptr);
 	void     _insert_update(const node_ptr new_);
 	void     _remove(node_ptr ptr);
-	void     _remove_fixup_(node_ptr ptr);
+	void     _remove_fixup(node_ptr ptr);
 
 	// ------------------------------- Lookup ------------------------------- //
 	template <class _Key>
@@ -647,13 +647,13 @@ _rbtree<T, Comp, Allocator>::_insert_unique(const value_type& value, node_ptr pa
 		parent->_right = new_;
 	}
 	new_->_parent = parent;
-	_insert_fixup_(new_);
+	_insert_fixup(new_);
 	_insert_update(new_);
 	return new_;
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_insert_fixup_(node_ptr ptr)
+void _rbtree<T, Comp, Allocator>::_insert_fixup(node_ptr ptr)
 {
 	node_ptr uncle;
 	while (_is_red_(ptr->_parent)) {
@@ -737,12 +737,12 @@ void _rbtree<T, Comp, Allocator>::_remove(node_ptr ptr)
 	}
 
 	if (original_color) {
-		_remove_fixup_(child_to_recolor);
+		_remove_fixup(child_to_recolor);
 	}
 }
 
 template <class T, class Comp, class Allocator>
-void _rbtree<T, Comp, Allocator>::_remove_fixup_(const node_ptr ptr)
+void _rbtree<T, Comp, Allocator>::_remove_fixup(node_ptr ptr)
 {
 	node_ptr brother;
 
