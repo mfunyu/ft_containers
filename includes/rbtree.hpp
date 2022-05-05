@@ -24,12 +24,14 @@ class _tree_node
 	T           _value;
 	bool        _is_black;
 
-	_tree_node() : _parent(NULL), _right(NULL), _left(NULL), _is_black(false){};
+	_tree_node() : _parent(NULL), _right(NULL), _left(NULL), _is_black(false) {}
 	_tree_node(const T& value) :
-	    _parent(NULL), _right(NULL), _left(NULL), _value(value), _is_black(false){};
+	    _parent(NULL), _right(NULL), _left(NULL), _value(value), _is_black(false)
+	{}
 	_tree_node(_tree_node const& other) :
 	    _parent(other._parent), _right(other._right), _left(other._left), _value(other._value),
-	    _is_black(other._is_black){};
+	    _is_black(other._is_black)
+	{}
 	_tree_node& operator=(_tree_node const& other)
 	{
 		if (*this != other) {
@@ -40,7 +42,7 @@ class _tree_node
 			_is_black = other._is_black;
 		}
 		return *this;
-	};
+	}
 };
 
 namespace {
@@ -261,7 +263,7 @@ class _rbtree
 
 	/* ------------------------------ Capacity ------------------------------ */
 	bool      empty() const { return _root() == _nil; }
-	size_type size() const { return _size; };
+	size_type size() const { return _size; }
 	size_type max_size() const
 	{
 		return std::min<size_type>(
@@ -278,11 +280,11 @@ class _rbtree
 	void swap(_rbtree& other);
 
 	/* ------------------------------- Lookup ------------------------------- */
-	iterator       find(const key_type& key) { return iterator(__find_equal(key), _nil); };
+	iterator       find(const key_type& key) { return iterator(__find_equal(key), _nil); }
 	const_iterator find(const key_type& key) const
 	{
 		return const_iterator(__find_equal(key), _nil);
-	};
+	}
 	pair<iterator, iterator> equal_range(const key_type& key) { return __equal_range_unique(key); }
 	pair<const_iterator, const_iterator> equal_range(const key_type& key) const
 	{
