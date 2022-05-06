@@ -27,7 +27,7 @@ class set
 	typedef typename Allocator::const_pointer const_pointer;
 
   private:
-	typedef _rbtree<value_type, key_type, value_compare, allocator_type> _base;
+	typedef _rbtree<const value_type, key_type, value_compare, allocator_type> _base;
 
 	_base     _tree;
 	Compare   _comp;
