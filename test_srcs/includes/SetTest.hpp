@@ -81,19 +81,6 @@ void _compare_sets(ft::set<Key, T>& ft, std::set<Key, T>& std)
 	}
 }
 
-template <class Comp>
-void _set_compare_sets(
-    ft::set<int, char, Comp>& ft_data, std::set<int, char, Comp>& std_data, int size)
-{
-	for (int i = 0; i < size; ++i) {
-		char key = std::rand();
-		char val = 'a' + std::rand() % 26;
-
-		ft_data[key]  = val;
-		std_data[key] = val;
-	}
-}
-
 template <class Key, class T>
 void _debug(ft::set<Key, T>& ft, std::string name = "")
 {
