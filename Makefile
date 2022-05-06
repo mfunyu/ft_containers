@@ -31,6 +31,14 @@ SRCS	:= main.cpp \
 		StackTest_Basic.cpp \
 		StackTest_Else.cpp \
 		StackTest_NonMemberFunctions.cpp \
+		SetTest.cpp \
+		SetTest_Basic.cpp \
+		SetTest_Iterators.cpp \
+		SetTest_Capacity.cpp \
+		SetTest_Lookup.cpp \
+		SetTest_Observers.cpp \
+		SetTest_NonMemberFunctions.cpp \
+		SetTest_Modifiers.cpp \
 
 OBJS_DIR:= objs/
 OBJS	:= $(addprefix $(OBJS_DIR), $(SRCS:.cpp=.o))
@@ -38,7 +46,8 @@ SRCS_DIR:= test_srcs
 VPATH	:= $(SRCS_DIR) \
 	$(SRCS_DIR)/vector \
 	$(SRCS_DIR)/map \
-	$(SRCS_DIR)/stack
+	$(SRCS_DIR)/stack \
+	$(SRCS_DIR)/set \
 DEPS	:= $(OBJS:.o=.d)
 
 .PHONY	: all clean fclean re test

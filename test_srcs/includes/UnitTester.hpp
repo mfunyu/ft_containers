@@ -33,7 +33,8 @@ typedef enum e_stl_types
 	NONE,
 	VECTOR,
 	MAP,
-	STACK
+	STACK,
+	SET
 } t_stl_types;
 
 typedef struct s_unit_tests {
