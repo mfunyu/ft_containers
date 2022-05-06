@@ -1,7 +1,7 @@
 NAME	:= run_test
 CXX		:= clang++
 INCLUDES:= -Iincludes/ -Itest_srcs/includes
-CXXFLAGS:= -Wall -Wextra -Werror -std=c++98 -pedantic-errors $(INCLUDES) -MMD -MP
+CXXFLAGS:= -std=c++98 -pedantic-errors $(INCLUDES) -MMD -MP
 
 ifdef STD
 CXXFLAGS += -DTEST
@@ -27,13 +27,18 @@ SRCS	:= main.cpp \
 		MapTest_Observers.cpp \
 		MapTest_NonMemberFunctions.cpp \
 		MapTest_Modifiers.cpp \
+		StackTest.cpp \
+		StackTest_Basic.cpp \
+		StackTest_Else.cpp \
+		StackTest_NonMemberFunctions.cpp \
 
 OBJS_DIR:= objs/
 OBJS	:= $(addprefix $(OBJS_DIR), $(SRCS:.cpp=.o))
 SRCS_DIR:= test_srcs
 VPATH	:= $(SRCS_DIR) \
 	$(SRCS_DIR)/vector \
-	$(SRCS_DIR)/map
+	$(SRCS_DIR)/map \
+	$(SRCS_DIR)/stack
 DEPS	:= $(OBJS:.o=.d)
 
 .PHONY	: all clean fclean re test
@@ -63,5 +68,9 @@ re	: fclean all
 
 std	:
 	make re STD=1
+	
+std1	:
+	make STD=1
+
 
 ft: re
