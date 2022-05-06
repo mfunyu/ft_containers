@@ -40,29 +40,15 @@ class set
 	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 	// (constructor)
-	explicit set(const Compare& comp = Compare(), const Allocator& alloc = Allocator()) :
-	    _tree(comp, alloc), _comp(comp), _alloc(alloc)
-	{}
+	explicit set(const Compare& comp = Compare(), const Allocator& alloc = Allocator());
 	template <class InputIt>
 	set(InputIt first, InputIt last, const Compare& comp = Compare(),
-	    const Allocator& alloc = Allocator()) :
-	    _tree(comp, alloc),
-	    _comp(comp), _alloc(alloc)
-	{
-		insert(first, last);
-	}
-	set(const set& other) : _tree(other._tree), _comp(other._comp), _alloc(other._alloc) {}
+	    const Allocator& alloc                                  = Allocator(),
+	    typename enable_if<!is_integral<InputIt>::value>::type* = 0);
+	set(const set& other);
 	// (destructor)
 	~set() {}
-	set& operator=(const set& other)
-	{
-		if (this != &other) {
-			_tree  = other._tree;
-			_comp  = other._comp;
-			_alloc = other._alloc;
-		}
-		return *this;
-	}
+	set&           operator=(const set& other);
 	allocator_type get_allocator() const { return _alloc; }
 
 	// ------------------------------- Iterators ------------------------------- //
@@ -111,6 +97,37 @@ class set
 	key_compare   key_comp() const { return _comp; }
 	value_compare value_comp() const { return _comp; }
 };
+
+template <class Key, class Comp, class Alloc>
+set<Key, Comp, Alloc>::set(const Comp& comp, const Alloc& alloc) :
+    _tree(comp, alloc), _comp(comp), _alloc(alloc)
+{}
+
+template <class Key, class Comp, class Alloc>
+template <class InputIt>
+set<Key, Comp, Alloc>::set(InputIt first, InputIt last, const Comp& comp, const Alloc& alloc,
+    typename enable_if<!is_integral<InputIt>::value>::type*) :
+    _tree(comp, alloc),
+    _comp(comp), _alloc(alloc)
+{
+	insert(first, last);
+}
+
+template <class Key, class Comp, class Alloc>
+set<Key, Comp, Alloc>::set(set<Key, Comp, Alloc> const& other) :
+    _tree(other._tree), _comp(other._comp), _alloc(other._alloc)
+{}
+
+template <class Key, class Comp, class Alloc>
+set<Key, Comp, Alloc>& set<Key, Comp, Alloc>::operator=(set const& other)
+{
+	if (this != &other) {
+		_tree  = other._tree;
+		_comp  = other._comp;
+		_alloc = other._alloc;
+	}
+	return *this;
+}
 
 /* -------------------------------------------------------------------------- */
 /*                            Non-member functions                            */
