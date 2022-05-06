@@ -40,19 +40,30 @@ class set
 	typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 	// (constructor)
-	set();
-	explicit set(const Compare& comp, const Allocator& alloc = Allocator()) :
-	    _comp(comp), _alloc(alloc){};
+	explicit set(const Compare& comp = Compare(), const Allocator& alloc = Allocator()) :
+	    _tree(comp, alloc), _comp(comp), _alloc(alloc)
+	{}
 	template <class InputIt>
 	set(InputIt first, InputIt last, const Compare& comp = Compare(),
 	    const Allocator& alloc = Allocator()) :
-	    _comp(comp),
-	    _alloc(alloc){};
-	set(const set& other);
+	    _tree(comp, alloc),
+	    _comp(comp), _alloc(alloc)
+	{
+		insert(first, last);
+	}
+	set(const set& other) : _tree(other._tree), _comp(other._comp), _alloc(other._alloc) {}
 	// (destructor)
-	~set();
-	set&           operator=(const set& other);
-	allocator_type get_allocator() const;
+	~set() {}
+	set& operator=(const set& other)
+	{
+		if (this != &other) {
+			_tree  = other._tree;
+			_comp  = other._comp;
+			_alloc = other._alloc;
+		}
+		return *this;
+	}
+	allocator_type get_allocator() const { return _alloc; }
 
 	// ------------------------------- Iterators ------------------------------- //
 	iterator               begin() { return _tree.begin(); }
