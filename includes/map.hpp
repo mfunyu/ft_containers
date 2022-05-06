@@ -50,7 +50,7 @@ class map
 	};
 
   private:
-	typedef _rbtree<value_type, value_compare, allocator_type> _base;
+	typedef _rbtree<value_type, key_type, value_compare, allocator_type> _base;
 
 	key_compare   _key_comp;
 	value_compare _value_comp;
