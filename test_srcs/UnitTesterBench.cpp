@@ -1,15 +1,8 @@
-#include "MapTest.hpp"
-#include "SetTest.hpp"
-#include "StackTest.hpp"
 #include "UnitTester.hpp"
-#include "VectorTest.hpp"
 #include <cmath>
 #include <ctime>
 #include <iostream>
-#include <signal.h>
 #include <time.h>
-#include <unistd.h>
-#include <vector>
 
 void UnitTester::_bench_sandbox(t_unit_subtests& current_test)
 {
