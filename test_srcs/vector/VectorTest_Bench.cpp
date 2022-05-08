@@ -5,6 +5,54 @@
 namespace VectorTest {
 
 /* -------------------------------------------------------------------------- */
+/*                         benchmark copy_constructor                         */
+/* -------------------------------------------------------------------------- */
+void _bench_vector_copy_constructor_ft()
+{
+	int             size = 10000;
+	ft::vector<int> ft   = _set_vector(size);
+	ft::vector<int> copy(ft);
+}
+
+void _bench_vector_copy_constructor_std()
+{
+	int              size = 10000;
+	std::vector<int> std  = _set_vector_std(size);
+	std::vector<int> copy(std);
+}
+
+void bench_vector_copy_constructor()
+{
+	load_subtest_(_bench_vector_copy_constructor_std);
+	load_subtest_(_bench_vector_copy_constructor_ft);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                             benchmark operator=                            */
+/* -------------------------------------------------------------------------- */
+void _bench_vector_assignment_operator_ft()
+{
+	int             size = 10000;
+	ft::vector<int> ft   = _set_vector(size);
+	ft::vector<int> copy;
+	copy = ft;
+}
+
+void _bench_vector_assignment_operator_std()
+{
+	int              size = 10000;
+	std::vector<int> std  = _set_vector_std(size);
+	std::vector<int> copy;
+	copy = std;
+}
+
+void bench_vector_assignment_operator()
+{
+	load_subtest_(_bench_vector_assignment_operator_std);
+	load_subtest_(_bench_vector_assignment_operator_ft);
+}
+
+/* -------------------------------------------------------------------------- */
 /*                              benchmark insert                              */
 /* -------------------------------------------------------------------------- */
 void _bench_vector_insert_ft()
@@ -49,7 +97,7 @@ void _bench_vector_erase_ft()
 void _bench_vector_erase_std()
 {
 	int              size = 10000;
-	std::vector<int> std  = _set_std_vector(size, true);
+	std::vector<int> std  = _set_vector_std(size, true);
 
 	for (int i = 0; i < 1000; ++i) {
 		std.erase(std.begin());

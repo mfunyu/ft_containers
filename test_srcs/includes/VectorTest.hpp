@@ -61,6 +61,8 @@ void vector_operator_ge();
 void vector_std_swap();
 
 /* Benchmark */
+void bench_vector_copy_constructor();
+void bench_vector_assignment_operator();
 void bench_vector_insert();
 void bench_vector_erase();
 void bench_vector_push_back();
@@ -71,7 +73,7 @@ extern t_unit_tests func_test_table[TABLE_SIZE];
 void                    _set_int_array(int* array, int size = 12, bool accend = false);
 ft::vector<int>         _assign_vector(int size = 6, bool accend = false);
 ft::vector<int>         _set_vector(int size = 6, bool accend = false);
-std::vector<int>        _set_std_vector(int size = 6, bool accend = false);
+std::vector<int>        _set_vector_std(int size = 6, bool accend = false);
 ft::vector<char>        _set_vector_char(size_t size = 6, bool accend = false);
 ft::vector<std::string> _set_vector_string(size_t size = 6, bool random = false);
 

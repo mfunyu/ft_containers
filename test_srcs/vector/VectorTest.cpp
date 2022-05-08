@@ -12,12 +12,14 @@ namespace VectorTest {
 
 #ifdef BENCH
 t_unit_tests func_test_table[] = {
-	{   "vector_insert",    bench_vector_insert, FAIL, VECTOR},
-	{    "vector_erase",     bench_vector_erase, FAIL, VECTOR},
-	{"vector_push_back", bench_vector_push_back, FAIL, VECTOR},
-	{ "vector_pop_back",  bench_vector_pop_back, FAIL, VECTOR},
+	{   "vector_copy_constructor",    bench_vector_copy_constructor, FAIL, VECTOR},
+	{"vector_assignment_operator", bench_vector_assignment_operator, FAIL, VECTOR},
+	{	         "vector_insert",              bench_vector_insert, FAIL, VECTOR},
+	{	          "vector_erase",               bench_vector_erase, FAIL, VECTOR},
+	{	      "vector_push_back",           bench_vector_push_back, FAIL, VECTOR},
+	{	       "vector_pop_back",            bench_vector_pop_back, FAIL, VECTOR},
  // ------------------- Terminater (Do not comment out) ------------------ //
-	{	          "\0",	               NULL, FAIL, VECTOR}
+	{	                    "\0",	                         NULL, FAIL, VECTOR}
 };
 
 #else
@@ -103,7 +105,7 @@ ft::vector<int> _set_vector(int size, bool accend)
 	return data;
 }
 
-std::vector<int> _set_std_vector(int size, bool accend)
+std::vector<int> _set_vector_std(int size, bool accend)
 {
 	std::vector<int> data;
 
