@@ -40,6 +40,39 @@ SRCS	:= main.cpp \
 		SetTest_NonMemberFunctions.cpp \
 		SetTest_Modifiers.cpp \
 
+ifdef BENCH
+CXXFLAGS += -DBENCH
+NAME	:= bench_test
+SRCS	:= main.cpp \
+		Log.cpp \
+		UnitTester.cpp \
+		UnitTesterBench.cpp \
+		VectorTest.cpp \
+		VectorTest_Bench.cpp \
+		MapTest.cpp \
+		MapTest_Basic.cpp \
+		MapTest_ElementAccess.cpp \
+		MapTest_Iterators.cpp \
+		MapTest_Capacity.cpp \
+		MapTest_Lookup.cpp \
+		MapTest_Observers.cpp \
+		MapTest_NonMemberFunctions.cpp \
+		MapTest_Modifiers.cpp \
+		StackTest.cpp \
+		StackTest_Basic.cpp \
+		StackTest_Else.cpp \
+		StackTest_NonMemberFunctions.cpp \
+		SetTest.cpp \
+		SetTest_Basic.cpp \
+		SetTest_Iterators.cpp \
+		SetTest_Capacity.cpp \
+		SetTest_Lookup.cpp \
+		SetTest_Observers.cpp \
+		SetTest_NonMemberFunctions.cpp \
+		SetTest_Modifiers.cpp
+endif
+
+
 OBJS_DIR:= objs/
 OBJS	:= $(addprefix $(OBJS_DIR), $(SRCS:.cpp=.o))
 SRCS_DIR:= test_srcs
@@ -83,3 +116,14 @@ std1	:
 
 
 ft: re
+
+test	:
+	@$(CXX) $(CXXFLAGS) -o 42main.o -c 42main.cpp -D STD=1
+	@$(CXX) $(CXXFLAGS) -o std_$@ 42main.o
+	@echo executable: std_$@
+	@$(CXX) $(CXXFLAGS) -o 42main.o -c 42main.cpp
+	@$(CXX) $(CXXFLAGS) -o ft_$@ 42main.o
+	@echo executable: ft_$@	
+	
+bench	:
+	make BENCH=1
