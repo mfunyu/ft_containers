@@ -6,15 +6,15 @@ namespace SetTest {
 
 #ifdef BENCH
 t_unit_tests func_test_table[] = {
-	{   "set_copy_constructor",    bench_set_copy_constructor, FAIL, MAP},
-	{"set_assignment_operator", bench_set_assignment_operator, FAIL, MAP},
-	{ "set_subscript_operator",  bench_set_subscript_operator, FAIL, MAP},
-	{	         "set_insert",              bench_set_insert, FAIL, MAP},
-    {              "set_erase",               bench_set_erase, FAIL, MAP},
-	{	           "set_find",                bench_set_find, FAIL, MAP},
-	{	    "set_equal_range",         bench_set_equal_range, FAIL, MAP},
+	{   "set_copy_constructor",    bench_set_copy_constructor, FAIL, SET},
+	{"set_assignment_operator", bench_set_assignment_operator, FAIL, SET},
+	{ "set_subscript_operator",  bench_set_subscript_operator, FAIL, SET},
+	{	         "set_insert",              bench_set_insert, FAIL, SET},
+    {              "set_erase",               bench_set_erase, FAIL, SET},
+	{	           "set_find",                bench_set_find, FAIL, SET},
+	{	    "set_equal_range",         bench_set_equal_range, FAIL, SET},
  // ------------------- Terminater (Do not comment out) ------------------ //
-	{	                 "\0",	                      NULL, FAIL, MAP}
+	{	                 "\0",	                      NULL, FAIL, SET}
 };
 #else
 t_unit_tests func_test_table[] = {
