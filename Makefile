@@ -50,14 +50,7 @@ SRCS	:= main.cpp \
 		VectorTest.cpp \
 		VectorTest_Bench.cpp \
 		MapTest.cpp \
-		MapTest_Basic.cpp \
-		MapTest_ElementAccess.cpp \
-		MapTest_Iterators.cpp \
-		MapTest_Capacity.cpp \
-		MapTest_Lookup.cpp \
-		MapTest_Observers.cpp \
-		MapTest_NonMemberFunctions.cpp \
-		MapTest_Modifiers.cpp \
+		MapTest_Bench.cpp \
 		StackTest.cpp \
 		StackTest_Basic.cpp \
 		StackTest_Else.cpp \

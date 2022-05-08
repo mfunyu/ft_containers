@@ -62,6 +62,13 @@ void map_operator_g();
 void map_operator_ge();
 void map_std_swap();
 
+/* Benchmark */
+void bench_map_subscript_operator();
+void bench_map_insert();
+void bench_map_erase();
+void bench_map_find();
+void bench_map_equal_range();
+
 extern t_unit_tests func_test_table[TABLE_SIZE];
 
 ft::map<int, int>         _set_map(int size = 6, bool accend = false);
