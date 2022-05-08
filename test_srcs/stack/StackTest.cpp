@@ -10,6 +10,16 @@ namespace StackTest {
 
 #define FAIL TEST_FAILED
 
+#ifdef BENCH
+t_unit_tests func_test_table[] = {
+	{   "stack_copy_constructor",    bench_stack_copy_constructor, FAIL, STACK},
+	{"stack_assignment_operator", bench_stack_assignment_operator, FAIL, STACK},
+	{	           "stack_push",                bench_stack_push, FAIL, STACK},
+    {                "stack_pop",                 bench_stack_pop, FAIL, STACK},
+ // ------------------- Terminater (Do not comment out) ------------------ //
+	{	                   "\0",	                        NULL, FAIL, STACK}
+};
+#else
 t_unit_tests func_test_table[] = {
 	{	    "stack_constructor",         stack_constructor, FAIL, STACK},
 	{	     "stack_destructor",          stack_destructor, FAIL, STACK},
@@ -32,6 +42,7 @@ t_unit_tests func_test_table[] = {
  // ------------------- Terminater (Do not comment out) ------------------ //
 	{	                   "\0",	                  NULL, FAIL, STACK}
 };
+#endif
 
 void _set_int_array(int* array, int size, bool accend)
 {
@@ -60,6 +71,20 @@ ft::stack<int> _assign_stack(int size, bool accend)
 ft::stack<int> _set_stack(int size, bool accend)
 {
 	ft::stack<int> data;
+
+	for (int i = 0; i < size; ++i) {
+		if (accend) {
+			data.push(i);
+		} else {
+			data.push(std::rand());
+		}
+	}
+	return data;
+}
+
+std::stack<int> _set_stack_std(int size, bool accend)
+{
+	std::stack<int> data;
 
 	for (int i = 0; i < size; ++i) {
 		if (accend) {

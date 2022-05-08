@@ -44,6 +44,15 @@ typedef struct s_unit_tests {
 	t_stl_types   type;
 } t_unit_tests;
 
+#ifdef BENCH
+typedef struct s_unit_subtests {
+	const char* func_name;
+	const char* subtest_name;
+	void (*func_test_ptr)();
+	clock_t     result;
+	t_stl_types type;
+} t_unit_subtests;
+#else
 typedef struct s_unit_subtests {
 	const char* func_name;
 	const char* subtest_name;
@@ -51,6 +60,7 @@ typedef struct s_unit_subtests {
 	t_test_status result;
 	t_stl_types   type;
 } t_unit_subtests;
+#endif
 
 class UnitTester
 {
@@ -58,10 +68,14 @@ class UnitTester
 	static std::list<t_unit_subtests> _func_subtest_table;
 	static const char*                _current_func_name;
 	static t_stl_types                _current_func_type;
-	static const int                  k_subtest_block_width = 20;
+	static const int                  k_max_subfunc_name = 20;
 	Log                               _log;
 	int                               _cnt_success;
 	int                               _cnt_total;
+
+	/* benchmark */
+	static const int k_max_times_allowed = 20;
+	static const int k_table_width       = 58;
 
   public:
 	UnitTester();
@@ -73,13 +87,24 @@ class UnitTester
 	static void assert_(bool evaluate);
 	static void assert_diff_(bool evaluate);
 
+	/* benchmark */
+	int run_bench_tests();
+
   private:
-	void _load_test(t_unit_tests* func_test_table, const std::vector<std::string>& lst);
-	void _sandbox(t_unit_subtests& current_test);
-	void _display_result(t_unit_subtests& current_test);
-	void _display_total();
-	void _print_subheader(const std::string& header);
-	void _set_test_result(t_unit_subtests& current_test, int wstatus);
+	void        _load_test(t_unit_tests* func_test_table, const std::vector<std::string>& lst);
+	void        _sandbox(t_unit_subtests& current_test);
+	void        _display_result(t_unit_subtests& current_test);
+	void        _display_total();
+	void        _print_subheader(const std::string& header);
+	void        _set_test_result(t_unit_subtests& current_test, int wstatus);
+	std::string _stl_type_to_string(t_stl_types type);
+
+	/* benchmark */
+	void _bench_sandbox(t_unit_subtests& current_test);
+	void _display_bench_result(t_unit_subtests& current_test);
+	void _display_percentage(float std, float ft);
+	void _display_funcname(std::string func_name, std::string type_stirng);
+	void _print_bench_subheader(const std::string& type_string);
 
 	UnitTester(UnitTester const& other);
 	UnitTester& operator=(UnitTester const& other);
