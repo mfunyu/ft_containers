@@ -52,9 +52,7 @@ SRCS	:= main.cpp \
 		MapTest.cpp \
 		MapTest_Bench.cpp \
 		StackTest.cpp \
-		StackTest_Basic.cpp \
-		StackTest_Else.cpp \
-		StackTest_NonMemberFunctions.cpp \
+		StackTest_Bench.cpp \
 		SetTest.cpp \
 		SetTest_Basic.cpp \
 		SetTest_Iterators.cpp \

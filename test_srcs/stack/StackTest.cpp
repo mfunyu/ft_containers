@@ -10,6 +10,15 @@ namespace StackTest {
 
 #define FAIL TEST_FAILED
 
+#ifdef BENCH
+t_unit_tests func_test_table[] = {
+	{"stack_assignment_operator", bench_stack_assignment_operator, FAIL, STACK},
+	{	           "stack_push",                bench_stack_push, FAIL, STACK},
+    {                "stack_pop",                 bench_stack_pop, FAIL, STACK},
+ // ------------------- Terminater (Do not comment out) ------------------ //
+	{	                   "\0",	                        NULL, FAIL, STACK}
+};
+#else
 t_unit_tests func_test_table[] = {
 	{	    "stack_constructor",         stack_constructor, FAIL, STACK},
 	{	     "stack_destructor",          stack_destructor, FAIL, STACK},
@@ -32,6 +41,7 @@ t_unit_tests func_test_table[] = {
  // ------------------- Terminater (Do not comment out) ------------------ //
 	{	                   "\0",	                  NULL, FAIL, STACK}
 };
+#endif
 
 void _set_int_array(int* array, int size, bool accend)
 {

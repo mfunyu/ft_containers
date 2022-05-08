@@ -39,6 +39,11 @@ void stack_operator_le();
 void stack_operator_g();
 void stack_operator_ge();
 
+/* Benchmark */
+void bench_stack_assignment_operator();
+void bench_stack_push();
+void bench_stack_pop();
+
 extern t_unit_tests func_test_table[TABLE_SIZE];
 
 void                   _set_int_array(int* array, int size = 12, bool accend = false);
