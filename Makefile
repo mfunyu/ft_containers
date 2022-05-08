@@ -46,7 +46,7 @@ SRCS	:= main.cpp \
 # ---------------------------------------------------------------------------- #
 # make std
 ifdef STD
-CXXFLAGS += -DTEST
+CXXFLAGS += -DSTD
 NAME	:= std_test
 endif
 

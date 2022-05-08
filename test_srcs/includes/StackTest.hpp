@@ -4,7 +4,7 @@
 #include "UnitTester.hpp"
 #include <iostream>
 
-#if TEST
+#if STD
 #include <stack>
 namespace ft = std;
 #else

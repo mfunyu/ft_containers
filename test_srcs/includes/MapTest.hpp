@@ -5,7 +5,7 @@
 #include <iostream>
 #include <map>
 
-#if TEST
+#if STD
 namespace ft = std;
 #else
 #include "map.hpp"
