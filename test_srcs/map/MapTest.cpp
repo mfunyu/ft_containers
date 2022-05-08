@@ -10,8 +10,9 @@ t_unit_tests func_test_table[] = {
 	{"map_assignment_operator", bench_map_assignment_operator, FAIL, MAP},
 	{ "map_subscript_operator",  bench_map_subscript_operator, FAIL, MAP},
 	{	         "map_insert",              bench_map_insert, FAIL, MAP},
-    {              "map_erase",               bench_map_erase, FAIL, MAP},
-	{	           "map_find",                bench_map_find, FAIL, MAP},
+	{	    "map_insert_hint",         bench_map_insert_hint, FAIL, MAP},
+	{	          "map_erase",               bench_map_erase, FAIL, MAP},
+    {               "map_find",                bench_map_find, FAIL, MAP},
 	{	    "map_equal_range",         bench_map_equal_range, FAIL, MAP},
  // ------------------- Terminater (Do not comment out) ------------------ //
 	{	                 "\0",	                      NULL, FAIL, MAP}

@@ -67,6 +67,7 @@ void bench_map_copy_constructor();
 void bench_map_assignment_operator();
 void bench_map_subscript_operator();
 void bench_map_insert();
+void bench_map_insert_hint();
 void bench_map_erase();
 void bench_map_find();
 void bench_map_equal_range();

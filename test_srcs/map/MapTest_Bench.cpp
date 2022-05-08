@@ -102,6 +102,65 @@ void bench_map_insert()
 }
 
 /* -------------------------------------------------------------------------- */
+/*                         benchmark insert with hint                         */
+/* -------------------------------------------------------------------------- */
+void _bench_map_insert_hint_next_ft()
+{
+	ft::map<int, int>           ft;
+	ft::map<int, int>::iterator hint  = ft.begin();
+	size_t                      count = 10000;
+
+	for (int i = count; i > 0; --i) {
+		hint = ft.insert(hint, ft::make_pair(i, i));
+	}
+}
+
+void _bench_map_insert_hint_next_std()
+{
+	std::map<int, int>           std;
+	std::map<int, int>::iterator hint  = std.begin();
+	size_t                       count = 10000;
+
+	for (int i = count; i > 0; --i) {
+		hint = std.insert(hint, std::make_pair(i, i));
+	}
+}
+
+void _bench_map_insert_hint_prev_ft()
+{
+	ft::map<int, int>           ft;
+	ft::map<int, int>::iterator hint  = ft.begin();
+	size_t                      count = 10000;
+
+	for (int i = 0; i < count; ++i) {
+		hint = ft.insert(hint, ft::make_pair(i, i));
+	}
+}
+
+void _bench_map_insert_hint_prev_std()
+{
+	std::map<int, int>           std;
+	std::map<int, int>::iterator hint  = std.begin();
+	size_t                       count = 10000;
+
+	for (int i = 0; i < count; ++i) {
+		hint = std.insert(hint, std::make_pair(i, i));
+	}
+}
+
+void bench_map_insert_hint()
+{
+	/*
+	// c++11 faster (insertion just prior to the hint)
+	load_subtest_(_bench_map_insert_hint_next_std);
+	load_subtest_(_bench_map_insert_hint_next_ft);
+	*/
+	// c++98 faster (insertion just after the hint)
+	load_subtest_(_bench_map_insert_hint_prev_std);
+	load_subtest_(_bench_map_insert_hint_prev_ft);
+}
+
+/* -------------------------------------------------------------------------- */
 /*                               benchmark erase                              */
 /* -------------------------------------------------------------------------- */
 void _bench_map_erase_ft()
