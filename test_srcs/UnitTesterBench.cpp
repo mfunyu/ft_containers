@@ -128,6 +128,7 @@ int UnitTester::run_bench_tests(void)
 		_display_bench_result(*current);
 		_cnt_total += 1;
 	}
+	_cnt_total /= 2;
 	_display_total();
 	if (_cnt_success == _cnt_total)
 		return (0);
