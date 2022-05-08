@@ -70,7 +70,7 @@ void _display_funcname(std::string func_name, std::string type_stirng)
 {
 	func_name = func_name.substr((type_stirng + '_').length());
 
-	int width = 20 - func_name.length();
+	int width = 22 - func_name.length();
 	std::cout << ":";
 	std::cout << std::setw(width / 2) << " " << func_name << std::setw(width / 2 + (width % 2))
 	          << " ";
@@ -79,14 +79,14 @@ void _display_funcname(std::string func_name, std::string type_stirng)
 
 void _print_bench_subheader(const std::string& type_string)
 {
-	int width = 57;
-	std::cout << std::setfill('=') << std::setw(width) << " " << std::setfill(' ');
+	int width = 58;
+	std::cout << std::setfill('=') << std::setw(width) << "=" << std::setfill(' ');
 	std::cout << std::endl;
 	_display_time("std");
 	_display_funcname(type_string + "_" + type_string, type_string);
 	_display_time("ft");
 	std::cout << std::endl;
-	std::cout << std::setfill('-') << std::setw(width) << " " << std::setfill(' ');
+	std::cout << std::setfill('-') << std::setw(width) << "-" << std::setfill(' ');
 }
 
 void UnitTester::_display_bench_result(t_unit_subtests& current_test)
