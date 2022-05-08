@@ -7,7 +7,7 @@ PATH_TO_YOUR_CONTAINER := ./includes/
 NAME	:= run_test
 CXX		:= clang++
 INCLUDES:= -Itest_srcs/includes -I$(PATH_TO_YOUR_CONTAINER)
-CXXFLAGS:= -std=c++98 -pedantic-errors $(INCLUDES) -MMD -MP
+CXXFLAGS:= -Wall -Wextra -Werror -std=c++98 -pedantic-errors $(INCLUDES) -MMD -MP
 
 # ---------------------------------------------------------------------------- #
 # make

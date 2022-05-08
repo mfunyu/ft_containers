@@ -62,9 +62,8 @@ void _set_insert_return_value()
 	ft::pair<ft::set<int>::iterator, bool> ret;
 	ft::set<int>::iterator                 it;
 
-	int key   = 24;
-	int value = 42;
-	ret       = ft.insert(key);
+	int key = 24;
+	ret     = ft.insert(key);
 
 	UnitTester::assert_(*(ret.first) == key);
 	UnitTester::assert_(ret.second == true);
@@ -210,7 +209,7 @@ void _set_swap_basic()
 	ft::set<int> ft_b   = _set_set(size_b, true); // accend
 
 	ft_a.swap(ft_b);
-	size_t i = 0;
+	int i = 0;
 	for (ft::set<int>::iterator it = ft_a.begin(); it != ft_a.end(); ++it, ++i) {
 		UnitTester::assert_(*it == i);
 	}
