@@ -46,14 +46,14 @@ SRCS	:= main.cpp \
 # ---------------------------------------------------------------------------- #
 # make std
 ifdef STD
-CXXFLAGS += -DSTD
+DEFINES	:= -DSTD
 NAME	:= std_test
 endif
 
 # ---------------------------------------------------------------------------- #
 # make bench
 ifdef BENCH
-CXXFLAGS += -DBENCH
+DEFINES	:= -DBENCH
 NAME	:= bench_test
 SRCS	:= main.cpp \
 		Log.cpp \
@@ -70,6 +70,7 @@ SRCS	:= main.cpp \
 endif
 
 # ---------------------------------------------------------------------------- #
+CXXFLAGS += $(DEFINES)
 OBJS_DIR:= objs/
 OBJS	:= $(addprefix $(OBJS_DIR), $(SRCS:.cpp=.o))
 SRCS_DIR:= test_srcs
