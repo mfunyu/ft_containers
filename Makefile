@@ -54,13 +54,7 @@ SRCS	:= main.cpp \
 		StackTest.cpp \
 		StackTest_Bench.cpp \
 		SetTest.cpp \
-		SetTest_Basic.cpp \
-		SetTest_Iterators.cpp \
-		SetTest_Capacity.cpp \
-		SetTest_Lookup.cpp \
-		SetTest_Observers.cpp \
-		SetTest_NonMemberFunctions.cpp \
-		SetTest_Modifiers.cpp
+		SetTest_Bench.cpp
 endif
 
 

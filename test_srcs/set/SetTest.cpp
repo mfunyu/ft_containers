@@ -4,6 +4,17 @@ namespace SetTest {
 
 #define FAIL TEST_FAILED
 
+#ifdef BENCH
+t_unit_tests func_test_table[] = {
+	{"set_subscript_operator", bench_set_subscript_operator, FAIL, MAP},
+	{	        "set_insert",             bench_set_insert, FAIL, MAP},
+    {             "set_erase",              bench_set_erase, FAIL, MAP},
+	{	          "set_find",               bench_set_find, FAIL, MAP},
+	{	   "set_equal_range",        bench_set_equal_range, FAIL, MAP},
+ // ------------------- Terminater (Do not comment out) ------------------ //
+	{	                "\0",	                     NULL, FAIL, MAP}
+};
+#else
 t_unit_tests func_test_table[] = {
 	{	    "set_constructor",         set_constructor, FAIL, SET},
 	{	     "set_destructor",          set_destructor, FAIL, SET},
@@ -43,6 +54,7 @@ t_unit_tests func_test_table[] = {
  // ------------------- Terminater (Do not comment out) ------------------ //
 	{	                 "\0",	                NULL, FAIL, SET}
 };
+#endif
 
 ft::set<int> _set_set(int size, bool accend)
 {
