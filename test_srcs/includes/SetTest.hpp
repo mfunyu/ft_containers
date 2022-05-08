@@ -59,6 +59,8 @@ void set_operator_ge();
 void set_std_swap();
 
 /* Benchmark */
+void bench_set_copy_constructor();
+void bench_set_assignment_operator();
 void bench_set_subscript_operator();
 void bench_set_insert();
 void bench_set_erase();

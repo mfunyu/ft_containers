@@ -3,6 +3,53 @@
 #include <set>
 
 namespace SetTest {
+/* -------------------------------------------------------------------------- */
+/*                         benchmark copy_constructor                         */
+/* -------------------------------------------------------------------------- */
+void _bench_set_copy_constructor_ft()
+{
+	int          size = 10000;
+	ft::set<int> ft   = _set_set(size);
+	ft::set<int> copy(ft);
+}
+
+void _bench_set_copy_constructor_std()
+{
+	int           size = 10000;
+	std::set<int> std  = _set_set_std(size);
+	std::set<int> copy(std);
+}
+
+void bench_set_copy_constructor()
+{
+	load_subtest_(_bench_set_copy_constructor_std);
+	load_subtest_(_bench_set_copy_constructor_ft);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                             benchmark operator=                            */
+/* -------------------------------------------------------------------------- */
+void _bench_set_assignment_operator_ft()
+{
+	int          size = 10000;
+	ft::set<int> ft   = _set_set(size);
+	ft::set<int> copy;
+	copy = ft;
+}
+
+void _bench_set_assignment_operator_std()
+{
+	int           size = 10000;
+	std::set<int> std  = _set_set_std(size);
+	std::set<int> copy;
+	copy = std;
+}
+
+void bench_set_assignment_operator()
+{
+	load_subtest_(_bench_set_assignment_operator_std);
+	load_subtest_(_bench_set_assignment_operator_ft);
+}
 
 /* -------------------------------------------------------------------------- */
 /*                            benchmark operator[]                            */
