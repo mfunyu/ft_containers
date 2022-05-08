@@ -10,48 +10,60 @@ namespace VectorTest {
 
 #define FAIL TEST_FAILED
 
+#ifdef BENCH
 t_unit_tests func_test_table[] = {
-	{        "vector_constructor",         vector_constructor, FAIL, VECTOR},
-	{         "vector_destructor",          vector_destructor, FAIL, VECTOR},
+	{   "vector_insert",    bench_vector_insert, FAIL, VECTOR},
+	{    "vector_erase",     bench_vector_erase, FAIL, VECTOR},
+	{"vector_push_back", bench_vector_push_back, FAIL, VECTOR},
+	{ "vector_pop_back",  bench_vector_pop_back, FAIL, VECTOR},
+ // ------------------- Terminater (Do not comment out) ------------------ //
+	{	          "\0",	               NULL, FAIL, VECTOR}
+};
+
+#else
+t_unit_tests func_test_table[] = {
+	{	    "vector_constructor",         vector_constructor, FAIL, VECTOR},
+	{	     "vector_destructor",          vector_destructor, FAIL, VECTOR},
 	{"vector_assignment_operator", vector_assignment_operator, FAIL, VECTOR},
-	{             "vector_assign",              vector_assign, FAIL, VECTOR},
+	{	         "vector_assign",              vector_assign, FAIL, VECTOR},
 	{	  "vector_get_allocator",       vector_get_allocator, FAIL, VECTOR},
  // --------------------------- Element access --------------------------- //
-	{                 "vector_at",                  vector_at, FAIL, VECTOR},
+	{	             "vector_at",                  vector_at, FAIL, VECTOR},
 	{ "vector_subscript_operator",  vector_subscript_operator, FAIL, VECTOR},
-	{              "vector_front",               vector_front, FAIL, VECTOR},
+	{	          "vector_front",               vector_front, FAIL, VECTOR},
     {               "vector_back",                vector_back, FAIL, VECTOR},
-	{               "vector_data",                vector_data, FAIL, VECTOR},
+	{	           "vector_data",                vector_data, FAIL, VECTOR},
  // ------------------------------ Iterators ----------------------------- //
-	{              "vector_begin",               vector_begin, FAIL, VECTOR},
+	{	          "vector_begin",               vector_begin, FAIL, VECTOR},
     {                "vector_end",                 vector_end, FAIL, VECTOR},
-	{             "vector_rbegin",              vector_rbegin, FAIL, VECTOR},
+	{	         "vector_rbegin",              vector_rbegin, FAIL, VECTOR},
     {               "vector_rend",                vector_rend, FAIL, VECTOR},
  // ------------------------------ Capacity ----------------------------- //
-	{              "vector_empty",               vector_empty, FAIL, VECTOR},
+	{	          "vector_empty",               vector_empty, FAIL, VECTOR},
     {               "vector_size",                vector_size, FAIL, VECTOR},
-	{           "vector_max_size",            vector_max_size, FAIL, VECTOR},
-	{            "vector_reserve",             vector_reserve, FAIL, VECTOR},
-	{           "vector_capacity",            vector_capacity, FAIL, VECTOR},
+	{	       "vector_max_size",            vector_max_size, FAIL, VECTOR},
+	{	        "vector_reserve",             vector_reserve, FAIL, VECTOR},
+	{	       "vector_capacity",            vector_capacity, FAIL, VECTOR},
  // ------------------------------ Modifiers ----------------------------- //
-	{              "vector_clear",               vector_clear, FAIL, VECTOR},
-	{             "vector_insert",              vector_insert, FAIL, VECTOR},
-	{              "vector_erase",               vector_erase, FAIL, VECTOR},
-	{          "vector_push_back",           vector_push_back, FAIL, VECTOR},
-	{           "vector_pop_back",            vector_pop_back, FAIL, VECTOR},
-	{             "vector_resize",              vector_resize, FAIL, VECTOR},
+	{	          "vector_clear",               vector_clear, FAIL, VECTOR},
+	{	         "vector_insert",              vector_insert, FAIL, VECTOR},
+	{	          "vector_erase",               vector_erase, FAIL, VECTOR},
+	{	      "vector_push_back",           vector_push_back, FAIL, VECTOR},
+	{	       "vector_pop_back",            vector_pop_back, FAIL, VECTOR},
+	{	         "vector_resize",              vector_resize, FAIL, VECTOR},
     {               "vector_swap",                vector_swap, FAIL, VECTOR},
  // ------------------------ Non-member functions ------------------------ //
-	{         "vector_operator_e",          vector_operator_e, FAIL, VECTOR},
-	{        "vector_operator_ne",         vector_operator_ne, FAIL, VECTOR},
-	{         "vector_operator_l",          vector_operator_l, FAIL, VECTOR},
-	{        "vector_operator_le",         vector_operator_le, FAIL, VECTOR},
-	{         "vector_operator_g",          vector_operator_g, FAIL, VECTOR},
-	{        "vector_operator_ge",         vector_operator_ge, FAIL, VECTOR},
-	{           "vector_std_swap",            vector_std_swap, FAIL, VECTOR},
+	{	     "vector_operator_e",          vector_operator_e, FAIL, VECTOR},
+	{	    "vector_operator_ne",         vector_operator_ne, FAIL, VECTOR},
+	{	     "vector_operator_l",          vector_operator_l, FAIL, VECTOR},
+	{	    "vector_operator_le",         vector_operator_le, FAIL, VECTOR},
+	{	     "vector_operator_g",          vector_operator_g, FAIL, VECTOR},
+	{	    "vector_operator_ge",         vector_operator_ge, FAIL, VECTOR},
+	{	       "vector_std_swap",            vector_std_swap, FAIL, VECTOR},
  // ------------------- Terminater (Do not comment out) ------------------ //
-	{                        "\0",                       NULL, FAIL, VECTOR}
+	{	                    "\0",	                   NULL, FAIL, VECTOR}
 };
+#endif
 
 void _set_int_array(int* array, int size, bool accend)
 {
@@ -80,6 +92,20 @@ ft::vector<int> _assign_vector(int size, bool accend)
 ft::vector<int> _set_vector(int size, bool accend)
 {
 	ft::vector<int> data;
+
+	for (int i = 0; i < size; ++i) {
+		if (accend) {
+			data.push_back(i);
+		} else {
+			data.push_back(std::rand());
+		}
+	}
+	return data;
+}
+
+std::vector<int> _set_std_vector(int size, bool accend)
+{
+	std::vector<int> data;
 
 	for (int i = 0; i < size; ++i) {
 		if (accend) {
