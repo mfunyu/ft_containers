@@ -63,6 +63,8 @@ void map_operator_ge();
 void map_std_swap();
 
 /* Benchmark */
+void bench_map_copy_constructor();
+void bench_map_assignment_operator();
 void bench_map_subscript_operator();
 void bench_map_insert();
 void bench_map_erase();

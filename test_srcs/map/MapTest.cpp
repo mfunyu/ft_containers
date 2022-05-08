@@ -6,13 +6,15 @@ namespace MapTest {
 
 #ifdef BENCH
 t_unit_tests func_test_table[] = {
-	{"map_subscript_operator", bench_map_subscript_operator, FAIL, MAP},
-	{	        "map_insert",             bench_map_insert, FAIL, MAP},
-    {             "map_erase",              bench_map_erase, FAIL, MAP},
-	{	          "map_find",               bench_map_find, FAIL, MAP},
-	{	   "map_equal_range",        bench_map_equal_range, FAIL, MAP},
+	{   "map_copy_constructor",    bench_map_copy_constructor, FAIL, MAP},
+	{"map_assignment_operator", bench_map_assignment_operator, FAIL, MAP},
+	{ "map_subscript_operator",  bench_map_subscript_operator, FAIL, MAP},
+	{	         "map_insert",              bench_map_insert, FAIL, MAP},
+    {              "map_erase",               bench_map_erase, FAIL, MAP},
+	{	           "map_find",                bench_map_find, FAIL, MAP},
+	{	    "map_equal_range",         bench_map_equal_range, FAIL, MAP},
  // ------------------- Terminater (Do not comment out) ------------------ //
-	{	                "\0",	                     NULL, FAIL, MAP}
+	{	                 "\0",	                      NULL, FAIL, MAP}
 };
 #else
 t_unit_tests func_test_table[] = {

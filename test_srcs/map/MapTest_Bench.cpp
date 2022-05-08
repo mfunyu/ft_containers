@@ -3,6 +3,53 @@
 #include <map>
 
 namespace MapTest {
+/* -------------------------------------------------------------------------- */
+/*                         benchmark copy_constructor                         */
+/* -------------------------------------------------------------------------- */
+void _bench_map_copy_constructor_ft()
+{
+	int               size = 10000;
+	ft::map<int, int> ft   = _set_map(size);
+	ft::map<int, int> copy(ft);
+}
+
+void _bench_map_copy_constructor_std()
+{
+	int                size = 10000;
+	std::map<int, int> std  = _set_map_std(size);
+	std::map<int, int> copy(std);
+}
+
+void bench_map_copy_constructor()
+{
+	load_subtest_(_bench_map_copy_constructor_std);
+	load_subtest_(_bench_map_copy_constructor_ft);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                             benchmark operator=                            */
+/* -------------------------------------------------------------------------- */
+void _bench_map_assignment_operator_ft()
+{
+	int               size = 10000;
+	ft::map<int, int> ft   = _set_map(size);
+	ft::map<int, int> copy;
+	copy = ft;
+}
+
+void _bench_map_assignment_operator_std()
+{
+	int                size = 10000;
+	std::map<int, int> std  = _set_map_std(size);
+	std::map<int, int> copy;
+	copy = std;
+}
+
+void bench_map_assignment_operator()
+{
+	load_subtest_(_bench_map_assignment_operator_std);
+	load_subtest_(_bench_map_assignment_operator_ft);
+}
 
 /* -------------------------------------------------------------------------- */
 /*                            benchmark operator[]                            */
