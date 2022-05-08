@@ -40,6 +40,7 @@ void stack_operator_g();
 void stack_operator_ge();
 
 /* Benchmark */
+void bench_stack_copy_constructor();
 void bench_stack_assignment_operator();
 void bench_stack_push();
 void bench_stack_pop();

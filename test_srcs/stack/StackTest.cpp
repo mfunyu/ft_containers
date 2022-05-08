@@ -12,6 +12,7 @@ namespace StackTest {
 
 #ifdef BENCH
 t_unit_tests func_test_table[] = {
+	{   "stack_copy_constructor",    bench_stack_copy_constructor, FAIL, STACK},
 	{"stack_assignment_operator", bench_stack_assignment_operator, FAIL, STACK},
 	{	           "stack_push",                bench_stack_push, FAIL, STACK},
     {                "stack_pop",                 bench_stack_pop, FAIL, STACK},

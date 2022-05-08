@@ -5,6 +5,29 @@
 namespace StackTest {
 
 /* -------------------------------------------------------------------------- */
+/*                         benchmark copy_constructor                         */
+/* -------------------------------------------------------------------------- */
+void _bench_stack_copy_constructor_ft()
+{
+	int            size = 10000;
+	ft::stack<int> ft   = _set_stack(size);
+	ft::stack<int> copy(ft);
+}
+
+void _bench_stack_copy_constructor_std()
+{
+	int             size = 10000;
+	std::stack<int> std  = _set_stack_std(size);
+	std::stack<int> copy(std);
+}
+
+void bench_stack_copy_constructor()
+{
+	load_subtest_(_bench_stack_copy_constructor_std);
+	load_subtest_(_bench_stack_copy_constructor_ft);
+}
+
+/* -------------------------------------------------------------------------- */
 /*                             benchmark operator=                            */
 /* -------------------------------------------------------------------------- */
 void _bench_stack_assignment_operator_ft()
