@@ -68,10 +68,14 @@ class UnitTester
 	static std::list<t_unit_subtests> _func_subtest_table;
 	static const char*                _current_func_name;
 	static t_stl_types                _current_func_type;
-	static const int                  k_subtest_block_width = 20;
+	static const int                  k_max_subfunc_name = 20;
 	Log                               _log;
 	int                               _cnt_success;
 	int                               _cnt_total;
+
+	/* benchmark */
+	static const int k_max_times_allowed = 20;
+	static const int k_table_width       = 58;
 
   public:
 	UnitTester();
@@ -99,6 +103,8 @@ class UnitTester
 	void _bench_sandbox(t_unit_subtests& current_test);
 	void _display_bench_result(t_unit_subtests& current_test);
 	void _display_percentage(float std, float ft);
+	void _display_funcname(std::string func_name, std::string type_stirng);
+	void _print_bench_subheader(const std::string& type_string);
 
 	UnitTester(UnitTester const& other);
 	UnitTester& operator=(UnitTester const& other);

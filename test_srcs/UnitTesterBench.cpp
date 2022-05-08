@@ -51,7 +51,7 @@ void UnitTester::_display_percentage(float std, float ft)
 	times        = floor(times) / 100;
 
 	std::cout << " | (x " << std::left << std::setw(4) << times << ") ";
-	if (times < 20) {
+	if (times < k_max_times_allowed) {
 		std::cout << COLOR_SUCCESS "[OK] " COLOR_CLEAR;
 		_cnt_success += 1;
 	} else {
@@ -59,27 +59,28 @@ void UnitTester::_display_percentage(float std, float ft)
 	}
 }
 
-void _display_funcname(std::string func_name, std::string type_stirng)
+void UnitTester::_display_funcname(std::string func_name, std::string type_stirng)
 {
 	func_name = func_name.substr((type_stirng + '_').length());
 
-	int width = 22 - func_name.length();
+	int width = k_max_subfunc_name + 2 - func_name.length();
 	std::cout << ":";
 	std::cout << std::setw(width / 2) << " " << func_name << std::setw(width / 2 + (width % 2))
 	          << " ";
 	std::cout << ":";
 }
 
-void _print_bench_subheader(const std::string& type_string)
+void UnitTester::_print_bench_subheader(const std::string& type_string)
 {
-	int width = 58;
-	std::cout << std::setfill('=') << std::setw(width) << "=" << std::setfill(' ');
+	std::cout << std::setfill('=') << std::setw(k_table_width) << "=" << std::setfill(' ');
 	std::cout << std::endl;
+
 	_display_time("std");
 	_display_funcname(type_string + "_" + type_string, type_string);
 	_display_time("ft");
+
 	std::cout << std::endl;
-	std::cout << std::setfill('-') << std::setw(width) << "-" << std::setfill(' ');
+	std::cout << std::setfill('-') << std::setw(k_table_width) << "-" << std::setfill(' ');
 }
 
 void UnitTester::_display_bench_result(t_unit_subtests& current_test)

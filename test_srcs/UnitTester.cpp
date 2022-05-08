@@ -182,7 +182,7 @@ void UnitTester::_display_result(t_unit_subtests& current_test)
 		std::cout << std::endl;
 
 		std::string func_name(current_test.func_name);
-		std::cout << std::left << std::setw(k_subtest_block_width)
+		std::cout << std::left << std::setw(k_max_subfunc_name)
 		          << func_name.substr((type_stirng + '_').length()) << ": ";
 		prev_func_name = current_test.func_name;
 	}
