@@ -1,13 +1,16 @@
+# ---------------------------------------------------------------------------- #
+# set path to your ft_container
+
+PATH_TO_YOUR_CONTAINER := ./includes/
+
+# ---------------------------------------------------------------------------- #
 NAME	:= run_test
 CXX		:= clang++
-INCLUDES:= -Iincludes/ -Itest_srcs/includes
+INCLUDES:= -Itest_srcs/includes -I$(PATH_TO_YOUR_CONTAINER)
 CXXFLAGS:= -std=c++98 -pedantic-errors $(INCLUDES) -MMD -MP
 
-ifdef STD
-CXXFLAGS += -DTEST
-NAME	:= std_test
-endif
-
+# ---------------------------------------------------------------------------- #
+# make
 SRCS	:= main.cpp \
 		Log.cpp \
 		UnitTester.cpp \
@@ -40,6 +43,15 @@ SRCS	:= main.cpp \
 		SetTest_NonMemberFunctions.cpp \
 		SetTest_Modifiers.cpp \
 
+# ---------------------------------------------------------------------------- #
+# make std
+ifdef STD
+CXXFLAGS += -DTEST
+NAME	:= std_test
+endif
+
+# ---------------------------------------------------------------------------- #
+# make bench
 ifdef BENCH
 CXXFLAGS += -DBENCH
 NAME	:= bench_test
@@ -57,7 +69,7 @@ SRCS	:= main.cpp \
 		SetTest_Bench.cpp
 endif
 
-
+# ---------------------------------------------------------------------------- #
 OBJS_DIR:= objs/
 OBJS	:= $(addprefix $(OBJS_DIR), $(SRCS:.cpp=.o))
 SRCS_DIR:= test_srcs
@@ -68,9 +80,12 @@ VPATH	:= $(SRCS_DIR) \
 	$(SRCS_DIR)/set \
 DEPS	:= $(OBJS:.o=.d)
 
+# ---------------------------------------------------------------------------- #
+# basic rules
+
 .PHONY	: all clean fclean re test
 
-all	: $(NAME)
+all	: $(NAME)  ## Compile test with ft
 
 -include $(DEPS)
 
@@ -85,24 +100,26 @@ $(OBJS_DIR)%.o: %.cpp
 $(OBJS_DIR):
 	@-mkdir $@
 
-clean	:
+clean	:  ## Remove obj directory
 	$(RM) -R $(OBJS_DIR)
 
-fclean	: clean
+fclean	: clean ## Remove executable
 	$(RM) $(NAME)
 
 re	: fclean all
 
-std	:
+# ---------------------------------------------------------------------------- #
+# advanced rules
+
+ft	: re  ## Recompile test with ft
+
+std	: ## Recompile test with std
 	make re STD=1
 	
-std1	:
+std+	: ## Compile test with std
 	make STD=1
 
-
-ft: re
-
-test	:
+test	: ## Compile main.c wtih both ft and std
 	@$(CXX) $(CXXFLAGS) -o 42main.o -c 42main.cpp -D STD=1
 	@$(CXX) $(CXXFLAGS) -o std_$@ 42main.o
 	@echo executable: std_$@
@@ -110,5 +127,9 @@ test	:
 	@$(CXX) $(CXXFLAGS) -o ft_$@ 42main.o
 	@echo executable: ft_$@	
 	
-bench	:
+bench	: ## Compile benchmark test
 	make BENCH=1
+
+help	: ## Display this help screen
+	@grep -E '^[a-zA-Z_-]+.*:.*?## .*$$' Makefile \
+	| awk 'BEGIN {FS = "\t:.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
