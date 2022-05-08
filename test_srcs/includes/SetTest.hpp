@@ -5,7 +5,7 @@
 #include <iostream>
 #include <set>
 
-#if TEST
+#if STD
 namespace ft = std;
 #else
 #include "set.hpp"
