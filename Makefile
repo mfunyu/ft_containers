@@ -11,37 +11,47 @@ CXXFLAGS:= -Wall -Wextra -Werror -std=c++98 -pedantic-errors $(INCLUDES) -MMD -M
 
 # ---------------------------------------------------------------------------- #
 # make
-SRCS	:= main.cpp \
+SRCS_	:= main.cpp \
 		Log.cpp \
-		UnitTester.cpp \
-		VectorTest.cpp \
-		VectorTest_Basic.cpp \
-		VectorTest_ElementAccess.cpp \
-		VectorTest_Iterators.cpp \
-		VectorTest_Capacity.cpp \
-		VectorTest_NonMemberFunctions.cpp \
-		VectorTest_Modifiers.cpp \
-		MapTest.cpp \
-		MapTest_Basic.cpp \
-		MapTest_ElementAccess.cpp \
-		MapTest_Iterators.cpp \
-		MapTest_Capacity.cpp \
-		MapTest_Lookup.cpp \
-		MapTest_Observers.cpp \
-		MapTest_NonMemberFunctions.cpp \
-		MapTest_Modifiers.cpp \
-		StackTest.cpp \
-		StackTest_Basic.cpp \
-		StackTest_Else.cpp \
-		StackTest_NonMemberFunctions.cpp \
-		SetTest.cpp \
-		SetTest_Basic.cpp \
-		SetTest_Iterators.cpp \
-		SetTest_Capacity.cpp \
-		SetTest_Lookup.cpp \
-		SetTest_Observers.cpp \
-		SetTest_NonMemberFunctions.cpp \
-		SetTest_Modifiers.cpp \
+		UnitTester.cpp
+
+SRCS_VECTOR	:= VectorTest.cpp \
+			VectorTest_Basic.cpp \
+			VectorTest_ElementAccess.cpp \
+			VectorTest_Iterators.cpp \
+			VectorTest_Capacity.cpp \
+			VectorTest_NonMemberFunctions.cpp \
+			VectorTest_Modifiers.cpp
+
+SRCS_MAP	:= MapTest.cpp \
+			MapTest_Basic.cpp \
+			MapTest_ElementAccess.cpp \
+			MapTest_Iterators.cpp \
+			MapTest_Capacity.cpp \
+			MapTest_Lookup.cpp \
+			MapTest_Observers.cpp \
+			MapTest_NonMemberFunctions.cpp \
+			MapTest_Modifiers.cpp
+
+SRCS_STACK	:= StackTest.cpp \
+			StackTest_Basic.cpp \
+			StackTest_Else.cpp \
+			StackTest_NonMemberFunctions.cpp
+
+SRCS_SET	:= SetTest.cpp \
+			SetTest_Basic.cpp \
+			SetTest_Iterators.cpp \
+			SetTest_Capacity.cpp \
+			SetTest_Lookup.cpp \
+			SetTest_Observers.cpp \
+			SetTest_NonMemberFunctions.cpp \
+			SetTest_Modifiers.cpp
+
+SRCS	:= $(SRCS_) \
+			$(SRCS_VECTOR) \
+			$(SRCS_MAP) \
+			$(SRCS_STACK) \
+			$(SRCS_SET)
 
 # ---------------------------------------------------------------------------- #
 # make std
@@ -55,9 +65,7 @@ endif
 ifdef BENCH
 DEFINES	:= -DBENCH
 NAME	:= bench_test
-SRCS	:= main.cpp \
-		Log.cpp \
-		UnitTester.cpp \
+SRCS	:= $(SRCS_) \
 		UnitTesterBench.cpp \
 		VectorTest.cpp \
 		VectorTest_Bench.cpp \
