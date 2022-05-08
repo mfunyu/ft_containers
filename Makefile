@@ -62,6 +62,32 @@ NAME	:= std_test
 endif
 
 # ---------------------------------------------------------------------------- #
+# make single-container
+ifdef VECTOR
+DEFINES	:= -D_VECTOR
+SRCS	:= $(SRCS_) $(SRCS_VECTOR)
+NAME	:= vector_test
+endif
+
+ifdef MAP
+DEFINES	:= -D_MAP
+SRCS	:= $(SRCS_) $(SRCS_MAP)
+NAME	:= map_test
+endif
+
+ifdef STACK
+DEFINES	:= -D_STACK
+SRCS	:= $(SRCS_) $(SRCS_STACK)
+NAME	:= stack_test
+endif
+
+ifdef SET 
+DEFINES	:= -D_SET
+SRCS	:= $(SRCS_) $(SRCS_SET)
+NAME	:= set_test
+endif
+
+# ---------------------------------------------------------------------------- #
 # make bench
 ifdef BENCH
 DEFINES	:= -DBENCH
@@ -93,7 +119,7 @@ DEPS	:= $(OBJS:.o=.d)
 # ---------------------------------------------------------------------------- #
 # basic rules
 
-.PHONY	: all clean fclean re test
+.PHONY	: all clean fclean re test ft std vector map stack set
 
 all	: $(NAME)  ## Compile test with ft
 
@@ -114,9 +140,24 @@ clean	:  ## Remove obj directory
 	$(RM) -R $(OBJS_DIR)
 
 fclean	: clean ## Remove executable
-	$(RM) $(NAME)
+	$(RM) $(NAME) std_test vector_test map_test stack_test set_test
 
 re	: fclean all
+
+# ---------------------------------------------------------------------------- #
+# separate compilation
+
+vector :
+	make VECTOR=1
+
+map :
+	make MAP=1
+	
+stack :
+	make STACK=1
+
+set :
+	make SET=1
 
 # ---------------------------------------------------------------------------- #
 # advanced rules
