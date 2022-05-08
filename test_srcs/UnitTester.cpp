@@ -1,12 +1,14 @@
-#include "UnitTester.hpp"
-#include "MapTest.hpp"
-#include "SetTest.hpp"
-#include "StackTest.hpp"
-#include "VectorTest.hpp"
+#include "TestSelecter.hpp"
 #include <iostream>
 #include <signal.h>
 #include <unistd.h>
 #include <vector>
+
+namespace Suppresser {
+t_unit_tests func_test_table[] = {
+	{"\0", NULL, TEST_FAILED, VECTOR}
+};
+}
 
 std::list<t_unit_subtests> UnitTester::_func_subtest_table;
 const char*                UnitTester::_current_func_name;
