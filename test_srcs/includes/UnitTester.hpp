@@ -74,12 +74,14 @@ class UnitTester
 	static void assert_diff_(bool evaluate);
 
   private:
-	void _load_test(t_unit_tests* func_test_table, const std::vector<std::string>& lst);
-	void _sandbox(t_unit_subtests& current_test);
-	void _display_result(t_unit_subtests& current_test);
-	void _display_total();
-	void _print_subheader(const std::string& header);
-	void _set_test_result(t_unit_subtests& current_test, int wstatus);
+	void        _load_test(t_unit_tests* func_test_table, const std::vector<std::string>& lst);
+	void        _sandbox(t_unit_subtests& current_test);
+	void        _display_result(t_unit_subtests& current_test);
+	void        _display_total();
+	void        _print_subheader(const std::string& header);
+	void        _set_test_result(t_unit_subtests& current_test, int wstatus);
+	std::string _stl_type_to_string(t_stl_types type);
+
 
 	UnitTester(UnitTester const& other);
 	UnitTester& operator=(UnitTester const& other);

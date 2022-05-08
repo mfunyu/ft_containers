@@ -137,7 +137,7 @@ void UnitTester::_sandbox(t_unit_subtests& current_test)
 	}
 }
 
-std::string _stl_type_to_string(t_stl_types type)
+std::string UnitTester::_stl_type_to_string(t_stl_types type)
 {
 	switch (type) {
 	case VECTOR:
