@@ -262,8 +262,7 @@ typename vector<T, Allocator>::size_type vector<T, Allocator>::max_size() const
 template <class T, class Allocator>
 void vector<T, Allocator>::clear()
 {
-	vector new_;
-	swap(new_);
+	_destruct_at_end(_begin);
 }
 
 /* -------------------------------------------------------------------------- */
