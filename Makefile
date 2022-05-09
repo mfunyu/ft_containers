@@ -136,10 +136,10 @@ $(OBJS_DIR)%.o: %.cpp
 $(OBJS_DIR):
 	@-mkdir $@
 
-clean	:  ## Remove obj directory
+clean	:  # Remove obj directory
 	$(RM) -R $(OBJS_DIR)
 
-fclean	: clean ## Remove executable
+fclean	: clean # Remove executable
 	$(RM) $(NAME) std_test vector_test map_test stack_test set_test
 
 re	: fclean all
@@ -167,19 +167,19 @@ ft	: re  ## Recompile test with ft
 std	: ## Recompile test with std
 	make re STD=1
 	
-std+	: ## Compile test with std
+std+	: # Compile test with std
 	make STD=1
 
-test	: ## Compile main.c wtih both ft and std
-	@$(CXX) $(CXXFLAGS) -o 42main.o -c 42main.cpp -D STD=1
-	@$(CXX) $(CXXFLAGS) -o std_$@ 42main.o
-	@echo executable: std_$@
-	@$(CXX) $(CXXFLAGS) -o 42main.o -c 42main.cpp
-	@$(CXX) $(CXXFLAGS) -o ft_$@ 42main.o
-	@echo executable: ft_$@	
-	
 bench	: ## Compile benchmark test
 	make BENCH=1
+
+review	: $(OBJS_DIR) ## Compile main.c wtih both ft and std
+	@$(CXX) $(CXXFLAGS) -o objs/42main.o -c 42main.cpp -D STD=1
+	@$(CXX) $(CXXFLAGS) -o std_$@ objs/42main.o
+	@echo executable: std_$@
+	@$(CXX) $(CXXFLAGS) -o objs/42main.o -c 42main.cpp
+	@$(CXX) $(CXXFLAGS) -o ft_$@ objs/42main.o
+	@echo executable: ft_$@
 
 help	: ## Display this help screen
 	@grep -E '^[a-zA-Z_-]+.*:.*?## .*$$' Makefile \
