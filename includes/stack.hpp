@@ -15,8 +15,10 @@ class stack
 	typedef typename Container::reference       reference;
 	typedef typename Container::const_reference const_reference;
 
+  protected:
 	Container c;
 
+  public:
 	explicit stack(const Container& cont = Container()) : c(cont) {}
 	stack(const stack& other) : c(other.c) {}
 	~stack() {}

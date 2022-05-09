@@ -1,5 +1,14 @@
 #include "UnitTester.hpp"
 
+#ifdef BENCH
+void end(void)__attribute__((destructor));
+
+void end(void)
+{
+    system("leaks -q bench");
+}
+#endif
+
 int main(int ac, char** av)
 {
 	int        status;

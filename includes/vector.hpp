@@ -86,14 +86,14 @@ class vector
 	reverse_iterator       rend() { return reverse_iterator(begin()); }
 	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 	// ------------------------------ Capacity ------------------------------ //
-	bool      empty() const { return (size() == 0); }
+	bool      empty() const { return _begin == _end; }
 	size_type size() const { return static_cast<size_type>(_end - _begin); }
 	// max_size
 	size_type max_size() const;
 	void      reserve(size_type new_cap);
 	size_type capacity() const { return static_cast<size_type>(_end_cap - _begin); }
 	/* ------------------------------ Modifiers ----------------------------- */
-	void clear() { _destruct_at_end(_begin); }
+	void clear();
 	// insert
 	iterator insert(iterator pos, const T& value);
 	void     insert(iterator pos, size_type count, const T& value);
@@ -163,9 +163,7 @@ template <class T, class Allocator>
 vector<T, Allocator>& vector<T, Allocator>::operator=(const vector<T, Allocator>& other)
 {
 	if (this != &other) {
-		_vallocate(other.capacity());
-		_construct_at_end(other.size());
-		std::copy(other._begin, other._end, _begin);
+		assign(other._begin, other._end);
 	}
 	return *this;
 }
@@ -176,14 +174,9 @@ vector<T, Allocator>& vector<T, Allocator>::operator=(const vector<T, Allocator>
 template <class T, class Allocator>
 void vector<T, Allocator>::assign(size_type count, const T& value)
 {
-	pointer current;
-
 	if (capacity() < count)
 		reserve(count);
-	current = _begin;
-	for (size_type i = 0; i < count; ++i, ++current) {
-		*current = value;
-	}
+	std::fill_n(_begin, count, value);
 	_end = _begin + count;
 }
 
@@ -193,14 +186,10 @@ void vector<T, Allocator>::assign(
     InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value>::type*)
 {
 	size_type count = std::distance(first, last);
-	pointer   current;
 
 	if (capacity() < count)
 		reserve(count);
-	current = _begin;
-	for (InputIt it = first; it != last; ++it, ++current) {
-		*current = *it;
-	}
+	std::copy(first, last, _begin);
 	_end = _begin + count;
 }
 
@@ -231,15 +220,16 @@ void vector<T, Allocator>::reserve(size_type new_cap)
 {
 	if (new_cap <= size())
 		return;
-	if (capacity() > new_cap)
+	size_type cap = capacity();
+	if (cap > new_cap)
 		return;
-	if (capacity() * 2 > new_cap)
-		new_cap = capacity() * 2;
+	if (cap * 2 > new_cap)
+		new_cap = cap * 2;
 	size_type _size     = size();
 	pointer   new_begin = _alloc.allocate(new_cap);
 	std::uninitialized_copy(_begin, _end, new_begin);
 	_destruct_at_end(_begin);
-	_alloc.deallocate(_begin, _size);
+	_alloc.deallocate(_begin, cap);
 
 	_begin   = new_begin;
 	_end     = _begin + _size;
@@ -253,6 +243,15 @@ template <class T, class Allocator>
 typename vector<T, Allocator>::size_type vector<T, Allocator>::max_size() const
 {
 	return std::min<size_type>(std::numeric_limits<difference_type>::max(), _alloc.max_size());
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    clear                                   */
+/* -------------------------------------------------------------------------- */
+template <class T, class Allocator>
+void vector<T, Allocator>::clear()
+{
+	_destruct_at_end(_begin);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -426,20 +425,13 @@ bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 }
 
 /* -------------------------------------------------------------------------- */
-/*                                  std::swap                                 */
+/*                                  ft::swap                                  */
 /* -------------------------------------------------------------------------- */
 
 template <class T, class Alloc>
-void swap(std::vector<T, Alloc>& lhs, std::vector<T, Alloc>& rhs)
+void swap(ft::vector<T, Alloc>& lhs, ft::vector<T, Alloc>& rhs)
 {
-	std::vector<T, Alloc> save = lhs;
-
-	lhs._begin   = rhs._begin;
-	lhs._end     = rhs._end;
-	lhs._end_cap = rhs._end_cap;
-	rhs._begin   = save._begin;
-	rhs._end     = save._end;
-	rhs._end_cap = save._end_cap;
+	lhs.swap(rhs);
 }
 
 /* -------------------------------------------------------------------------- */

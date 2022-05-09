@@ -78,7 +78,7 @@ void bench_set_subscript_operator()
 void _bench_set_insert_ft()
 {
 	ft::set<int> ft;
-	size_t       count = 10000;
+	int       count = 10000;
 
 	for (int i = 0; i < count; ++i) {
 		ft.insert(i);
@@ -88,7 +88,7 @@ void _bench_set_insert_ft()
 void _bench_set_insert_std()
 {
 	std::set<int> std;
-	size_t        count = 10000;
+	int        count = 10000;
 
 	for (int i = 0; i < count; ++i) {
 		std.insert(i);
