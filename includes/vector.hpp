@@ -163,6 +163,7 @@ template <class T, class Allocator>
 vector<T, Allocator>& vector<T, Allocator>::operator=(const vector<T, Allocator>& other)
 {
 	if (this != &other) {
+		clear();
 		_vallocate(other.capacity());
 		_construct_at_end(other.size());
 		std::copy(other._begin, other._end, _begin);
