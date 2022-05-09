@@ -86,7 +86,7 @@ class vector
 	reverse_iterator       rend() { return reverse_iterator(begin()); }
 	const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 	// ------------------------------ Capacity ------------------------------ //
-	bool      empty() const { return (size() == 0); }
+	bool      empty() const { return _begin == _end; }
 	size_type size() const { return static_cast<size_type>(_end - _begin); }
 	// max_size
 	size_type max_size() const;

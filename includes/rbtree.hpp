@@ -254,7 +254,7 @@ class _rbtree
 	const_iterator end() const { return const_iterator(_end, _nil); }
 
 	// ------------------------------ Capacity ------------------------------ //
-	bool      empty() const { return _root() == _nil; }
+	bool      empty() const { return _size == 0; }
 	size_type size() const { return _size; }
 	size_type max_size() const
 	{
