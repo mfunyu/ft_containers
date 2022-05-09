@@ -381,8 +381,9 @@ _rbtree<T, Key, Comp, Allocator>::_rbtree(_rbtree const& other) :
 	_nil->_left     = _nil;
 	_nil->_right    = _nil;
 
-	_end   = _init_tree_node_(T());
-	_begin = _end;
+	_end            = _init_tree_node_(T());
+	_end->_is_black = true;
+	_begin          = _end;
 	insert(other.begin(), other.end());
 }
 
