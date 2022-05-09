@@ -78,7 +78,7 @@ void bench_map_subscript_operator()
 void _bench_map_insert_ft()
 {
 	ft::map<int, int> ft;
-	size_t            count = 10000;
+	int            count = 10000;
 
 	for (int i = 0; i < count; ++i) {
 		ft.insert(ft::make_pair(i, i));
@@ -88,7 +88,7 @@ void _bench_map_insert_ft()
 void _bench_map_insert_std()
 {
 	std::map<int, int> std;
-	size_t             count = 10000;
+	int             count = 10000;
 
 	for (int i = 0; i < count; ++i) {
 		std.insert(std::make_pair(i, i));
@@ -108,7 +108,7 @@ void _bench_map_insert_hint_next_ft()
 {
 	ft::map<int, int>           ft;
 	ft::map<int, int>::iterator hint  = ft.begin();
-	size_t                      count = 10000;
+	int                      count = 10000;
 
 	for (int i = count; i > 0; --i) {
 		hint = ft.insert(hint, ft::make_pair(i, i));
@@ -119,7 +119,7 @@ void _bench_map_insert_hint_next_std()
 {
 	std::map<int, int>           std;
 	std::map<int, int>::iterator hint  = std.begin();
-	size_t                       count = 10000;
+	int                       count = 10000;
 
 	for (int i = count; i > 0; --i) {
 		hint = std.insert(hint, std::make_pair(i, i));
@@ -130,7 +130,7 @@ void _bench_map_insert_hint_prev_ft()
 {
 	ft::map<int, int>           ft;
 	ft::map<int, int>::iterator hint  = ft.begin();
-	size_t                      count = 10000;
+	int                      count = 10000;
 
 	for (int i = 0; i < count; ++i) {
 		hint = ft.insert(hint, ft::make_pair(i, i));
@@ -141,7 +141,7 @@ void _bench_map_insert_hint_prev_std()
 {
 	std::map<int, int>           std;
 	std::map<int, int>::iterator hint  = std.begin();
-	size_t                       count = 10000;
+	int                       count = 10000;
 
 	for (int i = 0; i < count; ++i) {
 		hint = std.insert(hint, std::make_pair(i, i));
