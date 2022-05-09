@@ -90,7 +90,7 @@ endif
 # ---------------------------------------------------------------------------- #
 # make bench
 ifdef BENCH
-DEFINES	:= -DBENCH
+DEFINES	+= -DBENCH
 NAME	:= bench_test
 SRCS	:= $(SRCS_) \
 		UnitTesterBench.cpp \
@@ -171,7 +171,7 @@ std+	: # Compile test with std
 	make STD=1
 
 bench	: ## Compile benchmark test
-	make BENCH=1
+	make re BENCH=1
 
 review	: $(OBJS_DIR) ## Compile main.c wtih both ft and std
 	@$(CXX) $(CXXFLAGS) -o objs/42main.o -c 42main.cpp -D STD=1
