@@ -220,15 +220,16 @@ void vector<T, Allocator>::reserve(size_type new_cap)
 {
 	if (new_cap <= size())
 		return;
-	if (capacity() > new_cap)
+	size_type cap = capacity();
+	if (cap > new_cap)
 		return;
-	if (capacity() * 2 > new_cap)
-		new_cap = capacity() * 2;
+	if (cap * 2 > new_cap)
+		new_cap = cap * 2;
 	size_type _size     = size();
 	pointer   new_begin = _alloc.allocate(new_cap);
 	std::uninitialized_copy(_begin, _end, new_begin);
 	_destruct_at_end(_begin);
-	_alloc.deallocate(_begin, _size);
+	_alloc.deallocate(_begin, cap);
 
 	_begin   = new_begin;
 	_end     = _begin + _size;
