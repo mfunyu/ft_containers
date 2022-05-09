@@ -457,6 +457,7 @@ _rbtree<T, Key, Comp, Allocator>::erase(const _Key& value)
 	}
 	--_size;
 	_remove(ite.base());
+	_destroy_one(ite.base());
 	return 1;
 }
 
@@ -471,6 +472,7 @@ _rbtree<T, Key, Comp, Allocator>::erase(iterator pos)
 	}
 	--_size;
 	_remove(pos.base());
+	_destroy_one(pos.base());
 	return next;
 }
 
