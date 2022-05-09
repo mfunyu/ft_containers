@@ -163,10 +163,7 @@ template <class T, class Allocator>
 vector<T, Allocator>& vector<T, Allocator>::operator=(const vector<T, Allocator>& other)
 {
 	if (this != &other) {
-		clear();
-		_vallocate(other.capacity());
-		_construct_at_end(other.size());
-		std::copy(other._begin, other._end, _begin);
+		assign(other._begin, other._end);
 	}
 	return *this;
 }
@@ -177,14 +174,9 @@ vector<T, Allocator>& vector<T, Allocator>::operator=(const vector<T, Allocator>
 template <class T, class Allocator>
 void vector<T, Allocator>::assign(size_type count, const T& value)
 {
-	pointer current;
-
 	if (capacity() < count)
 		reserve(count);
-	current = _begin;
-	for (size_type i = 0; i < count; ++i, ++current) {
-		*current = value;
-	}
+	std::fill_n(_begin, count, value);
 	_end = _begin + count;
 }
 
@@ -194,14 +186,10 @@ void vector<T, Allocator>::assign(
     InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value>::type*)
 {
 	size_type count = std::distance(first, last);
-	pointer   current;
 
 	if (capacity() < count)
 		reserve(count);
-	current = _begin;
-	for (InputIt it = first; it != last; ++it, ++current) {
-		*current = *it;
-	}
+	std::copy(first, last, _begin);
 	_end = _begin + count;
 }
 
