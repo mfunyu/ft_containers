@@ -93,7 +93,7 @@ class vector
 	void      reserve(size_type new_cap);
 	size_type capacity() const { return static_cast<size_type>(_end_cap - _begin); }
 	/* ------------------------------ Modifiers ----------------------------- */
-	void clear() { vector new_; swap(new_); }
+	void clear();
 	// insert
 	iterator insert(iterator pos, const T& value);
 	void     insert(iterator pos, size_type count, const T& value);
@@ -254,6 +254,16 @@ template <class T, class Allocator>
 typename vector<T, Allocator>::size_type vector<T, Allocator>::max_size() const
 {
 	return std::min<size_type>(std::numeric_limits<difference_type>::max(), _alloc.max_size());
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    clear                                   */
+/* -------------------------------------------------------------------------- */
+template <class T, class Allocator>
+void vector<T, Allocator>::clear()
+{
+	vector new_;
+	swap(new_);
 }
 
 /* -------------------------------------------------------------------------- */
