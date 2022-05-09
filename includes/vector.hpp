@@ -93,7 +93,7 @@ class vector
 	void      reserve(size_type new_cap);
 	size_type capacity() const { return static_cast<size_type>(_end_cap - _begin); }
 	/* ------------------------------ Modifiers ----------------------------- */
-	void clear() { _destruct_at_end(_begin); }
+	void clear() { vector new_; swap(new_); }
 	// insert
 	iterator insert(iterator pos, const T& value);
 	void     insert(iterator pos, size_type count, const T& value);
@@ -163,6 +163,7 @@ template <class T, class Allocator>
 vector<T, Allocator>& vector<T, Allocator>::operator=(const vector<T, Allocator>& other)
 {
 	if (this != &other) {
+		clear();
 		_vallocate(other.capacity());
 		_construct_at_end(other.size());
 		std::copy(other._begin, other._end, _begin);
