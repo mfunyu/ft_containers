@@ -427,20 +427,13 @@ bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
 }
 
 /* -------------------------------------------------------------------------- */
-/*                                  std::swap                                 */
+/*                                  ft::swap                                  */
 /* -------------------------------------------------------------------------- */
 
 template <class T, class Alloc>
-void swap(std::vector<T, Alloc>& lhs, std::vector<T, Alloc>& rhs)
+void swap(ft::vector<T, Alloc>& lhs, ft::vector<T, Alloc>& rhs)
 {
-	std::vector<T, Alloc> save = lhs;
-
-	lhs._begin   = rhs._begin;
-	lhs._end     = rhs._end;
-	lhs._end_cap = rhs._end_cap;
-	rhs._begin   = save._begin;
-	rhs._end     = save._end;
-	rhs._end_cap = save._end_cap;
+	lhs.swap(rhs);
 }
 
 /* -------------------------------------------------------------------------- */
