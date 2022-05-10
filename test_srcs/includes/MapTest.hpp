@@ -62,6 +62,9 @@ void map_operator_g();
 void map_operator_ge();
 void map_ft_swap();
 
+/* ft::pair */
+void map_ft_make_pair();
+
 /* Benchmark */
 void bench_map_copy_constructor();
 void bench_map_assignment_operator();

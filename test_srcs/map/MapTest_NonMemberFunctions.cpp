@@ -442,4 +442,35 @@ void map_ft_swap()
 	load_subtest_(_map_ft_swap_compare);
 }
 
+/* -------------------------------------------------------------------------- */
+/*                                ft::make_pair                               */
+/* -------------------------------------------------------------------------- */
+
+void _map_ft_make_pair_basic()
+{
+	int                        first   = 42;
+	std::string                second  = "Tokyo";
+	ft::pair<int, std::string> ft_pair = ft::make_pair(first, second);
+
+	UnitTester::assert_(ft_pair.first == first);
+	UnitTester::assert_(ft_pair.second == second);
+}
+
+void _map_ft_make_pair_compare()
+{
+	int                         first    = 42;
+	std::string                 second   = "Tokyo";
+	ft::pair<int, std::string>  ft_pair  = ft::make_pair(first, second);
+	std::pair<int, std::string> std_pair = std::make_pair(first, second);
+
+	UnitTester::assert_(ft_pair.first == std_pair.first);
+	UnitTester::assert_(ft_pair.second == std_pair.second);
+}
+
+void map_ft_make_pair()
+{
+	load_subtest_(_map_ft_make_pair_basic);
+	load_subtest_(_map_ft_make_pair_compare);
+}
+
 } // namespace MapTest
