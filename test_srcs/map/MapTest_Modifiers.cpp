@@ -72,7 +72,17 @@ void _map_insert_return_value()
 	UnitTester::assert_(it->second == value);
 }
 
-void _map_insert_hint() {}
+void _map_insert_hint()
+{
+	set_explanation_("insert with hint does not work");
+	int               size = 10;
+	ft::map<int, int> ft   = _set_map(size, true);
+
+	int key   = 24;
+	int value = 42;
+	ft.insert(ft.end(), ft::make_pair(key, value));
+	UnitTester::assert_(ft[key] == value);
+}
 
 void _map_insert_return_value_false()
 {
