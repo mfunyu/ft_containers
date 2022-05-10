@@ -58,7 +58,7 @@ void vector_operator_l();
 void vector_operator_le();
 void vector_operator_g();
 void vector_operator_ge();
-void vector_std_swap();
+void vector_ft_swap();
 
 /* Benchmark */
 void bench_vector_copy_constructor();

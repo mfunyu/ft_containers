@@ -76,6 +76,16 @@ void _vector_operator_e_compare()
 	UnitTester::assert_(val1 == (std_1 == std_2));
 }
 
+void _vector_operator_e_const_and_non_const()
+{
+	set_explanation_("const and non-const cannot be compared");
+	size_t                size     = 13;
+	ft::vector<int>       ft       = _set_vector(size, true);
+	const ft::vector<int> ft_const = _set_vector(size, true);
+
+	UnitTester::assert_(ft == ft_const);
+}
+
 void vector_operator_e()
 {
 	load_subtest_(_vector_operator_e_true);
@@ -84,6 +94,7 @@ void vector_operator_e()
 	load_subtest_(_vector_operator_e_false2);
 	load_subtest_(_vector_operator_e_same);
 	load_subtest_(_vector_operator_e_compare);
+	load_subtest_(_vector_operator_e_const_and_non_const);
 }
 
 // -------------------------------------------------------------------------- //
@@ -146,6 +157,16 @@ void _vector_operator_ne_compare()
 	UnitTester::assert_(val1 == (std_1 != std_2));
 }
 
+void _vector_operator_ne_const_and_non_const()
+{
+	set_explanation_("const and non-const cannot be compared");
+	size_t                size     = 13;
+	ft::vector<int>       ft       = _set_vector(size, true);
+	const ft::vector<int> ft_const = _set_vector(size, true);
+
+	UnitTester::assert_((ft != ft_const) == false);
+}
+
 void vector_operator_ne()
 {
 	load_subtest_(_vector_operator_ne_true);
@@ -153,6 +174,7 @@ void vector_operator_ne()
 	load_subtest_(_vector_operator_ne_false);
 	load_subtest_(_vector_operator_ne_same);
 	load_subtest_(_vector_operator_ne_compare);
+	load_subtest_(_vector_operator_ne_const_and_non_const);
 }
 
 // -------------------------------------------------------------------------- //
@@ -210,12 +232,23 @@ void _vector_operator_l_compare()
 	UnitTester::assert_(val2 == (std_2 < std_1));
 }
 
+void _vector_operator_l_const_and_non_const()
+{
+	set_explanation_("const and non-const cannot be compared");
+	size_t                size     = 13;
+	ft::vector<int>       ft       = _set_vector(size, true);
+	const ft::vector<int> ft_const = _set_vector(size, true);
+
+	UnitTester::assert_((ft > ft_const) == false);
+}
+
 void vector_operator_l()
 {
 	load_subtest_(_vector_operator_l_true);
 	load_subtest_(_vector_operator_l_false);
 	load_subtest_(_vector_operator_l_same);
 	load_subtest_(_vector_operator_l_compare);
+	load_subtest_(_vector_operator_l_const_and_non_const);
 }
 
 // -------------------------------------------------------------------------- //
@@ -404,10 +437,10 @@ void vector_operator_ge()
 }
 
 // -------------------------------------------------------------------------- //
-//                                  std::swap                                 //
+//                                  ft::swap                                  //
 // -------------------------------------------------------------------------- //
 
-void _vector_std_swap_basic()
+void _vector_ft_swap_basic()
 {
 	set_explanation_("swapped value not correct");
 	size_t          size_a = 10;
@@ -415,13 +448,13 @@ void _vector_std_swap_basic()
 	ft::vector<int> ft_a   = _set_vector(size_a, false);
 	ft::vector<int> ft_b   = _set_vector(size_b, true);
 
-	std::swap(ft_a, ft_b);
+	ft::swap(ft_a, ft_b);
 	for (size_t i = 0; i < size_b; ++i) {
 		ft_a[i] = i;
 	}
 }
 
-void _vector_std_swap_compare()
+void _vector_ft_swap_compare()
 {
 	set_explanation_("result differs from std");
 	ft::vector<int>  ft_a;
@@ -432,16 +465,72 @@ void _vector_std_swap_compare()
 	std::vector<int> std_b;
 	_set_compare_vectors(ft_b, std_b);
 
-	std::swap(ft_a, ft_b);
+	ft::swap(ft_a, ft_b);
 	std::swap(std_a, std_b);
 	_compare_vectors(ft_a, std_a);
 	_compare_vectors(ft_b, std_b);
 }
 
-void vector_std_swap()
+void _vector_ft_swap_iterator_invalidation()
 {
-	load_subtest_(_vector_std_swap_basic);
-	load_subtest_(_vector_std_swap_compare);
+	size_t                    size_a = 42;
+	size_t                    size_b = 24;
+	ft::vector<int>           ft_a   = _set_vector(size_a, true);
+	ft::vector<int>           ft_b   = _set_vector(size_b, false);
+	ft::vector<int>::iterator it_a   = ft_a.begin();
+	ft::vector<int>::iterator it_b   = ft_b.begin();
+
+	ft::swap(ft_a, ft_b);
+	set_explanation_("tester failuer: both vectors have the same value");
+	UnitTester::assert_(ft_a[0] != ft_b[0]);
+	set_explanation_("iterators are invalidated");
+	UnitTester::assert_(ft_a.begin() == it_b);
+	UnitTester::assert_(ft_b.begin() == it_a);
+}
+
+void _vector_ft_swap_pointer_invalidation()
+{
+	size_t                   size_a = 42;
+	size_t                   size_b = 24;
+	ft::vector<int>          ft_a   = _set_vector(size_a, true);
+	ft::vector<int>          ft_b   = _set_vector(size_b, false);
+	size_t                   index  = 17;
+	ft::vector<int>::pointer ptr_a  = &ft_a[index];
+	ft::vector<int>::pointer ptr_b  = &ft_b[index];
+
+	ft::swap(ft_a, ft_b);
+	set_explanation_("tester failuer: both vectors have the same value");
+	UnitTester::assert_(ft_a[index] != ft_b[index]);
+	set_explanation_("pointers are invalidated");
+	UnitTester::assert_(ft_a[index] == *ptr_b);
+	UnitTester::assert_(ft_b[index] == *ptr_a);
+}
+
+void _vector_ft_swap_reference_invalidation()
+{
+	size_t                     size_a = 42;
+	size_t                     size_b = 24;
+	ft::vector<int>            ft_a   = _set_vector(size_a, true);
+	ft::vector<int>            ft_b   = _set_vector(size_b, false);
+	size_t                     index  = 10;
+	ft::vector<int>::reference ref_a  = ft_a[index];
+	ft::vector<int>::reference ref_b  = ft_b[index];
+
+	ft::swap(ft_a, ft_b);
+	set_explanation_("tester failuer: both vectors have the same value");
+	UnitTester::assert_(ft_a[index] != ft_b[index]);
+	set_explanation_("references are invalidated");
+	UnitTester::assert_(ft_a[index] == ref_b);
+	UnitTester::assert_(ft_b[index] == ref_a);
+}
+
+void vector_ft_swap()
+{
+	load_subtest_(_vector_ft_swap_basic);
+	load_subtest_(_vector_ft_swap_compare);
+	load_subtest_(_vector_ft_swap_iterator_invalidation);
+	load_subtest_(_vector_ft_swap_pointer_invalidation);
+	load_subtest_(_vector_ft_swap_reference_invalidation);
 }
 
 } // namespace VectorTest

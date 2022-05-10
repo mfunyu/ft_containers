@@ -405,7 +405,7 @@ void set_operator_ge()
 //                                  std::swap                                 //
 // -------------------------------------------------------------------------- //
 
-void _set_std_swap_basic()
+void _set_ft_swap_basic()
 {
 	set_explanation_("swapped value not correct");
 	size_t       size_a = 10;
@@ -418,7 +418,7 @@ void _set_std_swap_basic()
 	UnitTester::assert_(ft_b.size() == size_a);
 }
 
-void _set_std_swap_compare()
+void _set_ft_swap_compare()
 {
 	set_explanation_("result differs from std");
 	ft::set<std::string>  ft_a;
@@ -435,10 +435,10 @@ void _set_std_swap_compare()
 	_compare_sets(ft_b, std_b);
 }
 
-void set_std_swap()
+void set_ft_swap()
 {
-	load_subtest_(_set_std_swap_basic);
-	load_subtest_(_set_std_swap_compare);
+	load_subtest_(_set_ft_swap_basic);
+	load_subtest_(_set_ft_swap_compare);
 }
 
 } // namespace SetTest

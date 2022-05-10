@@ -403,10 +403,10 @@ void map_operator_ge()
 }
 
 // -------------------------------------------------------------------------- //
-//                                  std::swap                                 //
+//                                  ft::swap                                  //
 // -------------------------------------------------------------------------- //
 
-void _map_std_swap_basic()
+void _map_ft_swap_basic()
 {
 	set_explanation_("swapped value not correct");
 	size_t            size_a = 10;
@@ -419,7 +419,7 @@ void _map_std_swap_basic()
 	UnitTester::assert_(ft_b.size() == size_a);
 }
 
-void _map_std_swap_compare()
+void _map_ft_swap_compare()
 {
 	set_explanation_("result differs from std");
 	ft::map<int, std::string>  ft_a;
@@ -436,10 +436,41 @@ void _map_std_swap_compare()
 	_compare_maps(ft_b, std_b);
 }
 
-void map_std_swap()
+void map_ft_swap()
 {
-	load_subtest_(_map_std_swap_basic);
-	load_subtest_(_map_std_swap_compare);
+	load_subtest_(_map_ft_swap_basic);
+	load_subtest_(_map_ft_swap_compare);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                ft::make_pair                               */
+/* -------------------------------------------------------------------------- */
+
+void _map_ft_make_pair_basic()
+{
+	int                        first   = 42;
+	std::string                second  = "Tokyo";
+	ft::pair<int, std::string> ft_pair = ft::make_pair(first, second);
+
+	UnitTester::assert_(ft_pair.first == first);
+	UnitTester::assert_(ft_pair.second == second);
+}
+
+void _map_ft_make_pair_compare()
+{
+	int                         first    = 42;
+	std::string                 second   = "Tokyo";
+	ft::pair<int, std::string>  ft_pair  = ft::make_pair(first, second);
+	std::pair<int, std::string> std_pair = std::make_pair(first, second);
+
+	UnitTester::assert_(ft_pair.first == std_pair.first);
+	UnitTester::assert_(ft_pair.second == std_pair.second);
+}
+
+void map_ft_make_pair()
+{
+	load_subtest_(_map_ft_make_pair_basic);
+	load_subtest_(_map_ft_make_pair_compare);
 }
 
 } // namespace MapTest

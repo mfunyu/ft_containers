@@ -56,7 +56,7 @@ void set_operator_l();
 void set_operator_le();
 void set_operator_g();
 void set_operator_ge();
-void set_std_swap();
+void set_ft_swap();
 
 /* Benchmark */
 void bench_set_copy_constructor();

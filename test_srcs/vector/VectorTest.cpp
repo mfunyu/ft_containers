@@ -61,7 +61,7 @@ t_unit_tests func_test_table[] = {
 	{	    "vector_operator_le",         vector_operator_le, FAIL, VECTOR},
 	{	     "vector_operator_g",          vector_operator_g, FAIL, VECTOR},
 	{	    "vector_operator_ge",         vector_operator_ge, FAIL, VECTOR},
-	{	       "vector_std_swap",            vector_std_swap, FAIL, VECTOR},
+	{	        "vector_ft_swap",             vector_ft_swap, FAIL, VECTOR},
  // ------------------- Terminater (Do not comment out) ------------------ //
 	{	                    "\0",	                   NULL, FAIL, VECTOR}
 };

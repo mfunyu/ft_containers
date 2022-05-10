@@ -52,7 +52,7 @@ t_unit_tests func_test_table[] = {
 	{	    "set_operator_le",         set_operator_le, FAIL, SET},
 	{	     "set_operator_g",          set_operator_g, FAIL, SET},
 	{	    "set_operator_ge",         set_operator_ge, FAIL, SET},
-    {           "set_std_swap",            set_std_swap, FAIL, SET},
+    {            "set_ft_swap",             set_ft_swap, FAIL, SET},
  // ------------------- Terminater (Do not comment out) ------------------ //
 	{	                 "\0",	                NULL, FAIL, SET}
 };
