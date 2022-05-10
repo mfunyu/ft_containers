@@ -17,6 +17,25 @@ void _map_constructor_default()
 	_compare_maps(ft, std);
 }
 
+void _map_constructor_is_ordered()
+{
+	int               size = 123;
+	ft::map<int, int> ft;
+
+	for (int i = 10; i < size; ++i) {
+		ft[i] = i;
+	}
+	for (int i = 0; i < 10; ++i) {
+		ft[i] = i;
+	}
+
+	set_explanation_("map is not ordered");
+	ft::map<int, int>::iterator it = ft.begin();
+	for (int i = 0; it != ft.end(); ++it, ++i) {
+		UnitTester::assert_(it->first == i);
+	}
+}
+
 void _map_constructor_range()
 {
 	set_explanation_("result differs from std behavior");
@@ -44,6 +63,7 @@ void _map_constructor_copy()
 void map_constructor()
 {
 	load_subtest_(_map_constructor_default);
+	load_subtest_(_map_constructor_is_ordered);
 	load_subtest_(_map_constructor_range);
 	load_subtest_(_map_constructor_copy);
 }

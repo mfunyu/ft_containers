@@ -46,10 +46,24 @@ void _map_begin_decrement()
 }
 */
 
+void _map_begin_is_ordered()
+{
+	ft::map<int, int> ft = _set_map();
+
+	set_explanation_("count() does not work OR map begin does not return the smallest value");
+	int value = ft.begin()->first - 42;
+	UnitTester::assert_(ft.count(value) == 0);
+
+	set_explanation_("map is not ordered");
+	ft[value] = value;
+	UnitTester::assert_(ft.begin()->first == value);
+}
+
 void map_begin()
 {
 	load_subtest_(_map_begin_basic);
 	load_subtest_(_map_begin_increment);
+	load_subtest_(_map_begin_is_ordered);
 }
 
 // -------------------------------------------------------------------------- //
