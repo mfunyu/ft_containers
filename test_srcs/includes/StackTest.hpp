@@ -3,6 +3,7 @@
 
 #include "UnitTester.hpp"
 #include <iostream>
+#include <vector>
 
 #if STD
 #include <stack>
@@ -47,12 +48,12 @@ void bench_stack_pop();
 
 extern t_unit_tests func_test_table[TABLE_SIZE];
 
-void                   _set_int_array(int* array, int size = 12, bool accend = false);
-ft::stack<int>         _assign_stack(int size = 6, bool accend = false);
-ft::stack<int>         _set_stack(int size = 6, bool accend = false);
-std::stack<int>        _set_stack_std(int size = 6, bool accend = false);
-ft::stack<char>        _set_stack_char(size_t size = 6, bool accend = false);
-ft::stack<std::string> _set_stack_string(size_t size = 6, bool random = false);
+void                               _set_int_array(int* array, int size = 12, bool accend = false);
+ft::stack<int>                     _assign_stack(int size = 6, bool accend = false);
+ft::stack<int>                     _set_stack(int size = 6, bool accend = false);
+std::stack<int, std::vector<int> > _set_stack_std(int size = 6, bool accend = false);
+ft::stack<char>                    _set_stack_char(size_t size = 6, bool accend = false);
+ft::stack<std::string>             _set_stack_string(size_t size = 6, bool random = false);
 
 void _assign_compare_stacks(
     ft::stack<int>& ft_data, std::stack<int>& std_data, int size = 6, bool accend = false);

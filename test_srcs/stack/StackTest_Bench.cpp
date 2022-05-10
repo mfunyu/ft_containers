@@ -16,9 +16,9 @@ void _bench_stack_copy_constructor_ft()
 
 void _bench_stack_copy_constructor_std()
 {
-	int             size = 10000;
-	std::stack<int> std  = _set_stack_std(size);
-	std::stack<int> copy(std);
+	int                                size = 10000;
+	std::stack<int, std::vector<int> > std  = _set_stack_std(size);
+	std::stack<int, std::vector<int> > copy(std);
 }
 
 void bench_stack_copy_constructor()
@@ -40,9 +40,9 @@ void _bench_stack_assignment_operator_ft()
 
 void _bench_stack_assignment_operator_std()
 {
-	int             size = 10000;
-	std::stack<int> std  = _set_stack_std(size);
-	std::stack<int> copy;
+	int                                size = 10000;
+	std::stack<int, std::vector<int> > std  = _set_stack_std(size);
+	std::stack<int, std::vector<int> > copy;
 	copy = std;
 }
 
@@ -65,7 +65,7 @@ void _bench_stack_push_ft()
 }
 void _bench_stack_push_std()
 {
-	std::stack<int> std;
+	std::stack<int, std::vector<int> > std;
 
 	for (int i = 0; i < 10000; ++i) {
 		std.push(i);
@@ -95,7 +95,7 @@ void _bench_stack_pop_ft()
 
 void _bench_stack_pop_std()
 {
-	std::stack<int> std;
+	std::stack<int, std::vector<int> > std;
 
 	for (int i = 0; i < 10000; ++i) {
 		std.push(i);

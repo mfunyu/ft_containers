@@ -82,9 +82,9 @@ ft::stack<int> _set_stack(int size, bool accend)
 	return data;
 }
 
-std::stack<int> _set_stack_std(int size, bool accend)
+std::stack<int, std::vector<int> > _set_stack_std(int size, bool accend)
 {
-	std::stack<int> data;
+	std::stack<int, std::vector<int> > data;
 
 	for (int i = 0; i < size; ++i) {
 		if (accend) {
