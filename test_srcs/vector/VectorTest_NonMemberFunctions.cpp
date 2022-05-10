@@ -76,6 +76,16 @@ void _vector_operator_e_compare()
 	UnitTester::assert_(val1 == (std_1 == std_2));
 }
 
+void _vector_operator_e_const_and_non_const()
+{
+	set_explanation_("const and non-const cannot be compared");
+	size_t                size     = 13;
+	ft::vector<int>       ft       = _set_vector(size, true);
+	const ft::vector<int> ft_const = _set_vector(size, true);
+
+	UnitTester::assert_(ft == ft_const);
+}
+
 void vector_operator_e()
 {
 	load_subtest_(_vector_operator_e_true);
@@ -84,6 +94,7 @@ void vector_operator_e()
 	load_subtest_(_vector_operator_e_false2);
 	load_subtest_(_vector_operator_e_same);
 	load_subtest_(_vector_operator_e_compare);
+	load_subtest_(_vector_operator_e_const_and_non_const);
 }
 
 // -------------------------------------------------------------------------- //
@@ -146,6 +157,16 @@ void _vector_operator_ne_compare()
 	UnitTester::assert_(val1 == (std_1 != std_2));
 }
 
+void _vector_operator_ne_const_and_non_const()
+{
+	set_explanation_("const and non-const cannot be compared");
+	size_t                size     = 13;
+	ft::vector<int>       ft       = _set_vector(size, true);
+	const ft::vector<int> ft_const = _set_vector(size, true);
+
+	UnitTester::assert_((ft != ft_const) == false);
+}
+
 void vector_operator_ne()
 {
 	load_subtest_(_vector_operator_ne_true);
@@ -153,6 +174,7 @@ void vector_operator_ne()
 	load_subtest_(_vector_operator_ne_false);
 	load_subtest_(_vector_operator_ne_same);
 	load_subtest_(_vector_operator_ne_compare);
+	load_subtest_(_vector_operator_ne_const_and_non_const);
 }
 
 // -------------------------------------------------------------------------- //
@@ -210,12 +232,23 @@ void _vector_operator_l_compare()
 	UnitTester::assert_(val2 == (std_2 < std_1));
 }
 
+void _vector_operator_l_const_and_non_const()
+{
+	set_explanation_("const and non-const cannot be compared");
+	size_t                size     = 13;
+	ft::vector<int>       ft       = _set_vector(size, true);
+	const ft::vector<int> ft_const = _set_vector(size, true);
+
+	UnitTester::assert_((ft > ft_const) == false);
+}
+
 void vector_operator_l()
 {
 	load_subtest_(_vector_operator_l_true);
 	load_subtest_(_vector_operator_l_false);
 	load_subtest_(_vector_operator_l_same);
 	load_subtest_(_vector_operator_l_compare);
+	load_subtest_(_vector_operator_l_const_and_non_const);
 }
 
 // -------------------------------------------------------------------------- //
