@@ -37,6 +37,7 @@ SRCS_MAP	:= MapTest.cpp \
 SRCS_STACK	:= StackTest.cpp \
 			StackTest_Basic.cpp \
 			StackTest_Else.cpp \
+			StackTest_Template.cpp \
 			StackTest_NonMemberFunctions.cpp
 
 SRCS_SET	:= SetTest.cpp \

@@ -40,6 +40,10 @@ void stack_operator_le();
 void stack_operator_g();
 void stack_operator_ge();
 
+/* Other Templates */
+void stack_std_deque();
+void stack_std_list();
+
 /* Benchmark */
 void bench_stack_copy_constructor();
 void bench_stack_assignment_operator();

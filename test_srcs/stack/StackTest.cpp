@@ -39,6 +39,9 @@ t_unit_tests func_test_table[] = {
 	{	    "stack_operator_le",         stack_operator_le, FAIL, STACK},
 	{	     "stack_operator_g",          stack_operator_g, FAIL, STACK},
 	{	    "stack_operator_ge",         stack_operator_ge, FAIL, STACK},
+ // --------------------------- Other Templates -------------------------- //
+	{	      "stack_std_deque",           stack_std_deque, FAIL, STACK},
+	{	       "stack_std_list",            stack_std_list, FAIL, STACK},
  // ------------------- Terminater (Do not comment out) ------------------ //
 	{	                   "\0",	                  NULL, FAIL, STACK}
 };
