@@ -60,7 +60,7 @@ void map_operator_l();
 void map_operator_le();
 void map_operator_g();
 void map_operator_ge();
-void map_std_swap();
+void map_ft_swap();
 
 /* Benchmark */
 void bench_map_copy_constructor();

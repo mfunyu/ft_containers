@@ -56,7 +56,7 @@ t_unit_tests func_test_table[] = {
 	{	    "map_operator_le",         map_operator_le, FAIL, MAP},
 	{	     "map_operator_g",          map_operator_g, FAIL, MAP},
 	{	    "map_operator_ge",         map_operator_ge, FAIL, MAP},
-    {           "map_std_swap",            map_std_swap, FAIL, MAP},
+    {            "map_ft_swap",             map_ft_swap, FAIL, MAP},
  // ------------------- Terminater (Do not comment out) ------------------ //
 	{	                 "\0",	                NULL, FAIL, MAP}
 };

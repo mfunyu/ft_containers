@@ -404,10 +404,10 @@ void vector_operator_ge()
 }
 
 // -------------------------------------------------------------------------- //
-//                                  std::swap                                 //
+//                                  ft::swap                                  //
 // -------------------------------------------------------------------------- //
 
-void _vector_std_swap_basic()
+void _vector_ft_swap_basic()
 {
 	set_explanation_("swapped value not correct");
 	size_t          size_a = 10;
@@ -415,13 +415,13 @@ void _vector_std_swap_basic()
 	ft::vector<int> ft_a   = _set_vector(size_a, false);
 	ft::vector<int> ft_b   = _set_vector(size_b, true);
 
-	std::swap(ft_a, ft_b);
+	ft::swap(ft_a, ft_b);
 	for (size_t i = 0; i < size_b; ++i) {
 		ft_a[i] = i;
 	}
 }
 
-void _vector_std_swap_compare()
+void _vector_ft_swap_compare()
 {
 	set_explanation_("result differs from std");
 	ft::vector<int>  ft_a;
@@ -432,16 +432,16 @@ void _vector_std_swap_compare()
 	std::vector<int> std_b;
 	_set_compare_vectors(ft_b, std_b);
 
-	std::swap(ft_a, ft_b);
+	ft::swap(ft_a, ft_b);
 	std::swap(std_a, std_b);
 	_compare_vectors(ft_a, std_a);
 	_compare_vectors(ft_b, std_b);
 }
 
-void vector_std_swap()
+void vector_ft_swap()
 {
-	load_subtest_(_vector_std_swap_basic);
-	load_subtest_(_vector_std_swap_compare);
+	load_subtest_(_vector_ft_swap_basic);
+	load_subtest_(_vector_ft_swap_compare);
 }
 
 } // namespace VectorTest
