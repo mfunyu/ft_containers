@@ -403,46 +403,4 @@ void stack_operator_ge()
 	load_subtest_(_stack_operator_ge_compare);
 }
 
-// -------------------------------------------------------------------------- //
-//                                  std::swap                                 //
-// -------------------------------------------------------------------------- //
-
-void _stack_std_swap_basic()
-{
-	set_explanation_("swapped value not correct");
-	size_t         size_a = 10;
-	size_t         size_b = 20;
-	ft::stack<int> ft_a   = _set_stack(size_a, false);
-	ft::stack<int> ft_b   = _set_stack(size_b, true);
-
-	std::swap(ft_a, ft_b);
-	for (size_t i = 0; i < size_b; ++i) {
-		ft_a.top() = i;
-		ft_a.pop();
-	}
-}
-
-void _stack_std_swap_compare()
-{
-	set_explanation_("result differs from std");
-	ft::stack<int>  ft_a;
-	std::stack<int> std_a;
-	_set_compare_stacks(ft_a, std_a);
-
-	ft::stack<int>  ft_b;
-	std::stack<int> std_b;
-	_set_compare_stacks(ft_b, std_b);
-
-	std::swap(ft_a, ft_b);
-	std::swap(std_a, std_b);
-	_compare_stacks(ft_a, std_a);
-	_compare_stacks(ft_b, std_b);
-}
-
-void stack_std_swap()
-{
-	load_subtest_(_stack_std_swap_basic);
-	load_subtest_(_stack_std_swap_compare);
-}
-
 } // namespace StackTest
