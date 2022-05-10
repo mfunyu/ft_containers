@@ -57,7 +57,7 @@ SRCS	:= $(SRCS_) \
 # ---------------------------------------------------------------------------- #
 # make std
 ifdef STD
-DEFINES	:= -DSTD
+DEFINES	+= -DSTD
 NAME	:= std_test
 endif
 
