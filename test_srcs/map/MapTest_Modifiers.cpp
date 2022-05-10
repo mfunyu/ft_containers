@@ -137,6 +137,23 @@ void _map_insert_compare()
 	_compare_maps(ft, std);
 }
 
+void _map_insert_iterator_invalidation()
+{
+	int                         size     = 10;
+	ft::map<int, int>           ft       = _set_map(size);
+	ft::map<int, int>::iterator it       = ft.begin();
+	int                         prev_key = it->first;
+
+	set_explanation_("something went wrong");
+	UnitTester::assert_(prev_key == it->first);
+
+	int key   = -123;
+	int value = -111;
+	set_explanation_("insert invalidate iterators");
+	ft.insert(ft::make_pair(key, value));
+	UnitTester::assert_(prev_key == it->first);
+}
+
 void map_insert()
 {
 	load_subtest_(_map_insert_single);
@@ -145,6 +162,7 @@ void map_insert()
 	load_subtest_(_map_insert_hint);
 	load_subtest_(_map_insert_iterator);
 	load_subtest_(_map_insert_compare);
+	load_subtest_(_map_insert_iterator_invalidation);
 }
 // -------------------------------------------------------------------------- //
 //                                    erase                                   //
@@ -220,6 +238,25 @@ void _map_erase_compare()
 	_compare_maps(ft, std);
 }
 
+void _map_erase_iterator_invalidation()
+{
+	int                         size     = 10;
+	ft::map<int, int>           ft       = _set_map(size);
+	ft::map<int, int>::iterator it       = ft.begin();
+	ft::map<int, int>::iterator it_next  = ++(++it);
+	int                         prev_key = it->first;
+	int                         next_key = it_next->first;
+
+	set_explanation_("something went wrong");
+	UnitTester::assert_(prev_key == it->first);
+	UnitTester::assert_(next_key == it_next->first);
+
+	set_explanation_("erase invalidates iterators");
+	ft.erase(++ft.begin());
+	UnitTester::assert_(prev_key == it->first);
+	UnitTester::assert_(next_key == it_next->first);
+}
+
 void map_erase()
 {
 	load_subtest_(_map_erase_one);
@@ -227,6 +264,7 @@ void map_erase()
 	load_subtest_(_map_erase_tail);
 	load_subtest_(_map_erase_range);
 	load_subtest_(_map_erase_compare);
+	load_subtest_(_map_erase_iterator_invalidation);
 }
 
 // -------------------------------------------------------------------------- //
