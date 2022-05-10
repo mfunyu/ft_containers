@@ -438,10 +438,66 @@ void _vector_ft_swap_compare()
 	_compare_vectors(ft_b, std_b);
 }
 
+void _vector_ft_swap_iterator_invalidation()
+{
+	size_t                    size_a = 42;
+	size_t                    size_b = 24;
+	ft::vector<int>           ft_a   = _set_vector(size_a, true);
+	ft::vector<int>           ft_b   = _set_vector(size_b, false);
+	ft::vector<int>::iterator it_a   = ft_a.begin();
+	ft::vector<int>::iterator it_b   = ft_b.begin();
+
+	ft::swap(ft_a, ft_b);
+	set_explanation_("tester failuer: both vectors have the same value");
+	UnitTester::assert_(ft_a[0] != ft_b[0]);
+	set_explanation_("iterators are invalidated");
+	UnitTester::assert_(ft_a.begin() == it_b);
+	UnitTester::assert_(ft_b.begin() == it_a);
+}
+
+void _vector_ft_swap_pointer_invalidation()
+{
+	size_t                   size_a = 42;
+	size_t                   size_b = 24;
+	ft::vector<int>          ft_a   = _set_vector(size_a, true);
+	ft::vector<int>          ft_b   = _set_vector(size_b, false);
+	size_t                   index  = 17;
+	ft::vector<int>::pointer ptr_a  = &ft_a[index];
+	ft::vector<int>::pointer ptr_b  = &ft_b[index];
+
+	ft::swap(ft_a, ft_b);
+	set_explanation_("tester failuer: both vectors have the same value");
+	UnitTester::assert_(ft_a[index] != ft_b[index]);
+	set_explanation_("pointers are invalidated");
+	UnitTester::assert_(ft_a[index] == *ptr_b);
+	UnitTester::assert_(ft_b[index] == *ptr_a);
+}
+
+void _vector_ft_swap_reference_invalidation()
+{
+	size_t                     size_a = 42;
+	size_t                     size_b = 24;
+	ft::vector<int>            ft_a   = _set_vector(size_a, true);
+	ft::vector<int>            ft_b   = _set_vector(size_b, false);
+	size_t                     index  = 10;
+	ft::vector<int>::reference ref_a  = ft_a[index];
+	ft::vector<int>::reference ref_b  = ft_b[index];
+
+	ft::swap(ft_a, ft_b);
+	set_explanation_("tester failuer: both vectors have the same value");
+	UnitTester::assert_(ft_a[index] != ft_b[index]);
+	set_explanation_("references are invalidated");
+	UnitTester::assert_(ft_a[index] == ref_b);
+	UnitTester::assert_(ft_b[index] == ref_a);
+}
+
 void vector_ft_swap()
 {
 	load_subtest_(_vector_ft_swap_basic);
 	load_subtest_(_vector_ft_swap_compare);
+	load_subtest_(_vector_ft_swap_iterator_invalidation);
+	load_subtest_(_vector_ft_swap_pointer_invalidation);
+	load_subtest_(_vector_ft_swap_reference_invalidation);
 }
 
 } // namespace VectorTest
