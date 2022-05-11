@@ -378,10 +378,7 @@ void vector<T, Allocator>::swap(vector& other)
 	std::swap(_begin, other._begin);
 	std::swap(_end, other._end);
 	std::swap(_end_cap, other._end_cap);
-
-	Allocator save_alloc = _alloc;
-	_alloc               = other._alloc;
-	other._alloc         = save_alloc;
+	std::swap(_alloc, other._alloc);
 }
 
 /* -------------------------------------------------------------------------- */
