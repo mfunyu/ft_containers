@@ -5,7 +5,7 @@ PATH_TO_YOUR_CONTAINER := ./includes/
 
 # ---------------------------------------------------------------------------- #
 NAME	:= run_test
-CXX		:= clang++
+CXX		:= c++
 INCLUDES:= -Itest_srcs/includes -I$(PATH_TO_YOUR_CONTAINER)
 CXXFLAGS:= -Wall -Wextra -Werror -std=c++98 -pedantic-errors $(INCLUDES) -MMD -MP
 DEFINES	:= -D_VECTOR -D_MAP -D_STACK -D_SET

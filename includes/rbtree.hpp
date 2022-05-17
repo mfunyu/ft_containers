@@ -116,6 +116,12 @@ _NodePtr _tree_prev_(_NodePtr ptr, _NodePtr _nil)
 	return ptr->_parent;
 }
 
+template <class U, class V, class Comp>
+bool _is_equal(const U& lhs, const V& rhs, Comp _comp)
+{
+	return !_comp(lhs, rhs) && !_comp(rhs, lhs);
+}
+
 } // namespace
 
 /* -------------------------------------------------------------------------- */
@@ -415,7 +421,7 @@ typename ft::pair<typename _rbtree<T, Key, Comp, Allocator>::iterator, bool>
 _rbtree<T, Key, Comp, Allocator>::insert(const value_type& value)
 {
 	node_ptr ptr = _find_insert_position(value);
-	if (ptr != _end && !_comp(ptr->_value, value) && !_comp(value, ptr->_value)) {
+	if (ptr != _end && _is_equal(ptr->_value, value, _comp)) {
 		return ft::make_pair(iterator(ptr, _nil), false);
 	}
 	return ft::make_pair(iterator(_insert_unique(value, ptr), _nil), true);
@@ -426,7 +432,7 @@ typename _rbtree<T, Key, Comp, Allocator>::iterator
 _rbtree<T, Key, Comp, Allocator>::insert(iterator hint, const value_type& value)
 {
 	node_ptr ptr = _find_insert_position(value, hint.base());
-	if (ptr != _end && !_comp(ptr->_value, value) && !_comp(value, ptr->_value)) {
+	if (ptr != _end && _is_equal(ptr->_value, value, _comp)) {
 		return iterator(ptr, _nil);
 	}
 	return iterator(_insert_unique(value, ptr), _nil);
